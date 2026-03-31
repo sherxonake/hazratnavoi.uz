@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Loader2, Clock } from "lucide-react"
+import { Loader2, Clock, Calendar, MessageSquare } from "lucide-react"
 import { supabaseAdmin } from "@/lib/supabase/server"
 
 interface PrayerTime {
@@ -24,6 +24,10 @@ export default function AdminPrayerTimesPage() {
   
   const today = new Date().toISOString().split('T')[0]
   
+  // Автоматик парсер учун матн майдони
+  const [telegramText, setTelegramText] = useState("")
+  
+  // Намоз вақтлари
   const [formData, setFormData] = useState<PrayerTime>({
     date: today,
     fajr: '',
@@ -35,7 +39,6 @@ export default function AdminPrayerTimesPage() {
   })
 
   useEffect(() => {
-    // Загружаем существующие данные
     loadPrayerTimes()
   }, [])
 
@@ -52,6 +55,41 @@ export default function AdminPrayerTimesPage() {
     } catch (error) {
       console.error('Error loading prayer times:', error)
     }
+  }
+
+  // Telegram текстдан намоз вақтларини автоматик ажратиш
+  const parseTelegramText = () => {
+    const text = telegramText
+    
+    // Бомдод
+    const fajrMatch = text.match(/🏙\s*Бомдод\s*[-–—]?\s*(\d{1,2}:\d{2})/)
+    // Қуёш
+    const sunriseMatch = text.match(/🌅\s*Куёш\s*[-–—]?\s*(\d{1,2}:\d{2})/)
+    // Пешин
+    const dhuhrMatch = text.match(/🏞\s*Пешин\s*[-–—]?\s*(\d{1,2}:\d{2})/)
+    // Аср
+    const asrMatch = text.match(/🌇\s*Аср\s*[-–—]?\s*(\d{1,2}:\d{2})/)
+    // Шом
+    const maghribMatch = text.match(/🌆\s*Шом\s*[-–—]?\s*(\d{1,2}:\d{2})/)
+    // Хуфтон
+    const ishaMatch = text.match(/🌃\s*Хуфтон\s*[-–—]?\s*(\d{1,2}:\d{2})/)
+    
+    if (fajrMatch) setFormData(prev => ({ ...prev, fajr: fajrMatch[1] }))
+    if (sunriseMatch) setFormData(prev => ({ ...prev, sunrise: sunriseMatch[1] }))
+    if (dhuhrMatch) setFormData(prev => ({ ...prev, dhuhr: dhuhrMatch[1] }))
+    if (asrMatch) setFormData(prev => ({ ...prev, asr: asrMatch[1] }))
+    if (maghribMatch) setFormData(prev => ({ ...prev, maghrib: maghribMatch[1] }))
+    if (ishaMatch) setFormData(prev => ({ ...prev, isha: ishaMatch[1] }))
+    
+    // Санани ҳам ажратиш
+    const dateMatch = text.match(/(\d{2}\.\d{2}\.\d{4})/)
+    if (dateMatch) {
+      const [day, month, year] = dateMatch[1].split('.')
+      const formattedDate = `${year}-${month}-${day}`
+      setFormData(prev => ({ ...prev, date: formattedDate }))
+    }
+    
+    setMessage({ type: 'success', text: '✅ Намоз вақтлари автоматик ажратилди!' })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,18 +112,6 @@ export default function AdminPrayerTimesPage() {
 
       setMessage({ type: 'success', text: '✅ Намоз вақтлари муваффақиятли янгиланди!' })
       
-      // Очищаем форму
-      setFormData({
-        date: today,
-        fajr: '',
-        sunrise: '',
-        dhuhr: '',
-        asr: '',
-        maghrib: '',
-        isha: ''
-      })
-      
-      // Перезагружаем данные
       loadPrayerTimes()
 
     } catch (error) {
@@ -123,16 +149,52 @@ export default function AdminPrayerTimesPage() {
       )}
 
       <div className="grid lg:grid-cols-2 gap-8">
+        {/* Telegram текст парсер */}
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <MessageSquare className="w-5 h-5 text-emerald-600" />
+            Автоматик ажратиш
+          </h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Telegram'дан келган хабарни нусхалаб, қуйидаги майдонга ташланг:
+          </p>
+          <textarea
+            value={telegramText}
+            onChange={(e) => setTelegramText(e.target.value)}
+            placeholder="31.03.2026 йил, (1447 ҳижрий йил 12 Шаввол ) Сешанба Навоийда намоз кириш вақтлари:
+🏙  Бомдод - 05:05
+🌅  Куёш -06:24
+🏞  Пешин - 12:42
+🌇  Аср -17:10
+🌆  Шом - 19:05
+🌃  Хуфтон - 20:16..."
+            rows={8}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none text-sm mb-4"
+          />
+          <button
+            onClick={parseTelegramText}
+            className="w-full bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-emerald-700 transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <MessageSquare className="w-5 h-5" />
+            Автоматик ажратиш
+          </button>
+          <p className="text-xs text-gray-500 mt-2">
+            Тизим намоз вақтларини автоматик тўлдиради
+          </p>
+        </div>
+
         {/* Форма */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6">
-            Янги вақтлар қўшиш
+          <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
+            <Clock className="w-5 h-5 text-emerald-600" />
+            Қўлда тўлдириш
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Дата */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
                 Сана
               </label>
               <input
@@ -236,63 +298,63 @@ export default function AdminPrayerTimesPage() {
             </button>
           </form>
         </div>
+      </div>
 
-        {/* Рўйхат */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-            <Clock className="w-5 h-5 text-emerald-600" />
-            Охирги 7 кун
-          </h2>
+      {/* Рўйхат */}
+      <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+        <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
+          <Clock className="w-5 h-5 text-emerald-600" />
+          Охирги 7 кун
+        </h2>
 
-          <div className="space-y-3">
-            {prayerTimes.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">
-                Ҳали маълумот йўқ
-              </p>
-            ) : (
-              prayerTimes.map((pt) => (
-                <div
-                  key={pt.id}
-                  className="border border-gray-200 rounded-lg p-4 hover:border-emerald-300 transition-colors"
-                >
-                  <p className="font-semibold text-gray-800 mb-2">
-                    {new Date(pt.date).toLocaleDateString('uz-UZ', {
-                      weekday: 'long',
-                      day: 'numeric',
-                      month: 'long'
-                    })}
-                  </p>
-                  <div className="grid grid-cols-3 gap-2 text-sm">
-                    <div className="text-gray-600">
-                      <span className="text-xs text-gray-400">Бомдод:</span>
-                      <br />
-                      {pt.fajr.substring(0, 5)}
-                    </div>
-                    <div className="text-gray-600">
-                      <span className="text-xs text-gray-400">Пешин:</span>
-                      <br />
-                      {pt.dhuhr.substring(0, 5)}
-                    </div>
-                    <div className="text-gray-600">
-                      <span className="text-xs text-gray-400">Аср:</span>
-                      <br />
-                      {pt.asr.substring(0, 5)}
-                    </div>
-                    <div className="text-gray-600">
-                      <span className="text-xs text-gray-400">Шом:</span>
-                      <br />
-                      {pt.maghrib.substring(0, 5)}
-                    </div>
-                    <div className="text-gray-600">
-                      <span className="text-xs text-gray-400">Хуфтон:</span>
-                      <br />
-                      {pt.isha.substring(0, 5)}
-                    </div>
+        <div className="space-y-3">
+          {prayerTimes.length === 0 ? (
+            <p className="text-gray-500 text-center py-8">
+              Ҳали маълумот йўқ
+            </p>
+          ) : (
+            prayerTimes.map((pt) => (
+              <div
+                key={pt.id}
+                className="border border-gray-200 rounded-lg p-4 hover:border-emerald-300 transition-colors"
+              >
+                <p className="font-semibold text-gray-800 mb-2">
+                  {new Date(pt.date).toLocaleDateString('uz-UZ', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long'
+                  })}
+                </p>
+                <div className="grid grid-cols-3 gap-2 text-sm">
+                  <div className="text-gray-600">
+                    <span className="text-xs text-gray-400">Бомдод:</span>
+                    <br />
+                    {pt.fajr.substring(0, 5)}
+                  </div>
+                  <div className="text-gray-600">
+                    <span className="text-xs text-gray-400">Пешин:</span>
+                    <br />
+                    {pt.dhuhr.substring(0, 5)}
+                  </div>
+                  <div className="text-gray-600">
+                    <span className="text-xs text-gray-400">Аср:</span>
+                    <br />
+                    {pt.asr.substring(0, 5)}
+                  </div>
+                  <div className="text-gray-600">
+                    <span className="text-xs text-gray-400">Шом:</span>
+                    <br />
+                    {pt.maghrib.substring(0, 5)}
+                  </div>
+                  <div className="text-gray-600">
+                    <span className="text-xs text-gray-400">Хуфтон:</span>
+                    <br />
+                    {pt.isha.substring(0, 5)}
                   </div>
                 </div>
-              ))
-            )}
-          </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
