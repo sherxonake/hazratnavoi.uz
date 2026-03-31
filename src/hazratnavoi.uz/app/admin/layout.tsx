@@ -127,7 +127,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="p-4 border-t border-emerald-700">
           <button
             className="flex items-center gap-3 w-full px-4 py-3 text-emerald-100 hover:bg-emerald-700 hover:text-white rounded-lg transition-all duration-200"
-            onClick={() => alert("Чиқиш")}
+            onClick={() => {
+              document.cookie = 'admin-auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+              window.location.href = '/admin/login'
+            }}
           >
             <LogOut className="w-5 h-5 flex-shrink-0" />
             <span className="text-sm">Чиқиш</span>
