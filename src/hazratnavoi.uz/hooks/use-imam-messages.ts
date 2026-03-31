@@ -1,7 +1,7 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase/client'
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase/client"
 import type { Database } from '@/lib/supabase/types'
 
 type ImamMessage = Database['public']['Tables']['imam_messages']['Row']

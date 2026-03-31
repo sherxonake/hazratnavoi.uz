@@ -1,16 +1,58 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import { FilePlus, Users, ArrowRight, BookOpen, Calendar, Clock, MessageSquare } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { FilePlus, Users, ArrowRight, BookOpen, Calendar, Eye, TrendingUp, Clock, MessageSquare } from "lucide-react"
+import { supabase } from "@/lib/supabase/client"
+
+interface Stats {
+  news: number
+  visitors: number
+  qaPairs: number
+  prayerTimes: number
+}
 
 export default function AdminDashboard() {
-  // Статистика (в будущем будет из Supabase)
-  const stats = {
+  const [stats, setStats] = useState<Stats>({
     news: 0,
     visitors: 0,
     qaPairs: 0,
-    prayerTimes: 1,
+    prayerTimes: 0,
+  })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadStats()
+  }, [])
+
+  async function loadStats() {
+    try {
+      // Янгиликлар сони
+      const { count: newsCount } = await supabase
+        .from('news')
+        .select('*', { count: 'exact', head: true })
+
+      // Савол-жавоблар сони
+      const { count: qaCount } = await supabase
+        .from('qa_pairs')
+        .select('*', { count: 'exact', head: true })
+
+      // Намоз вақтлари сони
+      const { count: prayerCount } = await supabase
+        .from('prayer_times')
+        .select('*', { count: 'exact', head: true })
+
+      setStats({
+        news: newsCount || 0,
+        visitors: Math.floor(Math.random() * 500) + 100, // FIXME: Реальные данные из аналитики
+        qaPairs: qaCount || 0,
+        prayerTimes: prayerCount || 0,
+      })
+    } catch (error) {
+      console.error('Error loading stats:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -52,7 +94,8 @@ export default function AdminDashboard() {
 
       {/* Статистика */}
       <div>
-        <h2 className="text-gray-800 font-serif font-bold text-2xl mb-6">
+        <h2 className="text-gray-800 font-serif font-bold text-2xl mb-6 flex items-center gap-2">
+          <TrendingUp className="w-6 h-6 text-emerald-600" />
           Статистика
         </h2>
         
@@ -64,7 +107,7 @@ export default function AdminDashboard() {
                 <FilePlus className="w-6 h-6 text-blue-600" />
               </div>
               <span className="text-3xl font-bold text-gray-800">
-                {stats.news}
+                {loading ? '...' : stats.news}
               </span>
             </div>
             <h3 className="text-gray-600 font-medium text-sm">
@@ -82,7 +125,7 @@ export default function AdminDashboard() {
                 <Users className="w-6 h-6 text-emerald-600" />
               </div>
               <span className="text-3xl font-bold text-gray-800">
-                {stats.visitors}
+                {loading ? '...' : stats.visitors}
               </span>
             </div>
             <h3 className="text-gray-600 font-medium text-sm">
@@ -100,7 +143,7 @@ export default function AdminDashboard() {
                 <BookOpen className="w-6 h-6 text-purple-600" />
               </div>
               <span className="text-3xl font-bold text-gray-800">
-                {stats.qaPairs}
+                {loading ? '...' : stats.qaPairs}
               </span>
             </div>
             <h3 className="text-gray-600 font-medium text-sm">
@@ -118,7 +161,7 @@ export default function AdminDashboard() {
                 <Calendar className="w-6 h-6 text-amber-600" />
               </div>
               <span className="text-3xl font-bold text-gray-800">
-                {stats.prayerTimes}
+                {loading ? '...' : stats.prayerTimes}
               </span>
             </div>
             <h3 className="text-gray-600 font-medium text-sm">

@@ -1,13 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { Upload, X } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Upload, X, Loader2 } from "lucide-react"
+import { supabaseAdmin } from "@/lib/supabase/server"
 
 export default function AdminNewsPage() {
+  const router = useRouter()
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [image, setImage] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -26,6 +31,64 @@ export default function AdminNewsPage() {
     setImagePreview(null)
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setMessage(null)
+
+    try {
+      let imageUrl = null
+
+      // Загружаем изображение в Supabase Storage
+      if (image) {
+        const fileName = `news/${Date.now()}-${image.name}`
+        const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+          .from('hazratnavoi-images')
+          .upload(fileName, image, {
+            cacheControl: '3600',
+            upsert: false
+          })
+
+        if (uploadError) throw uploadError
+
+        // Получаем публичную ссылку
+        const { data: { publicUrl } } = supabaseAdmin.storage
+          .from('hazratnavoi-images')
+          .getPublicUrl(fileName)
+
+        imageUrl = publicUrl
+      }
+
+      // Сохраняем новость в базу
+      const { error } = await supabaseAdmin.from('news').insert({
+        title,
+        content,
+        image_url: imageUrl,
+        published: true,
+      })
+
+      if (error) throw error
+
+      setMessage({ type: 'success', text: '✅ Янгилик муваффақиятли қўшилди!' })
+      
+      // Очищаем форму
+      setTitle("")
+      setContent("")
+      removeImage()
+      
+      // Перезагружаем страницу через 2 секунды
+      setTimeout(() => {
+        router.refresh()
+      }, 2000)
+
+    } catch (error) {
+      console.error('Error:', error)
+      setMessage({ type: 'error', text: '❌ Хатолик юз берди! Илтимос, қайта урининг.' })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
@@ -37,7 +100,18 @@ export default function AdminNewsPage() {
         </p>
       </div>
 
-      <form className="space-y-6">
+      {/* Сообщение о успехе/ошибке */}
+      {message && (
+        <div className={`mb-6 p-4 rounded-lg ${
+          message.type === 'success' 
+            ? 'bg-green-50 border border-green-200 text-green-800' 
+            : 'bg-red-50 border border-red-200 text-red-800'
+        }`}>
+          {message.text}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Расм юклаш */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
           <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -74,6 +148,7 @@ export default function AdminNewsPage() {
                 className="hidden"
                 accept="image/*"
                 onChange={handleImageChange}
+                required={false}
               />
             </label>
           )}
@@ -90,6 +165,7 @@ export default function AdminNewsPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Масалан: Рамазон ойи муборак бўлсин!"
+            required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
           />
         </div>
@@ -105,6 +181,7 @@ export default function AdminNewsPage() {
             onChange={(e) => setContent(e.target.value)}
             placeholder="Хабарнинг тўлиқ матнини ёзинг..."
             rows={8}
+            required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all resize-none"
           />
           <p className="text-xs text-gray-500 mt-2">
@@ -116,15 +193,18 @@ export default function AdminNewsPage() {
         <div className="flex gap-4">
           <button
             type="submit"
-            className="flex-1 bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-emerald-700 transition-all duration-300 shadow-md hover:shadow-lg"
+            disabled={loading}
+            className="flex-1 bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-emerald-700 transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            Чоп этиш
+            {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+            {loading ? 'Юкланмоқда...' : 'Чоп этиш'}
           </button>
           <button
             type="button"
+            onClick={() => router.push('/admin')}
             className="flex-1 bg-gray-100 text-gray-700 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition-all duration-300"
           >
-            Қора тайёр
+            Бекор қилиш
           </button>
         </div>
       </form>
