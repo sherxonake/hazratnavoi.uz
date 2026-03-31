@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx src/bot.ts",
     "build": "tsc",
-    "start": "node dist/bot.js"
+    "start": "node dist/bot.js",
+    "deploy": "fly deploy"
   },
   "dependencies": {
     "node-telegram-bot-api": "^0.64.0",

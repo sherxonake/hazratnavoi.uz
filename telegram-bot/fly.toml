@@ -1,0 +1,22 @@
+app = "hazratnavoi-bot"
+primary_region = "fra"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  TELEGRAM_BOT_TOKEN = ""
+  ADMIN_CHAT_ID = ""
+  SUPABASE_URL = "https://rbmkdwkbdvglekouekik.supabase.co"
+  SUPABASE_SERVICE_ROLE_KEY = ""
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
