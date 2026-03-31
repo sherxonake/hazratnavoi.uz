@@ -14,6 +14,11 @@ interface PrayerTime {
   asr: string
   maghrib: string
   isha: string
+  jamaat_fajr?: string
+  jamaat_dhuhr?: string
+  jamaat_asr?: string
+  jamaat_maghrib?: string
+  jamaat_isha?: string
 }
 
 export default function AdminPrayerTimesPage() {
@@ -27,11 +32,20 @@ export default function AdminPrayerTimesPage() {
   // Автоматик парсер учун матн майдони
   const [telegramText, setTelegramText] = useState("")
   
-  // Намоз вақтлари
+  // Намоз вақтлари (шаҳар)
   const [formData, setFormData] = useState<PrayerTime>({
     date: today,
     fajr: '',
     sunrise: '',
+    dhuhr: '',
+    asr: '',
+    maghrib: '',
+    isha: ''
+  })
+  
+  // Жамоат намози вақтлари (масжид)
+  const [jamaatData, setJamaatData] = useState({
+    fajr: '',
     dhuhr: '',
     asr: '',
     maghrib: '',
@@ -61,17 +75,12 @@ export default function AdminPrayerTimesPage() {
   const parseTelegramText = () => {
     const text = telegramText
     
-    // Бомдод
+    // Шаҳар намоз вақтлари
     const fajrMatch = text.match(/🏙\s*Бомдод\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    // Қуёш
     const sunriseMatch = text.match(/🌅\s*Куёш\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    // Пешин
     const dhuhrMatch = text.match(/🏞\s*Пешин\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    // Аср
     const asrMatch = text.match(/🌇\s*Аср\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    // Шом
     const maghribMatch = text.match(/🌆\s*Шом\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    // Хуфтон
     const ishaMatch = text.match(/🌃\s*Хуфтон\s*[-–—]?\s*(\d{1,2}:\d{2})/)
     
     if (fajrMatch) setFormData(prev => ({ ...prev, fajr: fajrMatch[1] }))
@@ -80,6 +89,19 @@ export default function AdminPrayerTimesPage() {
     if (asrMatch) setFormData(prev => ({ ...prev, asr: asrMatch[1] }))
     if (maghribMatch) setFormData(prev => ({ ...prev, maghrib: maghribMatch[1] }))
     if (ishaMatch) setFormData(prev => ({ ...prev, isha: ishaMatch[1] }))
+    
+    // Жамоат намоз вақтлари
+    const jamaatFajrMatch = text.match(/⏰\s*Бомдод\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
+    const jamaatDhuhrMatch = text.match(/⏰\s*Пешин\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
+    const jamaatAsrMatch = text.match(/⏰\s*Аср\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
+    const jamaatMaghribMatch = text.match(/⏰\s*Шом\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
+    const jamaatIshaMatch = text.match(/⏰\s*Хуфтон\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
+    
+    if (jamaatFajrMatch) setJamaatData(prev => ({ ...prev, fajr: jamaatFajrMatch[1] }))
+    if (jamaatDhuhrMatch) setJamaatData(prev => ({ ...prev, dhuhr: jamaatDhuhrMatch[1] }))
+    if (jamaatAsrMatch) setJamaatData(prev => ({ ...prev, asr: jamaatAsrMatch[1] }))
+    if (jamaatMaghribMatch) setJamaatData(prev => ({ ...prev, maghrib: jamaatMaghribMatch[1] }))
+    if (jamaatIshaMatch) setJamaatData(prev => ({ ...prev, isha: jamaatIshaMatch[1] }))
     
     // Санани ҳам ажратиш
     const dateMatch = text.match(/(\d{2}\.\d{2}\.\d{4})/)
@@ -106,12 +128,17 @@ export default function AdminPrayerTimesPage() {
         asr: formData.asr + ':00',
         maghrib: formData.maghrib + ':00',
         isha: formData.isha + ':00',
+        jamaat_fajr: jamaatData.fajr ? jamaatData.fajr + ':00' : null,
+        jamaat_dhuhr: jamaatData.dhuhr ? jamaatData.dhuhr + ':00' : null,
+        jamaat_asr: jamaatData.asr ? jamaatData.asr + ':00' : null,
+        jamaat_maghrib: jamaatData.maghrib ? jamaatData.maghrib + ':00' : null,
+        jamaat_isha: jamaatData.isha ? jamaatData.isha + ':00' : null,
       })
 
       if (error) throw error
 
       setMessage({ type: 'success', text: '✅ Намоз вақтлари муваффақиятли янгиланди!' })
-      
+
       loadPrayerTimes()
 
     } catch (error) {
@@ -187,7 +214,7 @@ export default function AdminPrayerTimesPage() {
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
           <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
             <Clock className="w-5 h-5 text-emerald-600" />
-            Қўлда тўлдириш
+            Намоз вақтлари
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -206,84 +233,122 @@ export default function AdminPrayerTimesPage() {
               />
             </div>
 
-            {/* Вақтлар */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Бомдод (Fajr)
-                </label>
-                <input
-                  type="time"
-                  value={formData.fajr}
-                  onChange={(e) => handleInputChange('fajr', e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                />
+            {/* Шаҳар вақтлари */}
+            <div>
+              <h3 className="text-sm font-semibold text-emerald-700 mb-3">🏙 Навоий шаҳрида намоз кириш вақтлари:</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Бомдод</label>
+                  <input
+                    type="time"
+                    value={formData.fajr}
+                    onChange={(e) => handleInputChange('fajr', e.target.value)}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Қуёш</label>
+                  <input
+                    type="time"
+                    value={formData.sunrise}
+                    onChange={(e) => handleInputChange('sunrise', e.target.value)}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Пешин</label>
+                  <input
+                    type="time"
+                    value={formData.dhuhr}
+                    onChange={(e) => handleInputChange('dhuhr', e.target.value)}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Аср</label>
+                  <input
+                    type="time"
+                    value={formData.asr}
+                    onChange={(e) => handleInputChange('asr', e.target.value)}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Шом</label>
+                  <input
+                    type="time"
+                    value={formData.maghrib}
+                    onChange={(e) => handleInputChange('maghrib', e.target.value)}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Хуфтон</label>
+                  <input
+                    type="time"
+                    value={formData.isha}
+                    onChange={(e) => handleInputChange('isha', e.target.value)}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
               </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Қуёш (Sunrise)
-                </label>
-                <input
-                  type="time"
-                  value={formData.sunrise}
-                  onChange={(e) => handleInputChange('sunrise', e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Пешин (Dhuhr)
-                </label>
-                <input
-                  type="time"
-                  value={formData.dhuhr}
-                  onChange={(e) => handleInputChange('dhuhr', e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Аср (Asr)
-                </label>
-                <input
-                  type="time"
-                  value={formData.asr}
-                  onChange={(e) => handleInputChange('asr', e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Шом (Maghrib)
-                </label>
-                <input
-                  type="time"
-                  value={formData.maghrib}
-                  onChange={(e) => handleInputChange('maghrib', e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Хуфтон (Isha)
-                </label>
-                <input
-                  type="time"
-                  value={formData.isha}
-                  onChange={(e) => handleInputChange('isha', e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                />
+            {/* Жамоат вақтлари */}
+            <div>
+              <h3 className="text-sm font-semibold text-emerald-700 mb-3">⏰ Алишер Навоий масжидида жамоат вақтлари:</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Бомдод</label>
+                  <input
+                    type="time"
+                    value={jamaatData.fajr}
+                    onChange={(e) => setJamaatData(prev => ({ ...prev, fajr: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Пешин</label>
+                  <input
+                    type="time"
+                    value={jamaatData.dhuhr}
+                    onChange={(e) => setJamaatData(prev => ({ ...prev, dhuhr: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Аср</label>
+                  <input
+                    type="time"
+                    value={jamaatData.asr}
+                    onChange={(e) => setJamaatData(prev => ({ ...prev, asr: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Шом</label>
+                  <input
+                    type="time"
+                    value={jamaatData.maghrib}
+                    onChange={(e) => setJamaatData(prev => ({ ...prev, maghrib: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Хуфтон</label>
+                  <input
+                    type="time"
+                    value={jamaatData.isha}
+                    onChange={(e) => setJamaatData(prev => ({ ...prev, isha: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                  />
+                </div>
               </div>
             </div>
 
