@@ -36,18 +36,6 @@ const HADITHS = [
   },
   {
     id: 3,
-    arabic: "الْجَنَّةُ تَحْتَ أَظْلاَلِ السُّيُوفِ",
-    latin: "Al-jannatu tahta azlāli s-suyūf",
-    cyrillic: "Ал-жаннату тахта азоләлис-суюф",
-    translationLatin: "Жаннат қиличлар соясида",
-    translationCyrillic: "Жаннат қиличлар соясида",
-    source: "Бухорий ривояти",
-    category: "Жиҳод",
-    explanationLatin: "Ватанни ҳимоя қилиш — жаннатга олиб борувчи амаллардан.",
-    explanationCyrillic: "Ватанни ҳимоя қилиш — жаннатга олиб борувчи амаллардан.",
-  },
-  {
-    id: 4,
     arabic: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
     latin: "Khayrukum man ta'allama al-Qur'āna wa 'allamah",
     cyrillic: "Хайрукум ман та'алламал Қуръона ва 'алламаҳ",
@@ -59,7 +47,7 @@ const HADITHS = [
     explanationCyrillic: "Қуръон ўрганиш ва ўргатиш — энг фазилатли амал.",
   },
   {
-    id: 5,
+    id: 4,
     arabic: "الْوَالِدُ أَوْسَطُ أَبْوَابِ الْجَنَّةِ",
     latin: "Al-wālidu awsatu abwābi l-jannah",
     cyrillic: "Ал-волиду авсату абвобил-жаннаҳ",
@@ -71,7 +59,7 @@ const HADITHS = [
     explanationCyrillic: "Ота-онага хизмат қилиш — жаннатга киритувчи сабаб.",
   },
   {
-    id: 6,
+    id: 5,
     arabic: "لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
     latin: "Lā yu'minu aḥadukum ḥattā yuḥibba li-akhīhi mā yuḥibbu li-nafsih",
     cyrillic: "Ла юъмину аҳадукум ҳатта юҳибба ли-ахийҳи ма юҳиббу ли-нафсиҳ",
@@ -83,7 +71,7 @@ const HADITHS = [
     explanationCyrillic: "Мусулмон киши ўзига хоҳлаган яхшиликни бошқаларга ҳам хоҳлаши керак.",
   },
   {
-    id: 7,
+    id: 6,
     arabic: "الدِّينُ النَّصِيحَةُ",
     latin: "Ad-dīnu an-nasīḥah",
     cyrillic: "Ад-динун насиҳаҳ",
@@ -95,7 +83,7 @@ const HADITHS = [
     explanationCyrillic: "Мусулмонлар бир-бирига насиҳат қилиши лозим.",
   },
   {
-    id: 8,
+    id: 7,
     arabic: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
     latin: "Man kāna yu'minu billāhi wal-yawmi l-ākhir-i falyaqul khayran aw liyasmut",
     cyrillic: "Ман кона юъмину биллаҳи вал-явмил-охири фал-яқул хайран ав лисмут",
@@ -108,7 +96,7 @@ const HADITHS = [
   },
 ]
 
-const CATEGORIES = ["Барчаси", "Ният", "Намоз", "Илм", "Ота-она", "Ахлоқ", "Жиҳод"]
+const CATEGORIES = ["Барчаси", "Ният", "Намоз", "Илм", "Ота-она", "Ахлоқ"]
 
 export function HadithSection({ lang }: { lang: Lang }) {
   const [selectedCategory, setSelectedCategory] = useState("Барчаси")
