@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { BookOpen, Search, Star, Quote, Heart } from "lucide-react"
+import { BookOpen, Star, Heart } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 type Lang = "latin" | "cyrillic"
@@ -100,15 +100,11 @@ const CATEGORIES = ["Барчаси", "Ният", "Намоз", "Илм", "От�
 
 export function HadithSection({ lang }: { lang: Lang }) {
   const [selectedCategory, setSelectedCategory] = useState("Барчаси")
-  const [searchQuery, setSearchQuery] = useState("")
   const [expandedHadith, setExpandedHadith] = useState<number | null>(null)
 
   const filteredHadiths = HADITHS.filter((hadith) => {
     const matchesCategory = selectedCategory === "Барчаси" || hadith.category === selectedCategory
-    const matchesSearch =
-      hadith.translationCyrillic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      hadith.translationLatin.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
+    return matchesCategory
   })
 
   return (
@@ -136,24 +132,10 @@ export function HadithSection({ lang }: { lang: Lang }) {
           <p className="text-emerald-100 text-base max-w-2xl mx-auto">
             {label(
               lang,
-              "Ҳанафий мазҳабидаги саҳиҳ ҳадислар",
-              "Ҳанафий мазҳабидаги саҳиҳ ҳадислар"
+              "Пайғамбаримиз Муҳаммад ﷺ дан саҳиҳ ҳадислар",
+              "Пайғамбаримиз Муҳаммад ﷺ дан саҳиҳ ҳадислар"
             )}
           </p>
-        </div>
-
-        {/* Search */}
-        <div className="max-w-2xl mx-auto mb-8">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-300" />
-            <input
-              type="text"
-              placeholder={label(lang, "Ҳадис қидириш...", "Hadis qidirish...")}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-emerald-800/60 backdrop-blur border-2 border-yellow-500/30 rounded-2xl text-white placeholder-emerald-300 focus:outline-none focus:border-yellow-400 transition-colors"
-            />
-          </div>
         </div>
 
         {/* Categories */}
@@ -194,7 +176,7 @@ export function HadithSection({ lang }: { lang: Lang }) {
                   {label(lang, hadith.translationLatin, hadith.translationCyrillic)}
                 </p>
                 <div className="flex items-center gap-2 text-xs text-emerald-300">
-                  <Quote className="w-4 h-4" />
+                  <Star className="w-4 h-4" />
                   <span>{hadith.source}</span>
                 </div>
               </div>
