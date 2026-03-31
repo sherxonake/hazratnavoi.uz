@@ -83,26 +83,24 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
   }
 
   return (
-    <section className="relative py-20 lg:py-28 bg-gradient-to-br from-sapphire via-emerald-deep to-sapphire overflow-hidden">
-      <div className="absolute inset-0 rub-el-hizb-pattern opacity-25" aria-hidden="true" />
+    <section className="relative py-20 lg:py-28 bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 overflow-hidden">
+      <div className="absolute inset-0 rub-el-hizb-pattern opacity-30" aria-hidden="true" />
       
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="flex items-center gap-3 mb-4 justify-center">
-            <div className="w-12 h-12 rounded-2xl bg-yellow-500/20 flex items-center justify-center">
-              <Moon className="w-6 h-6 text-yellow-400" aria-hidden="true" />
+          <div className="inline-flex items-center gap-3 mb-4 bg-emerald-800/50 backdrop-blur-sm rounded-full px-6 py-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-lg">
+              <Moon className="w-5 h-5 text-emerald-900" aria-hidden="true" />
             </div>
-            <div>
-              <span className="text-yellow-400 text-xs font-semibold uppercase tracking-widest block mb-1">
-                {label(lang, "ҚИБЛА КОМПАСИ", "QIBLA KOMPASI")}
-              </span>
-              <h2 className="font-serif text-white text-3xl sm:text-4xl font-bold">
-                {label(lang, "Қиблага томон", "Qiblaga tomon")}
-              </h2>
-            </div>
+            <span className="text-yellow-400 text-sm font-bold uppercase tracking-widest">
+              {label(lang, "ҚИБЛА КОМПАСИ", "QIBLA KOMPASI")}
+            </span>
           </div>
-          <p className="text-white/70 text-base max-w-md mx-auto leading-relaxed">
+          <h2 className="font-serif text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
+            {label(lang, "Қиблага томон", "Qiblaga tomon")}
+          </h2>
+          <p className="text-emerald-100 text-base max-w-md mx-auto leading-relaxed">
             {label(
               lang,
               "Навоий шаҳридан Макка шаҳри томон йўналиш",
@@ -112,7 +110,7 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
         </div>
 
         {/* Main Compass Card */}
-        <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-3xl border border-white/20 p-6 lg:p-10 shadow-2xl">
+        <div className="bg-gradient-to-br from-emerald-800/60 via-emerald-900/60 to-emerald-800/60 backdrop-blur-xl rounded-3xl border-2 border-yellow-500/30 p-6 lg:p-10 shadow-2xl">
           <div className="flex flex-col items-center gap-8">
             {/* Qibla Angle Display */}
             <div className="text-center">

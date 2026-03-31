@@ -74,30 +74,28 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
   const currentDhikr = PRESET_DHIKR[selectedDhikr]
 
   return (
-    <section className="py-20 lg:py-28 bg-gradient-to-br from-sapphire via-emerald-deep to-sapphire relative overflow-hidden">
-      <div className="absolute inset-0 uzbek-paxta-pattern opacity-20" aria-hidden="true" />
+    <section className="py-20 lg:py-28 bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 relative overflow-hidden">
+      <div className="absolute inset-0 uzbek-paxta-pattern opacity-25" aria-hidden="true" />
       
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="flex items-center gap-3 mb-4 justify-center">
-            <div className="w-12 h-12 rounded-2xl bg-yellow-500/20 flex items-center justify-center">
-              <HandHeart className="w-6 h-6 text-yellow-400" aria-hidden="true" />
+          <div className="inline-flex items-center gap-3 mb-4 bg-emerald-800/50 backdrop-blur-sm rounded-full px-6 py-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-lg">
+              <HandHeart className="w-5 h-5 text-emerald-900" aria-hidden="true" />
             </div>
-            <div>
-              <span className="text-yellow-400 text-xs font-semibold uppercase tracking-widest block mb-1">
-                {label(lang, "ЗИКР САНОВЧИСИ", "ZIKR SANOVCISI")}
-              </span>
-              <h2 className="font-serif text-white text-3xl sm:text-4xl font-bold">
-                {label(lang, "Тасбеҳ", "Tasbih")}
-              </h2>
-            </div>
+            <span className="text-yellow-400 text-sm font-bold uppercase tracking-widest">
+              {label(lang, "ЗИКР САНОВЧИСИ", "ZIKR SANOVCISI")}
+            </span>
           </div>
+          <h2 className="font-serif text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
+            {label(lang, "Тасбеҳ", "Tasbih")}
+          </h2>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Main Counter */}
-          <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-3xl border border-white/20 p-8 shadow-2xl">
+          <div className="bg-gradient-to-br from-emerald-800/60 via-emerald-900/60 to-emerald-800/60 backdrop-blur-xl rounded-3xl border-2 border-yellow-500/30 p-8 shadow-2xl">
             {/* Dhikr Selection */}
             <div className="mb-6">
               <label className="block text-sm font-semibold text-white/90 mb-3">
@@ -209,36 +207,40 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
           <div className="space-y-6">
             {/* Stats Cards */}
             <div className="grid sm:grid-cols-2 gap-4">
-              <div className="bg-gradient-to-br from-emerald-deep to-sapphire rounded-2xl p-6 text-white border border-white/20">
+              <div className="bg-gradient-to-br from-emerald-800 to-emerald-900 rounded-2xl p-6 text-white border-2 border-yellow-500/30 shadow-lg">
                 <div className="flex items-center gap-3 mb-3">
-                  <HandHeart className="w-6 h-6 text-yellow-400" aria-hidden="true" />
-                  <p className="text-sm text-white/70">
+                  <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                    <HandHeart className="w-6 h-6 text-yellow-400" aria-hidden="true" />
+                  </div>
+                  <p className="text-sm text-emerald-100 font-medium">
                     {label(lang, "Жами", "Jami")}
                   </p>
                 </div>
-                <p className="text-4xl font-bold">{totalCount.toLocaleString()}</p>
-                <p className="text-xs text-white/60 mt-1">
+                <p className="text-4xl font-bold text-yellow-400">{totalCount.toLocaleString()}</p>
+                <p className="text-xs text-emerald-200 mt-1">
                   {label(lang, "Зикр айтилди", "Zikr aytildi")}
                 </p>
               </div>
 
-              <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 text-white border border-white/20">
+              <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 text-white border-2 border-yellow-300/50 shadow-lg">
                 <div className="flex items-center gap-3 mb-3">
-                  <Trophy className="w-6 h-6 text-yellow-200" aria-hidden="true" />
-                  <p className="text-sm text-white/70">
+                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                    <Trophy className="w-6 h-6 text-yellow-100" aria-hidden="true" />
+                  </div>
+                  <p className="text-sm text-yellow-100 font-medium">
                     {label(lang, "Босқич", "Bosqich")}
                   </p>
                 </div>
-                <p className="text-4xl font-bold">{sessions}</p>
-                <p className="text-xs text-white/60 mt-1">
+                <p className="text-4xl font-bold text-white">{sessions}</p>
+                <p className="text-xs text-yellow-100 mt-1">
                   {label(lang, "Тўлиқ тугал", "To'liq tugal")}
                 </p>
               </div>
             </div>
 
             {/* Target Selection */}
-            <div className="bg-white/10 backdrop-blur rounded-2xl border border-white/20 p-6">
-              <h3 className="font-semibold text-white mb-4">
+            <div className="bg-emerald-800/60 backdrop-blur rounded-2xl border-2 border-yellow-500/30 p-6">
+              <h3 className="font-semibold text-yellow-400 mb-4 text-lg">
                 {label(lang, "Мақсад", "Maqsad")}
               </h3>
               <div className="grid grid-cols-3 gap-2">
@@ -249,8 +251,8 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
                     className={cn(
                       "py-3 rounded-xl border-2 font-semibold transition-all duration-200",
                       target === t
-                        ? "border-yellow-400 bg-yellow-500/20 text-yellow-400"
-                        : "border-white/20 hover:border-yellow-400/40 text-white/80"
+                        ? "border-yellow-400 bg-yellow-500/30 text-yellow-300 shadow-lg"
+                        : "border-emerald-600 bg-emerald-700/50 text-emerald-200 hover:border-yellow-500/50"
                     )}
                   >
                     {t}
@@ -260,18 +262,18 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
             </div>
 
             {/* Info */}
-            <div className="bg-white/10 backdrop-blur rounded-2xl border border-white/20 p-6">
+            <div className="bg-emerald-800/60 backdrop-blur rounded-2xl border-2 border-yellow-500/30 p-6">
               <h3 className="font-serif text-yellow-400 text-lg font-bold mb-3">
                 {label(lang, "Фазилати", "Fazilati")}
               </h3>
-              <p className="text-white/80 text-sm leading-relaxed mb-4">
+              <p className="text-emerald-100 text-sm leading-relaxed mb-4">
                 {label(
                   lang,
                   "Расулуллоҳ ﷺ айтдилар: «Кимки «Субҳаналлоҳ» деса, унга ўн савоб ёзилади. Кимки «Алҳамдулиллоҳ» деса, унга ўн савоб ёзилади. Кимки «Аллоҳу Акбар» деса, унга ўн савоб ёзилади.»",
                   "Rasululloh ﷺ aytdilar: «Kimki «Subhanalloh» desa, unga o'n savob yoziladi. Kimki «Alhamdulillah» desa, unga o'n savob yoziladi. Kimki «Allohu Akbar» desa, unga o'n savob yoziladi.»"
                 )}
               </p>
-              <p className="text-xs text-white/60">
+              <p className="text-xs text-emerald-300">
                 [Термизий ривояти]
               </p>
             </div>
