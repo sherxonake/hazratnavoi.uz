@@ -1,142 +1,218 @@
-import { MapPin, Phone, Send, Instagram } from "lucide-react"
+"use client"
+
+import { Youtube, Send, Instagram, Phone, MapPin, Clock, Mail } from "lucide-react"
+import Link from "next/link"
 
 type Lang = "latin" | "cyrillic"
 
 const label = (lang: Lang, l: string, c: string) => (lang === "latin" ? l : c)
 
+interface SocialLinks {
+  youtube: string
+  telegram: string
+  instagram: string
+}
+
+// Социал тармоқлар (Ҳазрат Навоий жоме масжиди)
+const SOCIAL_LINKS: SocialLinks = {
+  youtube: "https://youtube.com/@hazratnavoi", // Ўзгартириш керак
+  telegram: "https://t.me/hazratnavoi", // Ўзгартириш керак
+  instagram: "https://instagram.com/hazratnavoi", // Ўзгартириш керак
+}
+
 export function Footer({ lang }: { lang: Lang }) {
+  const currentYear = new Date().getFullYear()
+
   return (
-    <footer id="aloqa" className="relative bg-emerald-deep overflow-hidden">
+    <footer className="relative bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 text-white">
       {/* Islamic pattern overlay */}
-      <div className="absolute inset-0 islamic-pattern-gold opacity-60 pointer-events-none" aria-hidden="true" />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 uzbek-paxta-pattern opacity-20" aria-hidden="true" />
+      
+      <div className="relative">
         {/* Main Footer Content */}
-        <div className="py-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="lg:col-span-2 flex flex-col gap-5">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/60 border border-yellow-500/30 flex items-center justify-center flex-shrink-0">
-                <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                  <rect x="10" y="3" width="2" height="5" rx="1" fill="white" opacity="0.9" />
-                  <rect x="7" y="5" width="1.5" height="4" rx="0.75" fill="white" opacity="0.7" />
-                  <rect x="13.5" y="5" width="1.5" height="4" rx="0.75" fill="white" opacity="0.7" />
-                  <rect x="5.5" y="9" width="11" height="1" rx="0.5" fill="white" />
-                  <rect x="5.5" y="10" width="11" height="7" rx="1" fill="white" opacity="0.25" />
-                </svg>
-              </div>
-              <div className="flex flex-col leading-tight">
-                <span className="font-serif font-bold text-white text-base tracking-wide">HAZRATNAVOI.UZ</span>
-                <span className="text-yellow-400/70 text-xs">
-                  {label(lang, "Rasmiy veb-sayt", "Расмий веб-сайт")}
-                </span>
-              </div>
-            </div>
-
-            <p className="text-white/60 text-sm leading-relaxed max-w-sm">
-              {label(
-                lang,
-                "Navoiy viloyati Hazrat Navoiy jome masjidi — din, ilm va ma'naviyat markazi. Har bir qalb uchun ochiq makon.",
-                "Навоий вилояти Ҳазрат Навоий жоме масжиди — дин, илм ва маьнавият маркази. Ҳар бир қалб учун очиқ макон."
-              )}
-            </p>
-
-            {/* Socials */}
-            <div className="flex items-center gap-3">
-              <a
-                href="https://t.me/hazratnavoi"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white transition-all duration-300 hover:scale-110"
-                aria-label="Telegram kanaliga o'tish"
-              >
-                <Send className="w-4 h-4" aria-hidden="true" />
-              </a>
-              <a
-                href="https://instagram.com/hazratnavoi_uz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white transition-all duration-300 hover:scale-110"
-                aria-label="Instagram sahifasiga o'tish"
-              >
-                <Instagram className="w-4 h-4" aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest">
-              {label(lang, "Bo'limlar", "Бўлимлар")}
-            </h3>
-            <nav className="flex flex-col gap-2.5" aria-label="Qo'shimcha navigatsiya">
-              {[
-                { l: "Bosh sahifa", c: "Бош саҳифа", href: "#bosh" },
-                { l: "Yangiliklar", c: "Янгиликлар", href: "#yangiliklar" },
-                { l: "Ma'ruzalar", c: "Маърузалар", href: "#maruzalar" },
-                { l: "Savol-javob", c: "Савол-жавоб", href: "#savol" },
-              ].map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-white/60 hover:text-white text-sm transition-colors duration-200 hover:translate-x-1 inline-block"
-                >
-                  {label(lang, link.l, link.c)}
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          {/* Contact */}
-          <div className="flex flex-col gap-4">
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest">
-              {label(lang, "Aloqa", "Алоқа")}
-            </h3>
-            <address className="not-italic flex flex-col gap-3">
-              <div className="flex items-start gap-3 text-white/60 text-sm">
-                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5 text-yellow-400/70" aria-hidden="true" />
-                <span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+          <div className="grid lg:grid-cols-4 gap-8 lg:gap-12">
+            
+            {/* Column 1: Masjid Info */}
+            <div className="lg:col-span-2">
+              <div className="mb-6">
+                <h3 className="font-serif text-2xl lg:text-3xl font-bold text-yellow-400 mb-3">
                   {label(
                     lang,
-                    "Navoiy shahri, Hazrat Navoiy ko'chasi, 1",
-                    "Навоий шаҳри, Ҳазрат Навоий кўчаси, 1"
+                    "Ҳазрат Навоий жоме масжиди",
+                    "Ҳазрат Навоий жоме масжиди"
                   )}
-                </span>
+                </h3>
+                <p className="text-emerald-100 text-sm leading-relaxed mb-4">
+                  {label(
+                    lang,
+                    "Навоий вилоятининг бош жоме масжиди. Диний маърифат, ибодат ва яхшилик макони.",
+                    "Навоий вилоятининг бош жоме масжиди. Диний маърифат, ибодат ва яхшилик макони."
+                  )}
+                </p>
               </div>
-              <a
-                href="tel:+998762000001"
-                className="flex items-center gap-3 text-white/60 hover:text-white text-sm transition-colors duration-200"
-              >
-                <Phone className="w-4 h-4 flex-shrink-0 text-yellow-400/70" aria-hidden="true" />
-                +998 76 200 00 01
-              </a>
-              <a
-                href="mailto:info@hazratnavoi.uz"
-                className="flex items-center gap-3 text-white/60 hover:text-white text-sm transition-colors duration-200 break-all"
-              >
-                <Send className="w-4 h-4 flex-shrink-0 text-yellow-400/70" aria-hidden="true" />
-                info@hazratnavoi.uz
-              </a>
-            </address>
+
+              {/* Social Media Links */}
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-emerald-200 uppercase tracking-widest mb-4">
+                  {label(lang, "Ижтимоий тармоқлар", "Ижтимоий тармоқлар")}
+                </h4>
+                <div className="flex gap-3">
+                  {/* YouTube */}
+                  <Link
+                    href={SOCIAL_LINKS.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
+                    aria-label="YouTube"
+                  >
+                    <Youtube className="w-6 h-6 text-white" />
+                  </Link>
+
+                  {/* Telegram */}
+                  <Link
+                    href={SOCIAL_LINKS.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
+                    aria-label="Telegram"
+                  >
+                    <Send className="w-6 h-6 text-white" />
+                  </Link>
+
+                  {/* Instagram */}
+                  <Link
+                    href={SOCIAL_LINKS.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:opacity-90 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
+                    aria-label="Instagram"
+                  >
+                    <Instagram className="w-6 h-6 text-white" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-emerald-100">
+                  <Phone className="w-5 h-5 text-yellow-400 flex-shrink-0" />
+                  <a href="tel:+998762000001" className="hover:text-yellow-400 transition-colors">
+                    +998 76 200 00 01
+                  </a>
+                </div>
+                <div className="flex items-center gap-3 text-emerald-100">
+                  <Mail className="w-5 h-5 text-yellow-400 flex-shrink-0" />
+                  <a href="mailto:info@hazratnavoi.uz" className="hover:text-yellow-400 transition-colors">
+                    info@hazratnavoi.uz
+                  </a>
+                </div>
+                <div className="flex items-start gap-3 text-emerald-100">
+                  <MapPin className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                  <span>
+                    {label(
+                      lang,
+                      "Навоий шаҳри, Марказий майдон",
+                      "Навоий шаҳри, Марказий майдон"
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Column 2: Quick Links */}
+            <div>
+              <h4 className="text-sm font-semibold text-emerald-200 uppercase tracking-widest mb-4">
+                {label(lang, "Тезкор ҳаволалар", "Тезкор ҳаволалар")}
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/" className="text-emerald-100 hover:text-yellow-400 transition-colors">
+                    {label(lang, "Бош саҳифа", "Бош саҳифа")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#yangiliklar" className="text-emerald-100 hover:text-yellow-400 transition-colors">
+                    {label(lang, "Янгиликлар", "Янгиликлар")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#maruzalar" className="text-emerald-100 hover:text-yellow-400 transition-colors">
+                    {label(lang, "Маърузалар", "Маърузалар")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#savol" className="text-emerald-100 hover:text-yellow-400 transition-colors">
+                    {label(lang, "Савол-жавоб", "Савол-жавоб")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/admin/login" className="text-emerald-100 hover:text-yellow-400 transition-colors">
+                    {label(lang, "Админ панел", "Админ панел")}
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: Prayer Times Widget */}
+            <div>
+              <h4 className="text-sm font-semibold text-emerald-200 uppercase tracking-widest mb-4">
+                {label(lang, "Намоз вақтлари", "Намоз вақтлари")}
+              </h4>
+              <div className="bg-emerald-800/50 backdrop-blur rounded-xl p-4 border border-yellow-500/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <Clock className="w-5 h-5 text-yellow-400" />
+                  <span className="text-sm font-semibold text-emerald-100">
+                    {label(lang, "Навоий шаҳри", "Навоий шаҳри")}
+                  </span>
+                </div>
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-emerald-200">Бомдод:</span>
+                    <span className="text-yellow-400 font-semibold">05:00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-emerald-200">Қуёш:</span>
+                    <span className="text-yellow-400 font-semibold">06:30</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-emerald-200">Пешин:</span>
+                    <span className="text-yellow-400 font-semibold">12:45</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-emerald-200">Аср:</span>
+                    <span className="text-yellow-400 font-semibold">16:15</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-emerald-200">Шом:</span>
+                    <span className="text-yellow-400 font-semibold">18:45</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-emerald-200">Хуфтон:</span>
+                    <span className="text-yellow-400 font-semibold">20:15</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-white/10" />
-
-        {/* Bottom bar */}
-        <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/40 text-xs text-center sm:text-left">
-            {label(
-              lang,
-              "© 2026 Hazratnavoi.uz. Barcha huquqlar himoyalangan.",
-              "© 2026 Hazratnavoi.uz. Барча ҳуқуқлар ҳимояланган."
-            )}
-          </p>
-          <p className="text-white/30 text-xs">
-            {label(lang, "Navoiy, O'zbekiston", "Навоий, Ўзбекистон")}
-          </p>
+        {/* Bottom Bar */}
+        <div className="border-t border-emerald-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-emerald-300 text-sm text-center md:text-left">
+                © {currentYear} Hazratnavoi.uz — {label(lang, "Барча ҳуқуқлар ҳимояланган", "Барча ҳуқуқлар ҳимояланган")}
+              </p>
+              <p className="text-emerald-400 text-xs">
+                {label(
+                  lang,
+                  "Темуржон домла Атоев — Бош имом-хатиб",
+                  "Темуржон домла Атоев — Бош имом-хатиб"
+                )}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

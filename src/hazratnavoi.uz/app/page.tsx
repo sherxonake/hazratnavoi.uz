@@ -7,6 +7,7 @@ import { ImamSection } from "@/components/imam-section"
 import { IslamicCalendar } from "@/components/islamic-calendar"
 import { QiblaCompass } from "@/components/qibla-compass"
 import { TasbihCounter } from "@/components/tasbih-counter"
+import { VideoSection } from "@/components/video-section"
 import { HeritageSection } from "@/components/heritage-section"
 import { NewsSection } from "@/components/news-section"
 import { QASection } from "@/components/qa-section"
@@ -27,6 +28,7 @@ export default function Home() {
       <IslamicCalendar lang={lang} />
       <QiblaCompass lang={lang} />
       <TasbihCounter lang={lang} />
+      <VideoSection lang={lang} />
       <HeritageSection lang={lang} />
       <NewsSection lang={lang} />
       <QASection lang={lang} />
