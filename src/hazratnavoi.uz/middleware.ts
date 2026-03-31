@@ -5,8 +5,10 @@ const ADMIN_USERNAME = 'admin'
 const ADMIN_PASSWORD = 'xazrat123'
 
 export function middleware(request: NextRequest) {
-  // Проверяем, что это админ-панель
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  const pathname = request.nextUrl.pathname
+  
+  // Проверяем, что это админ-панель (но не логин)
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     // Получаем куки
     const authCookie = request.cookies.get('admin-auth')?.value
     
