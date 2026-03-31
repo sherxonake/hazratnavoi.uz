@@ -15,9 +15,9 @@ interface SocialLinks {
 
 // Социал тармоқлар (Ҳазрат Навоий жоме масжиди)
 const SOCIAL_LINKS: SocialLinks = {
-  youtube: "https://youtube.com/@hazratnavoi", // Ўзгартириш керак
-  telegram: "https://t.me/hazratnavoi", // Ўзгартириш керак
-  instagram: "https://instagram.com/hazratnavoi", // Ўзгартириш керак
+  youtube: "https://www.youtube.com/@hazratnavoiuz",
+  telegram: "https://t.me/hazratnavoiuz", // Ўзгартириш керак
+  instagram: "https://instagram.com/hazratnavoiuz", // Ўзгартириш керак
 }
 
 export function Footer({ lang }: { lang: Lang }) {
