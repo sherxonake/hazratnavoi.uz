@@ -1,0 +1,47 @@
+// Islamic patterns CSS
+@layer utilities {
+  /* Traditional Uzbek "Paxta" (Cotton) pattern */
+  .uzbek-paxta-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23ca8a04' stroke-width='0.5' opacity='0.15'%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3Ccircle cx='40' cy='20' r='6'/%3E%3Ccircle cx='40' cy='60' r='6'/%3E%3Ccircle cx='20' cy='40' r='6'/%3E%3Ccircle cx='60' cy='40' r='6'/%3E%3Cpath d='M40 12 L40 28 M40 52 L40 68 M12 40 L28 40 M52 40 L68 40'/%3E%3Cpath d='M25 25 L35 35 M45 45 L55 55 M25 55 L35 45 M45 35 L55 25'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* Traditional "Islimiy" (Arabesque) pattern */
+  .islamiy-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23166534' stroke-width='0.6' opacity='0.12'%3E%3Cpath d='M50 10 Q70 30 50 50 Q30 70 50 90'/%3E%3Cpath d='M50 10 Q30 30 50 50 Q70 70 50 90'/%3E%3Cpath d='M10 50 Q30 30 50 50 Q70 30 90 50'/%3E%3Cpath d='M10 50 Q30 70 50 50 Q70 70 90 50'/%3E%3Ccircle cx='50' cy='50' r='5'/%3E%3Ccircle cx='50' cy='50' r='15' stroke-dasharray='2 2'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* Samarkand tile pattern */
+  .samarkand-tile-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%231e40af' stroke-width='0.5' opacity='0.2'%3E%3Crect x='5' y='5' width='20' height='20'/%3E%3Crect x='35' y='5' width='20' height='20'/%3E%3Crect x='5' y='35' width='20' height='20'/%3E%3Crect x='35' y='35' width='20' height='20'/%3E%3Cpath d='M15 15 L25 25 M35 45 L45 55 M15 45 L25 35 M35 15 L45 25'/%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* Rub el Hizb (Islamic star) pattern */
+  .rub-el-hizb-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23ca8a04' stroke-width='0.6' opacity='0.18'%3E%3Crect x='10' y='10' width='28' height='28' transform='rotate(45 24 24)'/%3E%3Crect x='42' y='10' width='28' height='28' transform='rotate(45 56 24)'/%3E%3Crect x='10' y='42' width='28' height='28' transform='rotate(45 24 56)'/%3E%3Crect x='42' y='42' width='28' height='28' transform='rotate(45 56 56)'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* Minaret silhouette pattern */
+  .minaret-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80' viewBox='0 0 120 80'%3E%3Cg fill='none' stroke='%23166534' stroke-width='0.4' opacity='0.1'%3E%3Cpath d='M20 80 L20 50 L25 45 L25 20 L22 15 L28 10 L34 15 L31 20 L31 45 L36 50 L36 80'/%3E%3Cpath d='M60 80 L60 40 L66 35 L66 15 L62 8 L68 2 L74 8 L70 15 L70 35 L76 40 L76 80'/%3E%3Cpath d='M100 80 L100 55 L104 50 L104 30 L101 25 L107 20 L113 25 L110 30 L110 50 L114 55 L114 80'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* Dome pattern */
+  .dome-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'%3E%3Cg fill='none' stroke='%231e40af' stroke-width='0.5' opacity='0.12'%3E%3Cpath d='M10 60 L10 40 Q10 10 30 10 Q50 10 50 40 L50 60'/%3E%3Cpath d='M50 60 L50 35 Q50 5 70 5 Q90 5 90 35 L90 60'/%3E%3Ccircle cx='30' cy='35' r='3'/%3E%3Ccircle cx='70' cy='30' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+}
+
+/* Islamic pattern color variants */
+.islamic-pattern-gold {
+  filter: hue-rotate(30deg) saturate(1.5);
+}
+
+.islamic-pattern-blue {
+  filter: hue-rotate(180deg) saturate(1.2);
+}
