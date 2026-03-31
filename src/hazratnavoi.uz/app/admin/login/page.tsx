@@ -21,9 +21,9 @@ export default function AdminLoginPage() {
       if (username === 'admin' && password === 'xazrat123') {
         // Устанавливаем куку
         document.cookie = `admin-auth=${btoa(`${username}:${password}`)}; path=/; max-age=${60 * 60 * 24 * 7}`
-        
-        // Перенаправляем в админку
-        router.push('/admin')
+
+        // Перезагружаем страницу для применения middleware
+        window.location.href = '/admin'
       } else {
         setError('❌ Логин ёки парол нотўғри!')
       }
