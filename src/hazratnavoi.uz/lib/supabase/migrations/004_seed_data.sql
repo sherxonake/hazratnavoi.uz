@@ -134,22 +134,22 @@ INSERT INTO imam_messages (title, content, published) VALUES
 -- ============================================
 
 -- Проверка количества записей
-SELECT 
-  ''news'' as table_name, 
-  COUNT(*) as row_count 
+SELECT
+  'news' as table_name,
+  COUNT(*) as row_count
 FROM news
 UNION ALL
-SELECT 
-  ''qa_pairs'' as table_name, 
-  COUNT(*) as row_count 
+SELECT
+  'qa_pairs' as table_name,
+  COUNT(*) as row_count
 FROM qa_pairs
 UNION ALL
-SELECT 
-  ''prayer_times'' as table_name, 
-  COUNT(*) as row_count 
+SELECT
+  'prayer_times' as table_name,
+  COUNT(*) as row_count
 FROM prayer_times
 UNION ALL
-SELECT 
-  ''imam_messages'' as table_name, 
-  COUNT(*) as row_count 
+SELECT
+  'imam_messages' as table_name,
+  COUNT(*) as row_count
 FROM imam_messages;
