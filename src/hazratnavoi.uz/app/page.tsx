@@ -15,7 +15,7 @@ import { Footer } from "@/components/footer"
 type Lang = "latin" | "cyrillic"
 
 export default function Home() {
-  const [lang, setLang] = useState<Lang>("latin")
+  const [lang, setLang] = useState<Lang>("cyrillic") // Кирилл по умолчанию
 
   const toggleLang = () => setLang((prev) => (prev === "latin" ? "cyrillic" : "latin"))
 

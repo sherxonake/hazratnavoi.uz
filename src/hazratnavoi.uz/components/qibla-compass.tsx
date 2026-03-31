@@ -83,23 +83,26 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
   }
 
   return (
-    <section className="relative py-20 lg:py-28 bg-gradient-to-br from-emerald-deep via-sapphire to-emerald-deep overflow-hidden">
-      {/* Animated background patterns */}
-      <div className="absolute inset-0 rub-el-hizb-pattern opacity-20 animate-pulse" aria-hidden="true" />
+    <section className="relative py-20 lg:py-28 bg-gradient-to-br from-sapphire via-emerald-deep to-sapphire overflow-hidden">
+      <div className="absolute inset-0 rub-el-hizb-pattern opacity-25" aria-hidden="true" />
       
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center gap-3 mb-4 justify-center">
-            <Moon className="w-8 h-8 text-yellow-400" aria-hidden="true" />
-            <span className="text-yellow-400/80 text-xs font-semibold uppercase tracking-widest">
-              {label(lang, "Қибла компаси", "Qibla kompasi")}
-            </span>
+            <div className="w-12 h-12 rounded-2xl bg-yellow-500/20 flex items-center justify-center">
+              <Moon className="w-6 h-6 text-yellow-400" aria-hidden="true" />
+            </div>
+            <div>
+              <span className="text-yellow-400 text-xs font-semibold uppercase tracking-widest block mb-1">
+                {label(lang, "ҚИБЛА КОМПАСИ", "QIBLA KOMPASI")}
+              </span>
+              <h2 className="font-serif text-white text-3xl sm:text-4xl font-bold">
+                {label(lang, "Қиблага томон", "Qiblaga tomon")}
+              </h2>
+            </div>
           </div>
-          <h2 className="font-serif text-white text-3xl sm:text-4xl font-bold mb-3">
-            {label(lang, "Қиблага томон", "Qiblaga tomon")}
-          </h2>
-          <p className="text-white/60 text-sm max-w-md mx-auto">
+          <p className="text-white/70 text-base max-w-md mx-auto leading-relaxed">
             {label(
               lang,
               "Навоий шаҳридан Макка шаҳри томон йўналиш",
@@ -109,7 +112,7 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
         </div>
 
         {/* Main Compass Card */}
-        <div className="bg-white/10 backdrop-blur-2xl rounded-3xl border border-white/20 p-8 lg:p-12 shadow-2xl">
+        <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-3xl border border-white/20 p-6 lg:p-10 shadow-2xl">
           <div className="flex flex-col items-center gap-8">
             {/* Qibla Angle Display */}
             <div className="text-center">
