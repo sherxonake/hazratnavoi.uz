@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Loader2, Clock, Calendar, MessageSquare } from "lucide-react"
+import { Loader2, Clock, Calendar } from "lucide-react"
 import { supabaseAdmin } from "@/lib/supabase/server"
 
 interface PrayerTime {
@@ -28,9 +28,6 @@ export default function AdminPrayerTimesPage() {
   const [prayerTimes, setPrayerTimes] = useState<PrayerTime[]>([])
   
   const today = new Date().toISOString().split('T')[0]
-  
-  // Автоматик парсер учун матн майдони
-  const [telegramText, setTelegramText] = useState("")
   
   // Намоз вақтлари (шаҳар)
   const [formData, setFormData] = useState<PrayerTime>({
@@ -69,49 +66,6 @@ export default function AdminPrayerTimesPage() {
     } catch (error) {
       console.error('Error loading prayer times:', error)
     }
-  }
-
-  // Telegram текстдан намоз вақтларини автоматик ажратиш
-  const parseTelegramText = () => {
-    const text = telegramText
-    
-    // Шаҳар намоз вақтлари
-    const fajrMatch = text.match(/🏙\s*Бомдод\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    const sunriseMatch = text.match(/🌅\s*Куёш\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    const dhuhrMatch = text.match(/🏞\s*Пешин\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    const asrMatch = text.match(/🌇\s*Аср\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    const maghribMatch = text.match(/🌆\s*Шом\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    const ishaMatch = text.match(/🌃\s*Хуфтон\s*[-–—]?\s*(\d{1,2}:\d{2})/)
-    
-    if (fajrMatch) setFormData(prev => ({ ...prev, fajr: fajrMatch[1] }))
-    if (sunriseMatch) setFormData(prev => ({ ...prev, sunrise: sunriseMatch[1] }))
-    if (dhuhrMatch) setFormData(prev => ({ ...prev, dhuhr: dhuhrMatch[1] }))
-    if (asrMatch) setFormData(prev => ({ ...prev, asr: asrMatch[1] }))
-    if (maghribMatch) setFormData(prev => ({ ...prev, maghrib: maghribMatch[1] }))
-    if (ishaMatch) setFormData(prev => ({ ...prev, isha: ishaMatch[1] }))
-    
-    // Жамоат намоз вақтлари
-    const jamaatFajrMatch = text.match(/⏰\s*Бомдод\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
-    const jamaatDhuhrMatch = text.match(/⏰\s*Пешин\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
-    const jamaatAsrMatch = text.match(/⏰\s*Аср\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
-    const jamaatMaghribMatch = text.match(/⏰\s*Шом\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
-    const jamaatIshaMatch = text.match(/⏰\s*Хуфтон\s*[-–—|]?\s*(\d{1,2}:\d{2})/)
-    
-    if (jamaatFajrMatch) setJamaatData(prev => ({ ...prev, fajr: jamaatFajrMatch[1] }))
-    if (jamaatDhuhrMatch) setJamaatData(prev => ({ ...prev, dhuhr: jamaatDhuhrMatch[1] }))
-    if (jamaatAsrMatch) setJamaatData(prev => ({ ...prev, asr: jamaatAsrMatch[1] }))
-    if (jamaatMaghribMatch) setJamaatData(prev => ({ ...prev, maghrib: jamaatMaghribMatch[1] }))
-    if (jamaatIshaMatch) setJamaatData(prev => ({ ...prev, isha: jamaatIshaMatch[1] }))
-    
-    // Санани ҳам ажратиш
-    const dateMatch = text.match(/(\d{2}\.\d{2}\.\d{4})/)
-    if (dateMatch) {
-      const [day, month, year] = dateMatch[1].split('.')
-      const formattedDate = `${year}-${month}-${day}`
-      setFormData(prev => ({ ...prev, date: formattedDate }))
-    }
-    
-    setMessage({ type: 'success', text: '✅ Намоз вақтлари автоматик ажратилди!' })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -160,7 +114,7 @@ export default function AdminPrayerTimesPage() {
           Намоз вақтлари
         </h1>
         <p className="text-gray-600">
-          Навоий шаҳри учун намоз вақтларини янгилаш
+          Навоий шаҳри ва Алишер Навоий масжиди учун
         </p>
       </div>
 
@@ -175,200 +129,164 @@ export default function AdminPrayerTimesPage() {
         </div>
       )}
 
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Telegram текст парсер */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <MessageSquare className="w-5 h-5 text-emerald-600" />
-            Автоматик ажратиш
-          </h2>
-          <p className="text-sm text-gray-600 mb-4">
-            Telegram'дан келган хабарни нусхалаб, қуйидаги майдонга ташланг:
-          </p>
-          <textarea
-            value={telegramText}
-            onChange={(e) => setTelegramText(e.target.value)}
-            placeholder="31.03.2026 йил, (1447 ҳижрий йил 12 Шаввол ) Сешанба Навоийда намоз кириш вақтлари:
-🏙  Бомдод - 05:05
-🌅  Куёш -06:24
-🏞  Пешин - 12:42
-🌇  Аср -17:10
-🌆  Шом - 19:05
-🌃  Хуфтон - 20:16..."
-            rows={8}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none text-sm mb-4"
-          />
+      <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Дата */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-emerald-600" />
+              Сана
+            </label>
+            <input
+              type="date"
+              value={formData.date}
+              onChange={(e) => handleInputChange('date', e.target.value)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+            />
+          </div>
+
+          {/* Шаҳар вақтлари */}
+          <div>
+            <h3 className="text-lg font-semibold text-emerald-700 mb-4 flex items-center gap-2">
+              <span className="text-2xl">🏙</span>
+              Навоий шаҳрида намоз кириш вақтлари:
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Бомдод (Fajr)</label>
+                <input
+                  type="time"
+                  value={formData.fajr}
+                  onChange={(e) => handleInputChange('fajr', e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Қуёш (Sunrise)</label>
+                <input
+                  type="time"
+                  value={formData.sunrise}
+                  onChange={(e) => handleInputChange('sunrise', e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Пешин (Dhuhr)</label>
+                <input
+                  type="time"
+                  value={formData.dhuhr}
+                  onChange={(e) => handleInputChange('dhuhr', e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Аср (Asr)</label>
+                <input
+                  type="time"
+                  value={formData.asr}
+                  onChange={(e) => handleInputChange('asr', e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Шом (Maghrib)</label>
+                <input
+                  type="time"
+                  value={formData.maghrib}
+                  onChange={(e) => handleInputChange('maghrib', e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Хуфтон (Isha)</label>
+                <input
+                  type="time"
+                  value={formData.isha}
+                  onChange={(e) => handleInputChange('isha', e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Жамоат вақтлари */}
+          <div>
+            <h3 className="text-lg font-semibold text-emerald-700 mb-4 flex items-center gap-2">
+              <span className="text-2xl">⏰</span>
+              Алишер Навоий масжидида жамоат вақтлари:
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Бомдод</label>
+                <input
+                  type="time"
+                  value={jamaatData.fajr}
+                  onChange={(e) => setJamaatData(prev => ({ ...prev, fajr: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Пешин</label>
+                <input
+                  type="time"
+                  value={jamaatData.dhuhr}
+                  onChange={(e) => setJamaatData(prev => ({ ...prev, dhuhr: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Аср</label>
+                <input
+                  type="time"
+                  value={jamaatData.asr}
+                  onChange={(e) => setJamaatData(prev => ({ ...prev, asr: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Шом</label>
+                <input
+                  type="time"
+                  value={jamaatData.maghrib}
+                  onChange={(e) => setJamaatData(prev => ({ ...prev, maghrib: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-2">Хуфтон</label>
+                <input
+                  type="time"
+                  value={jamaatData.isha}
+                  onChange={(e) => setJamaatData(prev => ({ ...prev, isha: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Тугма */}
           <button
-            onClick={parseTelegramText}
-            className="w-full bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-emerald-700 transition-all duration-300 flex items-center justify-center gap-2"
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold px-8 py-4 rounded-xl hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
           >
-            <MessageSquare className="w-5 h-5" />
-            Автоматик ажратиш
+            {loading && <Loader2 className="w-6 h-6 animate-spin" />}
+            {loading ? 'Сақланмоқда...' : '💾 Сақлаш'}
           </button>
-          <p className="text-xs text-gray-500 mt-2">
-            Тизим намоз вақтларини автоматик тўлдиради
-          </p>
-        </div>
-
-        {/* Форма */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-            <Clock className="w-5 h-5 text-emerald-600" />
-            Намоз вақтлари
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Дата */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                Сана
-              </label>
-              <input
-                type="date"
-                value={formData.date}
-                onChange={(e) => handleInputChange('date', e.target.value)}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-              />
-            </div>
-
-            {/* Шаҳар вақтлари */}
-            <div>
-              <h3 className="text-sm font-semibold text-emerald-700 mb-3">🏙 Навоий шаҳрида намоз кириш вақтлари:</h3>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Бомдод</label>
-                  <input
-                    type="time"
-                    value={formData.fajr}
-                    onChange={(e) => handleInputChange('fajr', e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Қуёш</label>
-                  <input
-                    type="time"
-                    value={formData.sunrise}
-                    onChange={(e) => handleInputChange('sunrise', e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Пешин</label>
-                  <input
-                    type="time"
-                    value={formData.dhuhr}
-                    onChange={(e) => handleInputChange('dhuhr', e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Аср</label>
-                  <input
-                    type="time"
-                    value={formData.asr}
-                    onChange={(e) => handleInputChange('asr', e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Шом</label>
-                  <input
-                    type="time"
-                    value={formData.maghrib}
-                    onChange={(e) => handleInputChange('maghrib', e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Хуфтон</label>
-                  <input
-                    type="time"
-                    value={formData.isha}
-                    onChange={(e) => handleInputChange('isha', e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Жамоат вақтлари */}
-            <div>
-              <h3 className="text-sm font-semibold text-emerald-700 mb-3">⏰ Алишер Навоий масжидида жамоат вақтлари:</h3>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Бомдод</label>
-                  <input
-                    type="time"
-                    value={jamaatData.fajr}
-                    onChange={(e) => setJamaatData(prev => ({ ...prev, fajr: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Пешин</label>
-                  <input
-                    type="time"
-                    value={jamaatData.dhuhr}
-                    onChange={(e) => setJamaatData(prev => ({ ...prev, dhuhr: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Аср</label>
-                  <input
-                    type="time"
-                    value={jamaatData.asr}
-                    onChange={(e) => setJamaatData(prev => ({ ...prev, asr: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Шом</label>
-                  <input
-                    type="time"
-                    value={jamaatData.maghrib}
-                    onChange={(e) => setJamaatData(prev => ({ ...prev, maghrib: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Хуфтон</label>
-                  <input
-                    type="time"
-                    value={jamaatData.isha}
-                    onChange={(e) => setJamaatData(prev => ({ ...prev, isha: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Тугма */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-emerald-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-              {loading ? 'Сақланмоқда...' : 'Сақлаш'}
-            </button>
-          </form>
-        </div>
+        </form>
       </div>
 
       {/* Рўйхат */}
-      <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+      <div className="mt-8 bg-white rounded-xl p-6 shadow-lg border border-gray-200">
         <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-          <Clock className="w-5 h-5 text-emerald-600" />
+          <Clock className="w-6 h-6 text-emerald-600" />
           Охирги 7 кун
         </h2>
 
@@ -381,42 +299,90 @@ export default function AdminPrayerTimesPage() {
             prayerTimes.map((pt) => (
               <div
                 key={pt.id}
-                className="border border-gray-200 rounded-lg p-4 hover:border-emerald-300 transition-colors"
+                className="border border-gray-200 rounded-xl p-5 hover:border-emerald-300 transition-colors"
               >
-                <p className="font-semibold text-gray-800 mb-2">
+                <p className="font-bold text-gray-800 mb-4 text-lg">
                   {new Date(pt.date).toLocaleDateString('uz-UZ', {
                     weekday: 'long',
                     day: 'numeric',
-                    month: 'long'
+                    month: 'long',
+                    year: 'numeric'
                   })}
                 </p>
-                <div className="grid grid-cols-3 gap-2 text-sm">
-                  <div className="text-gray-600">
-                    <span className="text-xs text-gray-400">Бомдод:</span>
-                    <br />
-                    {pt.fajr.substring(0, 5)}
-                  </div>
-                  <div className="text-gray-600">
-                    <span className="text-xs text-gray-400">Пешин:</span>
-                    <br />
-                    {pt.dhuhr.substring(0, 5)}
-                  </div>
-                  <div className="text-gray-600">
-                    <span className="text-xs text-gray-400">Аср:</span>
-                    <br />
-                    {pt.asr.substring(0, 5)}
-                  </div>
-                  <div className="text-gray-600">
-                    <span className="text-xs text-gray-400">Шом:</span>
-                    <br />
-                    {pt.maghrib.substring(0, 5)}
-                  </div>
-                  <div className="text-gray-600">
-                    <span className="text-xs text-gray-400">Хуфтон:</span>
-                    <br />
-                    {pt.isha.substring(0, 5)}
+                
+                {/* Шаҳар вақтлари */}
+                <div className="mb-4">
+                  <h4 className="text-sm font-semibold text-emerald-700 mb-2 flex items-center gap-2">
+                    <span>🏙</span> Навоий шаҳри:
+                  </h4>
+                  <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <p className="text-xs text-gray-500">Бомдод</p>
+                      <p className="font-semibold text-gray-800">{pt.fajr.substring(0, 5)}</p>
+                    </div>
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <p className="text-xs text-gray-500">Қуёш</p>
+                      <p className="font-semibold text-gray-800">{pt.sunrise.substring(0, 5)}</p>
+                    </div>
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <p className="text-xs text-gray-500">Пешин</p>
+                      <p className="font-semibold text-gray-800">{pt.dhuhr.substring(0, 5)}</p>
+                    </div>
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <p className="text-xs text-gray-500">Аср</p>
+                      <p className="font-semibold text-gray-800">{pt.asr.substring(0, 5)}</p>
+                    </div>
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <p className="text-xs text-gray-500">Шом</p>
+                      <p className="font-semibold text-gray-800">{pt.maghrib.substring(0, 5)}</p>
+                    </div>
+                    <div className="text-center p-2 bg-gray-50 rounded-lg">
+                      <p className="text-xs text-gray-500">Хуфтон</p>
+                      <p className="font-semibold text-gray-800">{pt.isha.substring(0, 5)}</p>
+                    </div>
                   </div>
                 </div>
+
+                {/* Жамоат вақтлари */}
+                {(pt.jamaat_fajr || pt.jamaat_dhuhr || pt.jamaat_asr || pt.jamaat_maghrib || pt.jamaat_isha) && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-emerald-700 mb-2 flex items-center gap-2">
+                      <span>⏰</span> Масжид жамоати:
+                    </h4>
+                    <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
+                      {pt.jamaat_fajr && (
+                        <div className="text-center p-2 bg-emerald-50 rounded-lg">
+                          <p className="text-xs text-emerald-600">Бомдод</p>
+                          <p className="font-bold text-emerald-800">{pt.jamaat_fajr.substring(0, 5)}</p>
+                        </div>
+                      )}
+                      {pt.jamaat_dhuhr && (
+                        <div className="text-center p-2 bg-emerald-50 rounded-lg">
+                          <p className="text-xs text-emerald-600">Пешин</p>
+                          <p className="font-bold text-emerald-800">{pt.jamaat_dhuhr.substring(0, 5)}</p>
+                        </div>
+                      )}
+                      {pt.jamaat_asr && (
+                        <div className="text-center p-2 bg-emerald-50 rounded-lg">
+                          <p className="text-xs text-emerald-600">Аср</p>
+                          <p className="font-bold text-emerald-800">{pt.jamaat_asr.substring(0, 5)}</p>
+                        </div>
+                      )}
+                      {pt.jamaat_maghrib && (
+                        <div className="text-center p-2 bg-emerald-50 rounded-lg">
+                          <p className="text-xs text-emerald-600">Шом</p>
+                          <p className="font-bold text-emerald-800">{pt.jamaat_maghrib.substring(0, 5)}</p>
+                        </div>
+                      )}
+                      {pt.jamaat_isha && (
+                        <div className="text-center p-2 bg-emerald-50 rounded-lg">
+                          <p className="text-xs text-emerald-600">Хуфтон</p>
+                          <p className="font-bold text-emerald-800">{pt.jamaat_isha.substring(0, 5)}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             ))
           )}
