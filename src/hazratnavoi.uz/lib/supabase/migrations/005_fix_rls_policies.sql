@@ -1,25 +1,22 @@
 -- ============================================
--- HAZRATNAVOI.UZ — RLS Политиклари (Админ панел учун)
+-- HAZRATNAVOI.UZ — RLS Политиклари (Тўлиқ reset)
 -- ============================================
--- Бу SQL Supabase SQL Editor'да ишга туширинг
+-- Supabase SQL Editor'да ишга туширинг:
 -- https://supabase.com/dashboard/project/rbmkdwkbdvglekouekik/sql/new
 
 -- ============================================
--- RLS'ни ўчириш (Админ панел учун вақтинча)
+-- NEWS
 -- ============================================
--- ЭСКЕРТИШ: Бу фақат лойиҳа бошланишида. 
--- Кейинчалик Supabase Auth билан алмаштиринг!
-
--- NEWS учун RLS политикларини янгилаш
 DROP POLICY IF EXISTS "Public can view published news" ON news;
 DROP POLICY IF EXISTS "Admins can manage news" ON news;
+DROP POLICY IF EXISTS "Anyone can insert news" ON news;
+DROP POLICY IF EXISTS "Anyone can update news" ON news;
+DROP POLICY IF EXISTS "Anyone can delete news" ON news;
 
--- Ҳамма ўқий олади (опубликованное)
 CREATE POLICY "Public can view published news"
   ON news FOR SELECT
   USING (published = true);
 
--- Ҳамма ёза олади (вақтинча - админ панел учун)
 CREATE POLICY "Anyone can insert news"
   ON news FOR INSERT
   WITH CHECK (true);
@@ -33,10 +30,13 @@ CREATE POLICY "Anyone can delete news"
   USING (true);
 
 -- ============================================
--- QA_PAIRS учун RLS политикларини янгилаш
+-- QA_PAIRS
 -- ============================================
 DROP POLICY IF EXISTS "Public can view published qa pairs" ON qa_pairs;
 DROP POLICY IF EXISTS "Admins can manage qa pairs" ON qa_pairs;
+DROP POLICY IF EXISTS "Anyone can insert qa pairs" ON qa_pairs;
+DROP POLICY IF EXISTS "Anyone can update qa pairs" ON qa_pairs;
+DROP POLICY IF EXISTS "Anyone can delete qa pairs" ON qa_pairs;
 
 CREATE POLICY "Public can view published qa pairs"
   ON qa_pairs FOR SELECT
@@ -55,10 +55,13 @@ CREATE POLICY "Anyone can delete qa pairs"
   USING (true);
 
 -- ============================================
--- PRAYER_TIMES учун RLS политикларини янгилаш
+-- PRAYER_TIMES
 -- ============================================
 DROP POLICY IF EXISTS "Public can view prayer times" ON prayer_times;
 DROP POLICY IF EXISTS "Admins can manage prayer times" ON prayer_times;
+DROP POLICY IF EXISTS "Anyone can insert prayer times" ON prayer_times;
+DROP POLICY IF EXISTS "Anyone can update prayer times" ON prayer_times;
+DROP POLICY IF EXISTS "Anyone can delete prayer times" ON prayer_times;
 
 CREATE POLICY "Public can view prayer times"
   ON prayer_times FOR SELECT
@@ -77,10 +80,13 @@ CREATE POLICY "Anyone can delete prayer times"
   USING (true);
 
 -- ============================================
--- IMAM_MESSAGES учун RLS политикларини янгилаш
+-- IMAM_MESSAGES
 -- ============================================
 DROP POLICY IF EXISTS "Public can view published imam messages" ON imam_messages;
 DROP POLICY IF EXISTS "Admins can manage imam messages" ON imam_messages;
+DROP POLICY IF EXISTS "Anyone can insert imam messages" ON imam_messages;
+DROP POLICY IF EXISTS "Anyone can update imam messages" ON imam_messages;
+DROP POLICY IF EXISTS "Anyone can delete imam messages" ON imam_messages;
 
 CREATE POLICY "Public can view published imam messages"
   ON imam_messages FOR SELECT
@@ -99,30 +105,24 @@ CREATE POLICY "Anyone can delete imam messages"
   USING (true);
 
 -- ============================================
--- STORAGE BUCKET учун политиклар
+-- STORAGE BUCKET
 -- ============================================
--- Storage bucket'ни оммавий қилиш
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('hazratnavoi-images', 'hazratnavoi-images', true)
 ON CONFLICT (id) DO UPDATE SET public = true;
 
--- Ҳамма расм кўра олади
+DROP POLICY IF EXISTS "Public Access" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can upload images" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can delete images" ON storage.objects;
+
 CREATE POLICY "Public Access"
-ON storage.objects FOR SELECT
-USING (bucket_id = 'hazratnavoi-images');
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'hazratnavoi-images');
 
--- Ҳамма расм юклаш олади (вақтинча)
 CREATE POLICY "Anyone can upload images"
-ON storage.objects FOR INSERT
-WITH CHECK (bucket_id = 'hazratnavoi-images');
+  ON storage.objects FOR INSERT
+  WITH CHECK (bucket_id = 'hazratnavoi-images');
 
--- Ҳамма расм ўчира олади (вақтинча)
 CREATE POLICY "Anyone can delete images"
-ON storage.objects FOR DELETE
-USING (bucket_id = 'hazratnavoi-images');
-
--- ============================================
--- ТАККОМОЛЛАШ
--- ============================================
--- ЭСКЕРТИШ: Бу политиклар лойиҳа бошланишида қулай,
--- лекин production'да Supabase Auth ишлатиш тавсия этилади!
+  ON storage.objects FOR DELETE
+  USING (bucket_id = 'hazratnavoi-images');
