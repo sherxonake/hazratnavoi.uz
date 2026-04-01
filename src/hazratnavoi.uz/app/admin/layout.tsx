@@ -46,6 +46,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  // Login саҳифасида sidebar кўрсатмаслик
+  if (pathname === '/admin/login') {
+    return <>{children}</>
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Mobile Sidebar Overlay */}

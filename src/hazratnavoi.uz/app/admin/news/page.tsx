@@ -76,9 +76,9 @@ export default function AdminNewsPage() {
       setContent("")
       removeImage()
 
-      // 2 сониядан кейин саҳифани янгилаш
+      // 2 сониядан кейин dashboard га қайтиш
       setTimeout(() => {
-        router.push('/admin/news')
+        router.push('/admin')
       }, 2000)
 
     } catch (error) {
