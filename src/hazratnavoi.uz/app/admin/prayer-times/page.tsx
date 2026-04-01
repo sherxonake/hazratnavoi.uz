@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2, Clock, Calendar } from "lucide-react"
-import { supabaseAdmin } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/client"
 
 interface PrayerTime {
   id?: string
@@ -26,9 +26,9 @@ export default function AdminPrayerTimesPage() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [prayerTimes, setPrayerTimes] = useState<PrayerTime[]>([])
-  
+
   const today = new Date().toISOString().split('T')[0]
-  
+
   // Намоз вақтлари (шаҳар)
   const [formData, setFormData] = useState<PrayerTime>({
     date: today,
@@ -39,7 +39,7 @@ export default function AdminPrayerTimesPage() {
     maghrib: '',
     isha: ''
   })
-  
+
   // Жамоат намози вақтлари (масжид)
   const [jamaatData, setJamaatData] = useState({
     fajr: '',
@@ -55,7 +55,7 @@ export default function AdminPrayerTimesPage() {
 
   async function loadPrayerTimes() {
     try {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await supabase
         .from('prayer_times')
         .select('*')
         .order('date', { ascending: false })
@@ -74,7 +74,7 @@ export default function AdminPrayerTimesPage() {
     setMessage(null)
 
     try {
-      const { error } = await supabaseAdmin.from('prayer_times').upsert({
+      const { error } = await supabase.from('prayer_times').upsert({
         date: formData.date,
         fajr: formData.fajr + ':00',
         sunrise: formData.sunrise + ':00',

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2, Plus, Edit, Trash2 } from "lucide-react"
-import { supabaseAdmin } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/client"
 
 interface QAPair {
   id: string
@@ -20,7 +20,7 @@ export default function AdminQAPage() {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [qaPairs, setQAPairs] = useState<QAPair[]>([])
   const [isAdding, setIsAdding] = useState(false)
-  
+
   const [formData, setFormData] = useState({
     question: '',
     answer: '',
@@ -34,7 +34,7 @@ export default function AdminQAPage() {
 
   async function loadQAPairs() {
     try {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await supabase
         .from('qa_pairs')
         .select('*')
         .order('order_num', { ascending: true })
@@ -52,7 +52,7 @@ export default function AdminQAPage() {
     setMessage(null)
 
     try {
-      const { error } = await supabaseAdmin.from('qa_pairs').insert({
+      const { error } = await supabase.from('qa_pairs').insert({
         question: formData.question,
         answer: formData.answer,
         category: formData.category || null,
@@ -63,7 +63,7 @@ export default function AdminQAPage() {
       if (error) throw error
 
       setMessage({ type: 'success', text: '✅ Савол-жавоб муваффақиятли қўшилди!' })
-      
+
       setFormData({
         question: '',
         answer: '',
@@ -85,9 +85,9 @@ export default function AdminQAPage() {
     if (!confirm('Ўчиришни истайсизми?')) return
 
     try {
-      const { error } = await supabaseAdmin.from('qa_pairs').delete().eq('id', id)
+      const { error } = await supabase.from('qa_pairs').delete().eq('id', id)
       if (error) throw error
-      
+
       setMessage({ type: 'success', text: '✅ Ўчирилди!' })
       loadQAPairs()
     } catch (error) {

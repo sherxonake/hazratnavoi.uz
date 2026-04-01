@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Upload, X, Loader2 } from "lucide-react"
-import { supabaseAdmin } from "@/lib/supabase/server"
+import { supabase } from "@/lib/supabase/client"
 
 export default function AdminNewsPage() {
   const router = useRouter()
@@ -39,10 +39,10 @@ export default function AdminNewsPage() {
     try {
       let imageUrl = null
 
-      // Загружаем изображение в Supabase Storage
+      // Расмни Supabase Storage'га юклаш
       if (image) {
         const fileName = `news/${Date.now()}-${image.name}`
-        const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+        const { data: uploadData, error: uploadError } = await supabase.storage
           .from('hazratnavoi-images')
           .upload(fileName, image, {
             cacheControl: '3600',
@@ -51,16 +51,16 @@ export default function AdminNewsPage() {
 
         if (uploadError) throw uploadError
 
-        // Получаем публичную ссылку
-        const { data: { publicUrl } } = supabaseAdmin.storage
+        // Оммавий ссылкани олиш
+        const { data: { publicUrl } } = supabase.storage
           .from('hazratnavoi-images')
           .getPublicUrl(fileName)
 
         imageUrl = publicUrl
       }
 
-      // Сохраняем новость в базу
-      const { error } = await supabaseAdmin.from('news').insert({
+      // Янгиликни базага сақлаш
+      const { error } = await supabase.from('news').insert({
         title,
         content,
         image_url: imageUrl,
@@ -70,15 +70,15 @@ export default function AdminNewsPage() {
       if (error) throw error
 
       setMessage({ type: 'success', text: '✅ Янгилик муваффақиятли қўшилди!' })
-      
-      // Очищаем форму
+
+      // Формани тозалаш
       setTitle("")
       setContent("")
       removeImage()
-      
-      // Перезагружаем страницу через 2 секунды
+
+      // 2 сониядан кейин саҳифани янгилаш
       setTimeout(() => {
-        router.refresh()
+        router.push('/admin/news')
       }, 2000)
 
     } catch (error) {
