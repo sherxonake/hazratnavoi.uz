@@ -17,16 +17,18 @@ export default function AdminNewsPage() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      setImage(file)
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string)
+      if (file.size > 5 * 1024 * 1024) {
+        setMessage({ type: 'error', text: '❌ Расм 5MB дан катта бўлмаслиги керак!' })
+        return
       }
-      reader.readAsDataURL(file)
+      setImage(file)
+      const objectUrl = URL.createObjectURL(file)
+      setImagePreview(objectUrl)
     }
   }
 
   const removeImage = () => {
+    if (imagePreview) URL.revokeObjectURL(imagePreview)
     setImage(null)
     setImagePreview(null)
   }
@@ -35,6 +37,12 @@ export default function AdminNewsPage() {
     e.preventDefault()
     setLoading(true)
     setMessage(null)
+
+    if (!title.trim() || !content.trim()) {
+      setMessage({ type: 'error', text: '❌ Сарлавҳа ва матн бўш бўлмаслиги керак!' })
+      setLoading(false)
+      return
+    }
 
     try {
       let imageUrl = null

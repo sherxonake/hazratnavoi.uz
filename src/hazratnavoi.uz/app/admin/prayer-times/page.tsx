@@ -87,7 +87,7 @@ export default function AdminPrayerTimesPage() {
         jamaat_asr: jamaatData.asr ? jamaatData.asr + ':00' : null,
         jamaat_maghrib: jamaatData.maghrib ? jamaatData.maghrib + ':00' : null,
         jamaat_isha: jamaatData.isha ? jamaatData.isha + ':00' : null,
-      })
+      }, { onConflict: 'date' })
 
       if (error) throw error
 

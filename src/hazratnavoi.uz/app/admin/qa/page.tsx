@@ -51,6 +51,12 @@ export default function AdminQAPage() {
     setLoading(true)
     setMessage(null)
 
+    if (!formData.question.trim() || !formData.answer.trim()) {
+      setMessage({ type: 'error', text: '❌ Савол ва жавоб бўш бўлмаслиги керак!' })
+      setLoading(false)
+      return
+    }
+
     try {
       const { error } = await supabase.from('qa_pairs').insert({
         question: formData.question,
