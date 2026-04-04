@@ -48,9 +48,10 @@ export function IslamicCalendar({ lang }: { lang: Lang }) {
   const monthName = hijriDate ? HijriCalendar.getMonthName(hijriDate.month, lang) : ""
 
   return (
-    <section className="py-16 lg:py-20 bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 relative overflow-hidden">
-      <div className="absolute inset-0 rub-el-hizb-pattern opacity-30" aria-hidden="true" />
-      
+    <section className="py-16 lg:py-20 bg-emerald-deep relative overflow-hidden">
+      <div className="absolute inset-0 islamic-pattern-gold pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, rgba(0,20,10,0.4) 100%)" }} aria-hidden="true" />
+
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
