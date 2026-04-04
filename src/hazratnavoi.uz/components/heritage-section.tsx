@@ -72,7 +72,7 @@ export function HeritageSection({ lang }: { lang: Lang }) {
             {label(
               lang,
               "Buyuk allomalarimiz va shoirlarimiz bizga qoldirgan ma'naviy meros.",
-              "Буюк аллломаларимиз ва шоирларимиз бизга қолдирган маьнавий мерос."
+              "Буюк алломаларимиз ва шоирларимиз бизга қолдирган маънавий мерос."
             )}
           </p>
         </div>

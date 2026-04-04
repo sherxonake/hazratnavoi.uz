@@ -146,11 +146,6 @@ export function Footer({ lang }: { lang: Lang }) {
                     {label(lang, "Савол-жавоб", "Савол-жавоб")}
                   </Link>
                 </li>
-                <li>
-                  <Link href="/admin/login" className="text-emerald-100 hover:text-yellow-400 transition-colors">
-                    {label(lang, "Админ панел", "Админ панел")}
-                  </Link>
-                </li>
               </ul>
             </div>
 

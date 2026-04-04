@@ -29,7 +29,7 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         scrolled
-          ? "bg-white/90 backdrop-blur-xl shadow-sm border-b border-border"
+          ? "bg-emerald-950/95 backdrop-blur-xl shadow-sm border-b border-emerald-800"
           : "bg-transparent"
       )}
     >
@@ -39,7 +39,7 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
           <a
             href="#bosh"
             className="flex items-center gap-3 group"
-            aria-label="Hazratnavoi.uz — Bosh sahifaga qaytish"
+            aria-label="Hazratnavoi.uz — Бош саҳифага қайтиш"
           >
             <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 flex-shrink-0">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
@@ -57,7 +57,7 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
               <span
                 className={cn(
                   "font-serif font-bold text-sm sm:text-base tracking-wide transition-colors duration-300",
-                  scrolled ? "text-heading" : "text-white"
+                  scrolled ? "text-yellow-400" : "text-white"
                 )}
               >
                 HAZRATNAVOI
@@ -65,7 +65,7 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
               <span
                 className={cn(
                   "text-xs tracking-widest transition-colors duration-300",
-                  scrolled ? "text-primary" : "text-emerald-300"
+                  scrolled ? "text-emerald-300" : "text-emerald-300"
                 )}
               >
                 .UZ
@@ -74,14 +74,14 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8" aria-label="Asosiy navigatsiya">
+          <nav className="hidden lg:flex items-center gap-8" aria-label="Асосий навигация">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 className={cn(
                   "text-sm font-medium transition-colors duration-300 hover:text-primary relative group",
-                  scrolled ? "text-foreground" : "text-white/90"
+                  scrolled ? "text-white/90" : "text-white/90"
                 )}
               >
                 {label(link.label, link.labelCyrillic)}
@@ -98,10 +98,10 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
               className={cn(
                 "text-xs font-semibold px-3 py-1.5 rounded-full border transition-all duration-300",
                 scrolled
-                  ? "border-border text-foreground hover:border-primary hover:text-primary"
+                  ? "border-white/40 text-white hover:border-yellow-400 hover:text-yellow-400"
                   : "border-white/40 text-white hover:border-white hover:bg-white/10"
               )}
-              aria-label="Tilni almashtirish"
+              aria-label="Тилни алмаштириш"
             >
               {lang === "latin" ? "Кирилл" : "Lotin"}
             </button>
@@ -122,10 +122,10 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
           <button
             className={cn(
               "lg:hidden p-2 rounded-lg transition-colors duration-300",
-              scrolled ? "text-foreground hover:bg-muted" : "text-white hover:bg-white/10"
+              scrolled ? "text-white hover:bg-white/10" : "text-white hover:bg-white/10"
             )}
             onClick={() => setMobileOpen((v) => !v)}
-            aria-label={mobileOpen ? "Menyuni yopish" : "Menyuni ochish"}
+            aria-label={mobileOpen ? "Менюни ёпиш" : "Менюни очиш"}
             aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -140,13 +140,13 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
           mobileOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
         )}
       >
-        <nav className="bg-white/95 backdrop-blur-xl border-t border-border px-4 py-6 flex flex-col gap-4">
+        <nav className="bg-emerald-950/95 backdrop-blur-xl border-t border-emerald-800 px-4 py-6 flex flex-col gap-4">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="text-foreground font-medium py-2 border-b border-border/50 hover:text-primary transition-colors duration-200"
+              className="text-white font-medium py-2 border-b border-emerald-800/50 hover:text-yellow-400 transition-colors duration-200"
             >
               {label(link.label, link.labelCyrillic)}
             </a>
@@ -154,7 +154,7 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
           <div className="flex items-center gap-3 pt-2">
             <button
               onClick={onToggleLang}
-              className="text-xs font-semibold px-3 py-1.5 rounded-full border border-border text-foreground hover:border-primary hover:text-primary transition-all duration-200"
+              className="text-xs font-semibold px-3 py-1.5 rounded-full border border-white/40 text-white hover:border-yellow-400 hover:text-yellow-400 transition-all duration-200"
             >
               {lang === "latin" ? "Кирилл" : "Lotin"}
             </button>

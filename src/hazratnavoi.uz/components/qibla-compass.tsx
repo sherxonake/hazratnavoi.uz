@@ -71,14 +71,14 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
   const isPointingToQibla = relativeAngle !== null && (relativeAngle < 10 || relativeAngle > 350)
 
   const getDirectionName = (angle: number): string => {
-    if (angle >= 337.5 || angle < 22.5) return label(lang, "Шимол", "Shimol")
-    if (angle >= 22.5 && angle < 67.5) return label(lang, "Шимол-Шарқ", "Shimol-Sharq")
-    if (angle >= 67.5 && angle < 112.5) return label(lang, "Шарқ", "Sharq")
-    if (angle >= 112.5 && angle < 157.5) return label(lang, "Жануб-Шарқ", "Janub-Sharq")
-    if (angle >= 157.5 && angle < 202.5) return label(lang, "Жануб", "Janub")
-    if (angle >= 202.5 && angle < 247.5) return label(lang, "Жануб-Ғарб", "Janub-G'arb")
-    if (angle >= 247.5 && angle < 292.5) return label(lang, "Ғарб", "G'arb")
-    if (angle >= 292.5 && angle < 337.5) return label(lang, "Шимол-Ғарб", "Shimol-G'arb")
+    if (angle >= 337.5 || angle < 22.5) return label(lang, "Shimol", "Шимол")
+    if (angle >= 22.5 && angle < 67.5) return label(lang, "Shimol-Sharq", "Шимол-Шарқ")
+    if (angle >= 67.5 && angle < 112.5) return label(lang, "Sharq", "Шарқ")
+    if (angle >= 112.5 && angle < 157.5) return label(lang, "Janub-Sharq", "Жануб-Шарқ")
+    if (angle >= 157.5 && angle < 202.5) return label(lang, "Janub", "Жануб")
+    if (angle >= 202.5 && angle < 247.5) return label(lang, "Janub-G'arb", "Жануб-Ғарб")
+    if (angle >= 247.5 && angle < 292.5) return label(lang, "G'arb", "Ғарб")
+    if (angle >= 292.5 && angle < 337.5) return label(lang, "Shimol-G'arb", "Шимол-Ғарб")
     return ""
   }
 
@@ -94,17 +94,17 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
               <Moon className="w-5 h-5 text-emerald-900" aria-hidden="true" />
             </div>
             <span className="text-yellow-400 text-sm font-bold uppercase tracking-widest">
-              {label(lang, "ҚИБЛА КОМПАСИ", "QIBLA KOMPASI")}
+              {label(lang, "QIBLA KOMPASI", "ҚИБЛА КОМПАСИ")}
             </span>
           </div>
           <h2 className="font-serif text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
-            {label(lang, "Қиблага томон", "Qiblaga tomon")}
+            {label(lang, "Qiblaga tomon", "Қиблага томон")}
           </h2>
           <p className="text-emerald-100 text-base max-w-md mx-auto leading-relaxed">
             {label(
               lang,
-              "Навоий шаҳридан Макка шаҳри томон йўналиш",
-              "Navoiy shahridan Makka shahri tomon yo'nalish"
+              "Navoiy shahridan Makka shahri tomon yo'nalish",
+              "Навоий шаҳридан Макка шаҳри томон йўналиш"
             )}
           </p>
         </div>
@@ -201,7 +201,7 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
                 <div className="text-center">
                   <p className="text-2xl font-bold text-yellow-400">{qiblaAngle}°</p>
                   <p className="text-xs text-white/60">
-                    {label(lang, "Қибла", "Qibla")}
+                    {label(lang, "Qibla", "Қибла")}
                   </p>
                 </div>
                 <div className="w-px h-10 bg-white/20" />
@@ -209,14 +209,14 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
                   <div className="text-center">
                     <p className="text-2xl font-bold text-green-400">{deviceAngle}°</p>
                     <p className="text-xs text-white/60">
-                      {label(lang, "Жорий", "Joriy")}
+                      {label(lang, "Joriy", "Жорий")}
                     </p>
                   </div>
                 ) : (
                   <div className="text-center">
                     <p className="text-2xl font-bold text-red-400">—</p>
                     <p className="text-xs text-white/60">
-                      {label(lang, "Компас ўчиқ", "Kompas o'chiq")}
+                      {label(lang, "Kompas o'chiq", "Компас ўчиқ")}
                     </p>
                   </div>
                 )}
@@ -228,7 +228,7 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
                   className="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-emerald-900 font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   <Compass className="w-5 h-5" aria-hidden="true" />
-                  {label(lang, "Компасни ёқиш", "Kompasni yoqish")}
+                  {label(lang, "Kompasni yoqish", "Компасни ёқиш")}
                 </button>
               ) : (
                 <div className="space-y-2">
@@ -238,8 +238,8 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
                       <span className="font-semibold">
                         {label(
                           lang,
-                          "✅ Сиз Қибла томонга қарадингиз!",
-                          "✅ Siz Qibla tomonga qaradingiz!"
+                          "✅ Siz Qibla tomonga qaradingiz!",
+                          "✅ Сиз Қибла томонга қарадингиз!"
                         )}
                       </span>
                     </div>
@@ -247,8 +247,8 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
                     <p className="text-white/60 text-sm">
                       {label(
                         lang,
-                        "Телефонни Қибла томонга буринг",
-                        "Telefonni Qibla tomonga buring"
+                        "Telefonni Qibla tomonga buring",
+                        "Телефонни Қибла томонга буринг"
                       )}
                     </p>
                   )}
@@ -265,7 +265,7 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
                   className="inline-flex items-center gap-2 text-white/60 hover:text-white text-sm transition-colors"
                 >
                   <RotateCcw className={cn("w-4 h-4", isCalibrating && "animate-spin")} aria-hidden="true" />
-                  {label(lang, "Калибровка", "Kalibrovka")}
+                  {label(lang, "Kalibrovka", "Калибровка")}
                 </button>
               )}
             </div>
@@ -276,8 +276,8 @@ export function QiblaCompass({ lang }: { lang: Lang }) {
         <p className="text-center text-white/40 text-xs mt-6 max-w-md mx-auto">
           {label(
             lang,
-            "Эслатма: Аниқ йўналиш учун телефонни текис юзада ушланг ва калибровка қилинг.",
-            "Eslatma: Aniq yo'nalish uchun telefonni tekis yuzada ushlang va kalibrovka qiling."
+            "Eslatma: Aniq yo'nalish uchun telefonni tekis yuzada ushlang va kalibrovka qiling.",
+            "Эслатма: Аниқ йўналиш учун телефонни текис юзада ушланг ва калибровка қилинг."
           )}
         </p>
       </div>

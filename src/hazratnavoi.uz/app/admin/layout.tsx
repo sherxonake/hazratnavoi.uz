@@ -75,7 +75,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               HazratNavoi
             </h1>
             <p className="text-emerald-300 text-xs mt-0.5">
-              Admin Panel
+              Админ панел
             </p>
           </div>
           <button
@@ -168,7 +168,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <div className="flex items-center gap-4">
               <div className="text-right hidden sm:block">
                 <p className="text-gray-800 font-semibold text-sm">
-                  Ассаламу алайкум, Ҳаёт!
+                  Ассалому алайкум, Ҳаёт!
                 </p>
                 <p className="text-gray-500 text-xs">
                   Администратор

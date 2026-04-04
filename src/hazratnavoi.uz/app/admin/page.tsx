@@ -66,7 +66,7 @@ export default function AdminDashboard() {
         
         <div className="relative z-10">
           <h1 className="text-white font-serif text-3xl sm:text-4xl font-bold mb-2">
-            Ассаламу алайкум, Ҳаёт ака!
+            Ассалому алайкум, Ҳаёт ака!
           </h1>
           <p className="text-emerald-100 text-lg">
             Масжидимиз веб-сайтини бошқариш тизимига хуш келибсиз.

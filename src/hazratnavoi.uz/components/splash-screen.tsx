@@ -79,7 +79,7 @@ export function SplashScreen({ children }: SplashScreenProps) {
             <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 animate-pulse">
               <Image
                 src="/images/mosque-logo.png"
-                alt="Hazrat Navoiy masjidi logotipi"
+                alt="Ҳазрат Навоий масжиди логотипи"
                 fill
                 className="object-contain"
                 priority

@@ -85,11 +85,11 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
               <HandHeart className="w-5 h-5 text-emerald-900" aria-hidden="true" />
             </div>
             <span className="text-yellow-400 text-sm font-bold uppercase tracking-widest">
-              {label(lang, "ЗИКР САНОВЧИСИ", "ZIKR SANOVCISI")}
+              {label(lang, "ZIKR SANOVCISI", "ЗИКР САНОВЧИСИ")}
             </span>
           </div>
           <h2 className="font-serif text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
-            {label(lang, "Тасбеҳ", "Tasbih")}
+            {label(lang, "Tasbeh", "Тасбеҳ")}
           </h2>
         </div>
 
@@ -99,7 +99,7 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
             {/* Dhikr Selection */}
             <div className="mb-6">
               <label className="block text-sm font-semibold text-white/90 mb-3">
-                {label(lang, "Зикрни танланг", "Zikrni tanlang")}
+                {label(lang, "Zikrni tanlang", "Зикрни танланг")}
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {PRESET_DHIKR.map((dhikr, i) => (
@@ -191,7 +191,7 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors font-semibold"
               >
                 <RotateCcw className="w-5 h-5" aria-hidden="true" />
-                {label(lang, "Қайта", "Qayta")}
+                {label(lang, "Qayta", "Қайта")}
               </button>
               
               <button
@@ -213,12 +213,12 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
                     <HandHeart className="w-6 h-6 text-yellow-400" aria-hidden="true" />
                   </div>
                   <p className="text-sm text-emerald-100 font-medium">
-                    {label(lang, "Жами", "Jami")}
+                    {label(lang, "Jami", "Жами")}
                   </p>
                 </div>
                 <p className="text-4xl font-bold text-yellow-400">{totalCount.toLocaleString()}</p>
                 <p className="text-xs text-emerald-200 mt-1">
-                  {label(lang, "Зикр айтилди", "Zikr aytildi")}
+                  {label(lang, "Zikr aytildi", "Зикр айтилди")}
                 </p>
               </div>
 
@@ -228,12 +228,12 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
                     <Trophy className="w-6 h-6 text-yellow-100" aria-hidden="true" />
                   </div>
                   <p className="text-sm text-yellow-100 font-medium">
-                    {label(lang, "Босқич", "Bosqich")}
+                    {label(lang, "Bosqich", "Босқич")}
                   </p>
                 </div>
                 <p className="text-4xl font-bold text-white">{sessions}</p>
                 <p className="text-xs text-yellow-100 mt-1">
-                  {label(lang, "Тўлиқ тугал", "To'liq tugal")}
+                  {label(lang, "To'liq tugal", "Тўлиқ тугал")}
                 </p>
               </div>
             </div>
@@ -241,7 +241,7 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
             {/* Target Selection */}
             <div className="bg-emerald-800/60 backdrop-blur rounded-2xl border-2 border-yellow-500/30 p-6">
               <h3 className="font-semibold text-yellow-400 mb-4 text-lg">
-                {label(lang, "Мақсад", "Maqsad")}
+                {label(lang, "Maqsad", "Мақсад")}
               </h3>
               <div className="grid grid-cols-3 gap-2">
                 {[33, 99, 100, 300, 500, 1000].map((t) => (
@@ -264,13 +264,13 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
             {/* Info */}
             <div className="bg-emerald-800/60 backdrop-blur rounded-2xl border-2 border-yellow-500/30 p-6">
               <h3 className="font-serif text-yellow-400 text-lg font-bold mb-3">
-                {label(lang, "Фазилати", "Fazilati")}
+                {label(lang, "Fazilati", "Фазилати")}
               </h3>
               <p className="text-emerald-100 text-sm leading-relaxed mb-4">
                 {label(
                   lang,
-                  "Расулуллоҳ ﷺ айтдилар: «Кимки «Субҳаналлоҳ» деса, унга ўн савоб ёзилади. Кимки «Алҳамдулиллоҳ» деса, унга ўн савоб ёзилади. Кимки «Аллоҳу Акбар» деса, унга ўн савоб ёзилади.»",
-                  "Rasululloh ﷺ aytdilar: «Kimki «Subhanalloh» desa, unga o'n savob yoziladi. Kimki «Alhamdulillah» desa, unga o'n savob yoziladi. Kimki «Allohu Akbar» desa, unga o'n savob yoziladi.»"
+                  "Rasululloh ﷺ aytdilar: «Kimki «Subhanalloh» desa, unga o'n savob yoziladi. Kimki «Alhamdulillah» desa, unga o'n savob yoziladi. Kimki «Allohu Akbar» desa, unga o'n savob yoziladi.»",
+                  "Расулуллоҳ ﷺ айтдилар: «Кимки «Субҳаналлоҳ» деса, унга ўн савоб ёзилади. Кимки «Алҳамдулиллоҳ» деса, унга ўн савоб ёзилади. Кимки «Аллоҳу Акбар» деса, унга ўн савоб ёзилади.»"
                 )}
               </p>
               <p className="text-xs text-emerald-300">

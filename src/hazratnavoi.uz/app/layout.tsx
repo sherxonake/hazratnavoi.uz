@@ -17,13 +17,13 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Hazratnavoi.uz — Navoiy shahrining bosh masjidi',
-  description: 'Navoiy viloyati Hazrat Navoiy jome masjidining rasmiy veb-sayti. Namoz vaqtlari, ma\'ruzalar, yangiliklar va savol-javoblar.',
+  title: 'Hazratnavoi.uz — Навоий шаҳрининг бош масжиди',
+  description: 'Навоий вилояти Ҳазрат Навоий жоме масжидининг расмий веб-сайти. Намоз вақтлари, маърузалар, янгиликлар ва савол-жавоблар.',
   generator: 'v0.app',
-  keywords: ['Hazratnavoi', 'Navoiy masjid', 'namoz vaqtlari', 'islom', 'Uzbekistan mosque'],
+  keywords: ['Hazratnavoi', 'Навоий масжид', 'намоз вақтлари', 'ислом', 'Uzbekistan mosque'],
   openGraph: {
-    title: 'Hazratnavoi.uz — Navoiy shahrining bosh masjidi',
-    description: 'Navoiy viloyati Hazrat Navoiy jome masjidining rasmiy veb-sayti.',
+    title: 'Hazratnavoi.uz — Навоий шаҳрининг бош масжиди',
+    description: 'Навоий вилояти Ҳазрат Навоий жоме масжидининг расмий веб-сайти.',
     locale: 'uz_UZ',
     type: 'website',
   },

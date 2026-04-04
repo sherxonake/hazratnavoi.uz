@@ -125,7 +125,7 @@ export function HeroSection({ lang }: { lang: Lang }) {
       <div className="absolute inset-0">
         <Image
           src="/images/mosque-hero.jpg"
-          alt="Hazrat Navoiy jome masjidi"
+          alt="Ҳазрат Навоий жоме масжиди"
           fill
           priority
           className="object-cover object-center"
@@ -219,7 +219,7 @@ export function HeroSection({ lang }: { lang: Lang }) {
                     {prayer.time}
                   </span>
                   {isActive && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" aria-label="Hozirgi namoz" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" aria-label="Ҳозирги намоз" />
                   )}
                 </div>
               )

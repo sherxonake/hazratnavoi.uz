@@ -36,7 +36,7 @@ export function QASection({ lang }: { lang: Lang }) {
             {label(
               lang,
               "Din va ibodatga oid tez-tez beriladigan savollarga javoblar.",
-              "Дин ва ибодатга оид тез-тез берилладиган саволларга жавоблар."
+              "Дин ва ибодатга оид тез-тез бериладиган саволларга жавоблар."
             )}
           </p>
         </div>

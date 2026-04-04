@@ -119,20 +119,20 @@ export function HadithSection({ lang }: { lang: Lang }) {
               <BookOpen className="w-5 h-5 text-emerald-900" aria-hidden="true" />
             </div>
             <span className="text-yellow-400 text-sm font-bold uppercase tracking-widest">
-              {label(lang, "ҲАДИСЛАР", "HADISLAR")}
+              {label(lang, "HADISLAR", "ҲАДИСЛАР")}
             </span>
           </div>
           <h2 className="font-serif text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
             {label(
               lang,
-              "Пайғамбаримиздан ҳадислар",
+              "Payg'ambarimizdan hadislar",
               "Пайғамбаримиздан ҳадислар"
             )}
           </h2>
           <p className="text-emerald-100 text-base max-w-2xl mx-auto">
             {label(
               lang,
-              "Пайғамбаримиз Муҳаммад ﷺ дан саҳиҳ ҳадислар",
+              "Payg'ambarimiz Muhammad ﷺ dan sahih hadislar",
               "Пайғамбаримиз Муҳаммад ﷺ дан саҳиҳ ҳадислар"
             )}
           </p>
@@ -196,14 +196,14 @@ export function HadithSection({ lang }: { lang: Lang }) {
                 {expandedHadith === hadith.id ? (
                   <>
                     <span>
-                      {label(lang, "Ёпиш", "Yopish")}
+                      {label(lang, "Yopish", "Ёпиш")}
                     </span>
                   </>
                 ) : (
                   <>
                     <Heart className="w-4 h-4" />
                     <span>
-                      {label(lang, "Шарҳини кўриш", "Sharhini ko'rish")}
+                      {label(lang, "Sharhini ko'rish", "Шарҳини кўриш")}
                     </span>
                   </>
                 )}
@@ -228,8 +228,8 @@ export function HadithSection({ lang }: { lang: Lang }) {
             <p className="text-emerald-200 text-lg">
               {label(
                 lang,
-                "Ҳеч қандай ҳадис топилмади",
-                "Hech qanday hadis topilmadi"
+                "Hech qanday hadis topilmadi",
+                "Ҳеч қандай ҳадис топилмади"
               )}
             </p>
           </div>

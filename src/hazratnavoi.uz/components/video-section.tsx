@@ -46,20 +46,20 @@ export function VideoSection({ lang }: { lang: Lang }) {
               <Youtube className="w-5 h-5 text-white" aria-hidden="true" />
             </div>
             <span className="text-red-400 text-sm font-bold uppercase tracking-widest">
-              {label(lang, "ВИДЕО МАЪРУЗАЛАР", "VIDEO MA'RUZALAR")}
+              {label(lang, "VIDEO MA'RUZALAR", "ВИДЕО МАЪРУЗАЛАР")}
             </span>
           </div>
           <h2 className="font-serif text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
             {label(
               lang,
-              "Имом маърузалари",
+              "Imom ma'ruzalari",
               "Имом маърузалари"
             )}
           </h2>
           <p className="text-emerald-100 text-base max-w-2xl mx-auto">
             {label(
               lang,
-              "Темуржон домла Атоевнинг жума ва бошқа маърузалари",
+              "Temurjon domla Atoevning juma va boshqa ma'ruzalari",
               "Темуржон домла Атоевнинг жума ва бошқа маърузалари"
             )}
           </p>
@@ -76,14 +76,14 @@ export function VideoSection({ lang }: { lang: Lang }) {
             <Youtube className="w-6 h-6" aria-hidden="true" />
             {label(
               lang,
-              "YouTube каналга ўтиш",
+              "YouTube kanalga o'tish",
               "YouTube каналга ўтиш"
             )}
           </a>
           <p className="text-emerald-200 text-sm mt-4">
             {label(
               lang,
-              "Барча видео маърузаларни кўриш учун тугмани босинг",
+              "Barcha video ma'ruzalarni ko'rish uchun tugmani bosing",
               "Барча видео маърузаларни кўриш учун тугмани босинг"
             )}
           </p>

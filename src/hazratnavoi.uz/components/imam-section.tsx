@@ -38,7 +38,7 @@ export function ImamSection({ lang }: { lang: Lang }) {
               <div className="relative w-72 h-96 sm:w-80 sm:h-[26rem] rounded-2xl overflow-hidden shadow-2xl">
                 <Image
                   src="/images/imam-portrait.jpg"
-                  alt="Temurjon domla Atoev — Bosh imom-xatib"
+                  alt="Темуржон домла Атоев — Бош имом-хатиб"
                   fill
                   className="object-cover object-top"
                   sizes="(max-width: 640px) 288px, 320px"
@@ -48,8 +48,8 @@ export function ImamSection({ lang }: { lang: Lang }) {
               </div>
 
               {/* Name tag floating */}
-              <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 w-56 bg-white border border-border rounded-xl px-4 py-3 shadow-xl text-center">
-                <p className="text-heading font-serif font-bold text-sm">Temurjon domla Atoev</p>
+              <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 w-56 bg-emerald-800 border border-yellow-500/30 rounded-xl px-4 py-3 shadow-xl text-center">
+                <p className="text-yellow-400 font-serif font-bold text-sm">Темуржон домла Атоев</p>
                 <p className="text-muted-foreground text-xs mt-0.5">
                   {label(lang, "Bosh imom-xatib", "Бош имом-хатиб")}
                 </p>
@@ -87,7 +87,7 @@ export function ImamSection({ lang }: { lang: Lang }) {
               {label(
                 lang,
                 "Hazrat Navoiy jome masjidining bosh imom-xatibi sifatida xalqimizga ma'naviy rahbarlik qilib kelmoqda. Juma mav'izalari har hafta onlayn efirga uzatiladi.",
-                "Ҳазрат Навоий жоме масжидининг бош имом-хатиби сифатида халқимизга маьнавий раҳбарлик қилиб келмоқда. Жума маъизалари ҳар ҳафта онлайн эфирга узатилади."
+                "Ҳазрат Навоий жоме масжидининг бош имом-хатиби сифатида халқимизга маънавий раҳбарлик қилиб келмоқда. Жума мавъизалари ҳар ҳафта онлайн эфирга узатилади."
               )}
             </p>
 
@@ -96,7 +96,7 @@ export function ImamSection({ lang }: { lang: Lang }) {
               className="self-start bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
             >
               <PlayCircle className="w-5 h-5 mr-2" aria-hidden="true" />
-              {label(lang, "Juma mav'izasini tinglash", "Жума маъизасини тинглаш")}
+              {label(lang, "Juma mav'izasini tinglash", "Жума мавъизасини тинглаш")}
             </Button>
           </div>
         </div>
