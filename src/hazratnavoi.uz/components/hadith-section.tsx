@@ -109,7 +109,7 @@ export function HadithSection({ lang }: { lang: Lang }) {
 
   return (
     <section className="py-20 lg:py-28 bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 relative overflow-hidden">
-      <div className="absolute inset-0 islamiy-pattern opacity-25" aria-hidden="true" />
+      <div className="absolute inset-0 islamic-pattern-gold opacity-25" aria-hidden="true" />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}

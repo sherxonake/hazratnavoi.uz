@@ -146,7 +146,7 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
                     stroke="currentColor"
                     strokeWidth="8"
                     fill="none"
-                    className="text-gray-200"
+                    className="text-white/20"
                   />
                   <circle
                     cx="128"
@@ -181,22 +181,22 @@ export function TasbihCounter({ lang }: { lang: Lang }) {
             <div className="flex items-center justify-center gap-4">
               <button
                 onClick={() => handleTargetChange(Math.max(1, target - 1))}
-                className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
               >
                 <Minus className="w-5 h-5" aria-hidden="true" />
               </button>
-              
+
               <button
                 onClick={handleReset}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors font-semibold"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors font-semibold"
               >
                 <RotateCcw className="w-5 h-5" aria-hidden="true" />
                 {label(lang, "Qayta", "Қайта")}
               </button>
-              
+
               <button
                 onClick={() => handleTargetChange(target + 1)}
-                className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
               >
                 <Plus className="w-5 h-5" aria-hidden="true" />
               </button>

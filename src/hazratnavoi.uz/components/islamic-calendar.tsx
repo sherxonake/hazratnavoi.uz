@@ -120,10 +120,10 @@ export function IslamicCalendar({ lang }: { lang: Lang }) {
           </div>
 
           {/* Important Dates */}
-          <div className="bg-white rounded-3xl border border-border p-6 lg:p-8 shadow-lg">
+          <div className="bg-white/5 rounded-3xl border border-yellow-500/20 p-6 lg:p-8 shadow-lg">
             <div className="flex items-center gap-3 mb-6">
-              <CalendarIcon className="w-6 h-6 text-primary" aria-hidden="true" />
-              <h3 className="font-serif text-heading text-xl font-bold">
+              <CalendarIcon className="w-6 h-6 text-yellow-400" aria-hidden="true" />
+              <h3 className="font-serif text-white text-xl font-bold">
                 {label(lang, "Муҳим саналар 2026", "Муҳим саналар 2026")}
               </h3>
             </div>
@@ -132,14 +132,14 @@ export function IslamicCalendar({ lang }: { lang: Lang }) {
               {IMPORTANT_DATES_2026.map((event, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-muted transition-colors duration-200"
+                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/8 transition-colors duration-200"
                 >
                   <span className="text-2xl">{event.icon}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-heading text-sm truncate">
+                    <p className="font-semibold text-white text-sm truncate">
                       {event[lang]}
                     </p>
-                    <p className="text-muted-foreground text-xs">
+                    <p className="text-white/50 text-xs">
                       {new Date(event.date).toLocaleDateString(lang === "latin" ? "uz-Latn-UZ" : "uz-Cyrl-UZ", {
                         day: 'numeric',
                         month: 'long'
