@@ -1,0 +1,15 @@
+{
+  "agentsPath": "/Users/wer/projects/agents",
+  "autoLoad": true,
+  "categories": [
+    "core",
+    "v3",
+    "github",
+    "devops",
+    "testing",
+    "optimization",
+    "development",
+    "architecture",
+    "analysis"
+  ]
+}

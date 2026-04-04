@@ -1,0 +1,23 @@
+{
+  "swarms": {
+    "swarm-1775039348545-qksaj5": {
+      "swarmId": "swarm-1775039348545-qksaj5",
+      "topology": "hierarchical",
+      "maxAgents": 8,
+      "status": "running",
+      "agents": [],
+      "tasks": [],
+      "config": {
+        "topology": "hierarchical",
+        "maxAgents": 8,
+        "strategy": "specialized",
+        "communicationProtocol": "message-bus",
+        "autoScaling": true,
+        "consensusMechanism": "majority"
+      },
+      "createdAt": "2026-04-01T10:29:08.545Z",
+      "updatedAt": "2026-04-01T10:29:08.545Z"
+    }
+  },
+  "version": "3.0.0"
+}
