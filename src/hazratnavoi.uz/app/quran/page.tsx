@@ -172,10 +172,13 @@ export default function QuranPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {filtered.map(s => (
-                  <button
+                  <div
                     key={s.number}
                     onClick={() => openSurah(s)}
-                    className="flex items-center gap-3 p-3.5 rounded-xl border border-white/8 bg-white/3 hover:border-yellow-500/25 hover:bg-white/5 transition-all text-left group"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={e => e.key === "Enter" && openSurah(s)}
+                    className="flex items-center gap-3 p-3.5 rounded-xl border border-white/8 bg-white/3 hover:border-yellow-500/25 hover:bg-white/5 transition-all text-left group cursor-pointer"
                   >
                     {/* Number badge */}
                     <div className="w-10 h-10 rounded-full bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0">
@@ -201,7 +204,7 @@ export default function QuranPage() {
                         <Play className="w-3.5 h-3.5 text-yellow-400" />
                       </button>
                     </div>
-                  </button>
+                  </div>
                 ))}
               </div>
             )}
