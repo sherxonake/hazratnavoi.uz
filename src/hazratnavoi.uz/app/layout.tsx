@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { SplashScreen } from '@/components/splash-screen'
+import { AuthProvider } from '@/lib/auth-context'
 import './globals.css'
 
 const playfair = Playfair_Display({
@@ -38,10 +39,12 @@ export default function RootLayout({
   return (
     <html lang="uz" className={`${playfair.variable} ${inter.variable}`}>
       <body className="font-sans antialiased">
-        <SplashScreen>
-          {children}
-          <Analytics />
-        </SplashScreen>
+        <AuthProvider>
+          <SplashScreen>
+            {children}
+            <Analytics />
+          </SplashScreen>
+        </AuthProvider>
       </body>
     </html>
   )

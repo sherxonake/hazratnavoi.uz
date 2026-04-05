@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { AuthModal } from "./auth-modal"
+import { useAuth } from "@/lib/auth-context"
 
 const navLinks = [
   { label: "Bosh sahifa", labelCyrillic: "Бош саҳифа", href: "#bosh" },
@@ -21,8 +22,8 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showAuth, setShowAuth] = useState(false)
-  const [user, setUser] = useState<SiteUser | null>(null)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const { user, setUser, logout } = useAuth()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -30,23 +31,14 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // Saved user from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("site_user")
-    if (saved) setUser(JSON.parse(saved))
-  }, [])
-
   function handleAuthSuccess(u: SiteUser) {
     setUser(u)
-    localStorage.setItem("site_user", JSON.stringify(u))
     setShowAuth(false)
   }
 
   function handleLogout() {
-    setUser(null)
-    localStorage.removeItem("site_user")
+    logout()
     setUserMenuOpen(false)
-    fetch("/api/auth/logout", { method: "POST" })
   }
 
   const label = (l: string, c: string) => (lang === "latin" ? l : c)

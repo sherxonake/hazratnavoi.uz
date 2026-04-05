@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { MessageCircle, Send, Lock, ChevronDown, User, CheckCircle, Clock } from "lucide-react"
 import { AuthModal } from "./auth-modal"
+import { useAuth } from "@/lib/auth-context"
 
 type Lang = "latin" | "cyrillic"
 const label = (lang: Lang, l: string, c: string) => lang === "latin" ? l : c
@@ -26,8 +27,8 @@ interface CurrentUser {
 export function ForumSection({ lang }: { lang: Lang }) {
   const [questions, setQuestions] = useState<Question[]>([])
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<CurrentUser | null>(null)
   const [showAuth, setShowAuth] = useState(false)
+  const { user, setUser } = useAuth()
   const [question, setQuestion] = useState("")
   const [sending, setSending] = useState(false)
   const [sendMsg, setSendMsg] = useState("")
