@@ -62,7 +62,7 @@ export interface Database {
           question: string
           answer: string
           category?: string | null
-          order?: number
+          order_num?: number
           created_at?: string
           published?: boolean
         }
@@ -71,7 +71,7 @@ export interface Database {
           question?: string
           answer?: string
           category?: string | null
-          order?: number
+          order_num?: number
           created_at?: string
           published?: boolean
         }

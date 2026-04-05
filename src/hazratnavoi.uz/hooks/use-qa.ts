@@ -18,7 +18,7 @@ export function useQA() {
           .from('qa_pairs')
           .select('*')
           .eq('published', true)
-          .order('order', { ascending: true })
+          .order('order_num', { ascending: true })
 
         if (error) throw error
         setQAPairs(data || [])
