@@ -100,14 +100,10 @@ export function HeroSection({ lang }: { lang: Lang }) {
   }, [prayerTimes])
 
   useEffect(() => {
+    const DAYS = ["Якшанба", "Душанба", "Сешанба", "Чоршанба", "Пайшанба", "Жума", "Шанба"]
+    const MONTHS = ["Январ", "Феврал", "Март", "Апрел", "Май", "Июн", "Июл", "Август", "Сентябр", "Октябр", "Ноябр", "Декабр"]
     const d = new Date()
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }
-    setToday(d.toLocaleDateString("uz-UZ", options))
+    setToday(`${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`)
   }, [])
 
   useEffect(() => {
