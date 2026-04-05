@@ -262,11 +262,6 @@ export default function UstozPage() {
 
           {/* Imam profile card */}
           <div className="relative overflow-hidden rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-yellow-500/8 to-transparent p-5">
-            <div className="absolute top-0 right-0 w-24 h-24 opacity-10">
-              <svg viewBox="0 0 100 100" fill="none">
-                <path d="M50 5L58 30H85L64 47L72 72L50 56L28 72L36 47L15 30H42L50 5Z" stroke="#ca8a04" strokeWidth="1" fill="none"/>
-              </svg>
-            </div>
             <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-yellow-500/40 mb-3">
               <Image src="/images/mosque-logo.png" alt="Imam" width={48} height={48} className="object-cover scale-110" />
             </div>
