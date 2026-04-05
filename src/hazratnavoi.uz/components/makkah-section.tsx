@@ -29,8 +29,14 @@ const INFO_BLOCKS = [
   },
 ]
 
+const CHANNELS = [
+  { id: "UCraPI8sg-eiNzUrurxhKeEQ", name: "Al Quran 4K" },
+  { id: "UCos52azQNBgW63_9uDJoPDA", name: "Saudi Quran TV" },
+]
+
 export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
   const [liveOpen, setLiveOpen] = useState(false)
+  const [activeChannel, setActiveChannel] = useState(0)
   const [expanded, setExpanded] = useState<number | null>(null)
 
   return (
@@ -77,14 +83,39 @@ export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
           </button>
 
           {liveOpen && (
-            <div className="mt-4 rounded-2xl overflow-hidden border border-yellow-500/20 bg-black aspect-video">
-              <iframe
-                src="https://www.youtube.com/embed/TS6GNE5oZmo?autoplay=1&mute=1"
-                title="Масжид ул-Ҳаром жонли эфири"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
+            <div className="mt-4">
+              {/* Channel switcher */}
+              <div className="flex gap-2 mb-3">
+                {CHANNELS.map((ch, i) => (
+                  <button
+                    key={ch.id}
+                    onClick={() => setActiveChannel(i)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold border transition-all ${
+                      activeChannel === i
+                        ? "bg-red-500 border-red-500 text-white"
+                        : "bg-white/5 border-white/15 text-white/50 hover:text-white/80 hover:border-white/30"
+                    }`}
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${activeChannel === i ? "bg-white animate-pulse" : "bg-white/30"}`} />
+                    {ch.name}
+                  </button>
+                ))}
+              </div>
+
+              {/* iframe */}
+              <div className="rounded-2xl overflow-hidden border border-yellow-500/20 bg-black aspect-video">
+                <iframe
+                  key={activeChannel}
+                  src={`https://www.youtube.com/embed/live_stream?channel=${CHANNELS[activeChannel].id}&autoplay=1&mute=1`}
+                  title="Масжид ул-Ҳаром жонли эфири"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
+              </div>
+              <p className="text-white/25 text-xs text-center mt-2">
+                Агар эфир кўрсатилмаса — канал жонли режимда эмас, иккинчи каналга ўтинг
+              </p>
             </div>
           )}
         </div>
