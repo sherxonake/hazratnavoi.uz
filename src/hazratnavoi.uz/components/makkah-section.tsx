@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Play, MapPin, Clock, Users, Star, ChevronDown, ChevronUp } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
+import { Play, MapPin, Clock, Users, Star, ChevronDown, ChevronUp, Radio, ExternalLink, Wifi, WifiOff } from "lucide-react"
 
 const FACTS = [
   { icon: <MapPin className="w-5 h-5" />, label: "Жойлашуви", value: "Ҳижоз, Саудия Арабистони" },
@@ -29,19 +29,104 @@ const INFO_BLOCKS = [
   },
 ]
 
-const CHANNELS = [
-  { id: "UCraPI8sg-eiNzUrurxhKeEQ", name: "Al Quran 4K" },
-  { id: "UCos52azQNBgW63_9uDJoPDA", name: "Saudi Quran TV" },
+// Stream sources — HLS birinchi, YouTube fallback
+const STREAMS = [
+  {
+    id: "hls",
+    label: "Saudi Quran TV",
+    sublabel: "HD • Жонли",
+    url: "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8",
+    type: "hls",
+  },
+  {
+    id: "yt1",
+    label: "Al Quran 4K",
+    sublabel: "YouTube",
+    channelId: "UCraPI8sg-eiNzUrurxhKeEQ",
+    type: "youtube",
+  },
+  {
+    id: "yt2",
+    label: "Makkah Live HD",
+    sublabel: "YouTube",
+    channelId: "UCoSrbBgZJTvj7xJ7y6TkbuA",
+    type: "youtube",
+  },
 ]
+
+function HlsPlayer({ url }: { url: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [status, setStatus] = useState<"loading" | "playing" | "error">("loading")
+
+  useEffect(() => {
+    let hlsInstance: import("hls.js").default | null = null
+
+    async function init() {
+      const video = videoRef.current
+      if (!video) return
+
+      // Safari native HLS
+      if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = url
+        video.play().catch(() => setStatus("error"))
+        setStatus("playing")
+        return
+      }
+
+      const Hls = (await import("hls.js")).default
+      if (!Hls.isSupported()) { setStatus("error"); return }
+
+      hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true })
+      hlsInstance.loadSource(url)
+      hlsInstance.attachMedia(video)
+      hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+        setStatus("playing")
+        video.play().catch(() => {})
+      })
+      hlsInstance.on(Hls.Events.ERROR, (_, data) => {
+        if (data.fatal) setStatus("error")
+      })
+    }
+
+    init()
+    return () => { hlsInstance?.destroy() }
+  }, [url])
+
+  return (
+    <div className="relative w-full h-full bg-black">
+      {status === "loading" && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+          <div className="w-8 h-8 border-2 border-yellow-500/30 border-t-yellow-500 rounded-full animate-spin" />
+          <p className="text-white/40 text-xs">Жонли эфир юкланмоқда...</p>
+        </div>
+      )}
+      {status === "error" && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+          <WifiOff className="w-8 h-8 text-white/20" />
+          <p className="text-white/40 text-sm">Жонли эфир мавжуд эмас</p>
+          <p className="text-white/20 text-xs">YouTube каналларга ўтинг</p>
+        </div>
+      )}
+      <video
+        ref={videoRef}
+        className="w-full h-full object-contain"
+        muted
+        playsInline
+        controls={status === "playing"}
+      />
+    </div>
+  )
+}
 
 export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
   const [liveOpen, setLiveOpen] = useState(false)
-  const [activeChannel, setActiveChannel] = useState(0)
+  const [activeStream, setActiveStream] = useState(0)
   const [expanded, setExpanded] = useState<number | null>(null)
+
+  const current = STREAMS[activeStream]
 
   return (
     <section id="makkah" className="relative py-24 lg:py-32 bg-emerald-deep overflow-hidden">
-      {/* Pattern + vignette */}
       <div className="absolute inset-0 islamic-pattern-gold pointer-events-none" aria-hidden="true" />
       <div
         className="absolute inset-0 pointer-events-none"
@@ -66,68 +151,84 @@ export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
           </p>
         </div>
 
-        {/* Live stream */}
+        {/* Live stream block */}
         <div className="mb-14">
+          {/* Toggle button */}
           <button
             onClick={() => setLiveOpen(!liveOpen)}
-            className="w-full flex items-center justify-between bg-white/5 hover:bg-white/10 border border-yellow-500/20 rounded-2xl px-6 py-4 transition-colors duration-200 group"
+            className="w-full flex items-center justify-between bg-white/5 hover:bg-white/10 border border-yellow-500/20 rounded-2xl px-6 py-4 transition-colors duration-200"
           >
             <div className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+              <span className="relative flex w-2.5 h-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                <span className="relative inline-flex rounded-full w-2.5 h-2.5 bg-red-500" />
+              </span>
               <span className="text-white font-semibold text-sm sm:text-base">Масжид ул-Ҳаром — жонли эфир</span>
+              <span className="hidden sm:inline text-white/30 text-xs border border-white/10 rounded-full px-2 py-0.5">24/7</span>
             </div>
             <div className="flex items-center gap-2 text-yellow-400">
-              <Play className="w-4 h-4" />
+              <Radio className="w-4 h-4" />
               {liveOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </div>
           </button>
 
           {liveOpen && (
-            <div className="mt-4">
-              {/* Channel switcher */}
-              <div className="flex gap-2 mb-3">
-                {CHANNELS.map((ch, i) => (
+            <div className="mt-3 space-y-3">
+              {/* Channel tabs */}
+              <div className="flex gap-2 flex-wrap">
+                {STREAMS.map((s, i) => (
                   <button
-                    key={ch.id}
-                    onClick={() => setActiveChannel(i)}
+                    key={s.id}
+                    onClick={() => setActiveStream(i)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold border transition-all ${
-                      activeChannel === i
-                        ? "bg-red-500 border-red-500 text-white"
+                      activeStream === i
+                        ? "bg-yellow-500 border-yellow-500 text-emerald-950"
                         : "bg-white/5 border-white/15 text-white/50 hover:text-white/80 hover:border-white/30"
                     }`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full ${activeChannel === i ? "bg-white animate-pulse" : "bg-white/30"}`} />
-                    {ch.name}
+                    {s.type === "hls"
+                      ? <Wifi className="w-3 h-3" />
+                      : <Play className="w-3 h-3" />
+                    }
+                    <span>{s.label}</span>
+                    <span className={`text-[10px] ${activeStream === i ? "text-emerald-800" : "text-white/25"}`}>{s.sublabel}</span>
                   </button>
                 ))}
               </div>
 
-              {/* iframe */}
+              {/* Player */}
               <div className="rounded-2xl overflow-hidden border border-yellow-500/20 bg-black aspect-video">
-                <iframe
-                  key={activeChannel}
-                  src={`https://www.youtube.com/embed/live_stream?channel=${CHANNELS[activeChannel].id}&autoplay=1&mute=1`}
-                  title="Масжид ул-Ҳаром жонли эфири"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full"
-                />
+                {current.type === "hls" && current.url ? (
+                  <HlsPlayer url={current.url} />
+                ) : current.type === "youtube" && current.channelId ? (
+                  <iframe
+                    key={current.channelId}
+                    src={`https://www.youtube.com/embed/live_stream?channel=${current.channelId}&autoplay=1&mute=1`}
+                    title="Масжид ул-Ҳаром жонли эфири"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                  />
+                ) : null}
               </div>
 
-              {/* Fallback YouTube link */}
-              <div className="flex items-center justify-between mt-3 px-1">
-                <p className="text-white/25 text-xs">
-                  Агар кўрсатилмаса — канал офлайн ёки бошқасига ўтинг
-                </p>
-                <a
-                  href={`https://www.youtube.com/channel/${CHANNELS[activeChannel].id}/live`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 text-xs px-3 py-1.5 rounded-full transition-all flex-shrink-0"
-                >
-                  <Play className="w-3 h-3" />
-                  YouTube'да кўриш
-                </a>
+              {/* Footer hint */}
+              <div className="flex items-center justify-between text-xs text-white/25 px-1">
+                <span>
+                  {current.type === "hls"
+                    ? "🔴 Akamai CDN орқали жонли HD эфир"
+                    : "🎬 YouTube орқали жонли эфир"}
+                </span>
+                {current.type === "youtube" && current.channelId && (
+                  <a
+                    href={`https://www.youtube.com/channel/${current.channelId}/live`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 hover:text-yellow-400/60 transition-colors"
+                  >
+                    YouTube'да кўриш <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
               </div>
             </div>
           )}
