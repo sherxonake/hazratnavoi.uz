@@ -313,23 +313,6 @@ export default function UstozPage() {
           ))}
         </div>
 
-        {/* ── DAILY DUA ── */}
-        <div className="relative rounded-2xl border border-yellow-500/15 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 via-transparent to-yellow-500/5" />
-          <div className="relative px-6 py-4 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-            <div className="w-10 h-10 rounded-full bg-yellow-500/10 border border-yellow-500/25 flex items-center justify-center flex-shrink-0 text-lg">🤲</div>
-            <div className="flex-1">
-              <p className="text-yellow-400/80 font-serif text-sm" dir="rtl">
-                «اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي، وَعَلِّمْنِي مَا يَنْفَعُنِي، وَزِدْنِي عِلْمًا»
-              </p>
-              <p className="text-white/30 text-xs mt-1">
-                "Эй Аллоҳ, менга ўргатган нарсангдан фойдалантир, фойдали нарсаларни ўргат ва илмимни зиёда қил"
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <Divider />
 
         {/* ── MAIN CONTENT ── */}
         <div className="grid lg:grid-cols-5 gap-5">
