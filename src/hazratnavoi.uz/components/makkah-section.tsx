@@ -152,8 +152,6 @@ export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
               {/* Source label */}
               <div className="flex items-center gap-2 px-1">
                 <Wifi className="w-3.5 h-3.5 text-yellow-500/60" />
-                <span className="text-white/50 text-xs">Saudi Quran TV</span>
-                <span className="text-white/25 text-xs">·</span>
                 <span className="text-red-400/80 text-xs font-semibold">HD</span>
                 <span className="text-white/25 text-xs">·</span>
                 <span className="text-white/40 text-xs">Жонли</span>
