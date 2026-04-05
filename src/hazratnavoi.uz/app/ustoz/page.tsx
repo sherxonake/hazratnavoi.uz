@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import { LogOut, MessageCircle, CheckCircle, Clock, Send, Eye, EyeOff, Lock, RefreshCw, Star } from "lucide-react"
+import { LogOut, MessageCircle, CheckCircle, Clock, Send, Eye, EyeOff, Lock, RefreshCw } from "lucide-react"
 import Image from "next/image"
 
 interface Question {
@@ -26,15 +26,10 @@ function timeAgo(dateStr: string) {
   return "Ҳозир"
 }
 
-// Islamic geometric divider SVG
 function Divider() {
   return (
-    <div className="flex items-center gap-3 my-2">
-      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-yellow-500/40 flex-shrink-0">
-        <path d="M10 2L11.8 7.5H17.6L12.9 10.9L14.7 16.4L10 13L5.3 16.4L7.1 10.9L2.4 7.5H8.2L10 2Z" stroke="currentColor" strokeWidth="0.8" fill="none"/>
-      </svg>
-      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
+    <div className="my-2">
+      <div className="h-px bg-gradient-to-r from-transparent via-yellow-500/25 to-transparent" />
     </div>
   )
 }
@@ -465,7 +460,6 @@ export default function UstozPage() {
                 <div className="p-6 bg-black/20">
                   <form onSubmit={handleAnswer}>
                     <div className="flex items-center gap-2 mb-3">
-                      <Star className="w-3.5 h-3.5 text-yellow-500/50" />
                       <label className="text-yellow-400/60 text-[11px] uppercase tracking-widest font-semibold">
                         {selected.answer ? "Жавобни таҳрирлаш" : "Жавоб ёзиш"}
                       </label>
