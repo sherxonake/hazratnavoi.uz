@@ -13,6 +13,7 @@ import { HeritageSection } from "@/components/heritage-section"
 import { NewsSection } from "@/components/news-section"
 import { QASection } from "@/components/qa-section"
 import { MakkahSection } from "@/components/makkah-section"
+import { ForumSection } from "@/components/forum-section"
 import { Footer } from "@/components/footer"
 
 type Lang = "latin" | "cyrillic"
@@ -36,6 +37,7 @@ export default function Home() {
       <HeritageSection lang={lang} />
       <NewsSection lang={lang} />
       <QASection lang={lang} />
+      <ForumSection lang={lang} />
       <Footer lang={lang} />
     </main>
   )
