@@ -191,4 +191,24 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes word-float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-4px); }
+  }
+
+  .quran-word-active {
+    color: #fde047;
+    text-shadow:
+      0 0 12px rgba(253, 224, 71, 0.9),
+      0 0 28px rgba(253, 224, 71, 0.45);
+    animation: word-float 0.7s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  .quran-word-dim {
+    color: rgba(255, 255, 255, 0.38);
+    display: inline-block;
+    transition: color 0.1s;
+  }
 }

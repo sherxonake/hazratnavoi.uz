@@ -397,12 +397,12 @@ export default function QuranPage() {
                             dir="rtl">
                             {words.map((word, wi) => (
                               <span key={wi}
-                                className={`transition-colors duration-100 inline-block mx-px ${
+                                className={`mx-px ${
                                   isPlaying && hlWord === wi
-                                    ? "text-yellow-300 drop-shadow-[0_0_8px_rgba(253,224,71,0.8)]"
+                                    ? "quran-word-active"
                                     : isPlaying
-                                    ? "text-white/55"
-                                    : "text-white"
+                                    ? "quran-word-dim"
+                                    : "inline-block text-white"
                                 }`}
                               >
                                 {word}
