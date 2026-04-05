@@ -2,6 +2,7 @@
 
 import { Youtube, Send, Instagram, Phone, MapPin, Clock, Mail } from "lucide-react"
 import Link from "next/link"
+import { usePrayerTimes } from "@/hooks/use-prayer-times"
 
 type Lang = "latin" | "cyrillic"
 
@@ -16,12 +17,13 @@ interface SocialLinks {
 // Социал тармоқлар (Ҳазрат Навоий жоме масжиди)
 const SOCIAL_LINKS: SocialLinks = {
   youtube: "https://www.youtube.com/@hazratnavoiuz",
-  telegram: "https://t.me/hazratnavoiuz", // Ўзгартириш керак
+  telegram: "https://t.me/hazratnavoi_uz",
   instagram: "https://instagram.com/hazratnavoiuz", // Ўзгартириш керак
 }
 
 export function Footer({ lang }: { lang: Lang }) {
   const currentYear = new Date().getFullYear()
+  const { prayerTimes } = usePrayerTimes()
 
   return (
     <footer className="relative bg-emerald-deep text-white overflow-hidden">
@@ -159,37 +161,53 @@ export function Footer({ lang }: { lang: Lang }) {
               <h4 className="text-sm font-semibold text-emerald-200 uppercase tracking-widest mb-4">
                 {label(lang, "Намоз вақтлари", "Намоз вақтлари")}
               </h4>
-              <div className="bg-emerald-800/50 backdrop-blur rounded-xl p-4 border border-yellow-500/30">
-                <div className="flex items-center gap-2 mb-3">
-                  <Clock className="w-5 h-5 text-yellow-400" />
-                  <span className="text-sm font-semibold text-emerald-100">
-                    {label(lang, "Навоий шаҳри", "Навоий шаҳри")}
-                  </span>
+              <div className="bg-emerald-800/50 backdrop-blur rounded-xl border border-yellow-500/30 overflow-hidden">
+                {/* City times */}
+                <div className="px-4 pt-4 pb-3">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Clock className="w-4 h-4 text-yellow-400" />
+                    <span className="text-xs font-semibold text-yellow-300 uppercase tracking-wider">
+                      {label(lang, "Навоий шаҳри", "Навоий шаҳри")}
+                    </span>
+                  </div>
+                  <div className="space-y-1.5 text-xs">
+                    {[
+                      { name: "Бомдод", time: prayerTimes?.fajr ?? "—" },
+                      { name: "Қуёш",   time: prayerTimes?.sunrise ?? "—" },
+                      { name: "Пешин",  time: prayerTimes?.dhuhr ?? "—" },
+                      { name: "Аср",    time: prayerTimes?.asr ?? "—" },
+                      { name: "Шом",    time: prayerTimes?.maghrib ?? "—" },
+                      { name: "Хуфтон", time: prayerTimes?.isha ?? "—" },
+                    ].map(({ name, time }) => (
+                      <div key={name} className="flex justify-between">
+                        <span className="text-emerald-300">{name}</span>
+                        <span className="text-yellow-400 font-semibold font-mono">{time}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex justify-between">
-                    <span className="text-emerald-200">Бомдод:</span>
-                    <span className="text-yellow-400 font-semibold">05:00</span>
+
+                {/* Mosque jamaat times */}
+                <div className="border-t border-yellow-500/20 bg-emerald-900/50 px-4 py-3">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-yellow-400 text-xs">🕌</span>
+                    <span className="text-xs font-semibold text-yellow-300 uppercase tracking-wider">
+                      {label(lang, "Масжид жамоат", "Масжид жамоат")}
+                    </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-emerald-200">Қуёш:</span>
-                    <span className="text-yellow-400 font-semibold">06:30</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-emerald-200">Пешин:</span>
-                    <span className="text-yellow-400 font-semibold">12:45</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-emerald-200">Аср:</span>
-                    <span className="text-yellow-400 font-semibold">16:15</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-emerald-200">Шом:</span>
-                    <span className="text-yellow-400 font-semibold">18:45</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-emerald-200">Хуфтон:</span>
-                    <span className="text-yellow-400 font-semibold">20:15</span>
+                  <div className="space-y-1.5 text-xs">
+                    {[
+                      { name: "Бомдод", time: prayerTimes?.mosque_fajr ?? "—" },
+                      { name: "Пешин",  time: prayerTimes?.mosque_dhuhr ?? "—" },
+                      { name: "Аср",    time: prayerTimes?.mosque_asr ?? "—" },
+                      { name: "Шом",    time: prayerTimes?.mosque_maghrib ?? "—" },
+                      { name: "Хуфтон", time: prayerTimes?.mosque_isha ?? "—" },
+                    ].map(({ name, time }) => (
+                      <div key={name} className="flex justify-between">
+                        <span className="text-emerald-300">{name}</span>
+                        <span className="text-yellow-400 font-semibold font-mono">{time}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>

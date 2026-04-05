@@ -179,7 +179,7 @@ export function HeroSection({ lang }: { lang: Lang }) {
             </p>
           </div>
 
-          {/* Prayer Grid */}
+          {/* Prayer Grid — City times */}
           <div className="grid grid-cols-5 divide-x divide-white/10">
             {prayers.map((prayer) => {
               const isActive = prayer.key === currentPrayer
@@ -225,6 +225,29 @@ export function HeroSection({ lang }: { lang: Lang }) {
               )
             })}
           </div>
+
+          {/* Mosque Jamaat Times */}
+          {prayerTimes && (prayerTimes.mosque_fajr || prayerTimes.mosque_dhuhr) && (
+            <div className="border-t border-white/10 px-6 py-4">
+              <p className="text-white/50 text-xs uppercase tracking-widest text-center mb-3">
+                {label("Alisher Navoiy masjidida jamoat", "Алишер Навоий масжидида жамоат")}
+              </p>
+              <div className="grid grid-cols-5 gap-2 text-center">
+                {[
+                  { label: label("Bomdod", "Бомдод"), time: prayerTimes.mosque_fajr },
+                  { label: label("Peshin", "Пешин"), time: prayerTimes.mosque_dhuhr },
+                  { label: label("Asr", "Аср"), time: prayerTimes.mosque_asr },
+                  { label: label("Shom", "Шом"), time: prayerTimes.mosque_maghrib },
+                  { label: label("Xufton", "Хуфтон"), time: prayerTimes.mosque_isha },
+                ].map((p) => p.time ? (
+                  <div key={p.label} className="flex flex-col gap-1">
+                    <span className="text-white/40 text-xs">{p.label}</span>
+                    <span className="font-mono text-sm font-bold text-yellow-300">{p.time}</span>
+                  </div>
+                ) : null)}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Scroll indicator */}

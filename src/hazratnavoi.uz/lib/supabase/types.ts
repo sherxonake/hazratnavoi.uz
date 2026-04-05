@@ -15,6 +15,8 @@ export interface Database {
           title: string
           content: string
           image_url: string | null
+          image_url_2: string | null
+          telegram_group_id: string | null
           created_at: string
           updated_at: string
           published: boolean
@@ -25,6 +27,8 @@ export interface Database {
           title: string
           content: string
           image_url?: string | null
+          image_url_2?: string | null
+          telegram_group_id?: string | null
           created_at?: string
           updated_at?: string
           published?: boolean
@@ -35,6 +39,8 @@ export interface Database {
           title?: string
           content?: string
           image_url?: string | null
+          image_url_2?: string | null
+          telegram_group_id?: string | null
           created_at?: string
           updated_at?: string
           published?: boolean
@@ -80,6 +86,11 @@ export interface Database {
           asr: string
           maghrib: string
           isha: string
+          mosque_fajr: string | null
+          mosque_dhuhr: string | null
+          mosque_asr: string | null
+          mosque_maghrib: string | null
+          mosque_isha: string | null
           created_at: string
           updated_at: string
         }
@@ -92,6 +103,11 @@ export interface Database {
           asr: string
           maghrib: string
           isha: string
+          mosque_fajr?: string | null
+          mosque_dhuhr?: string | null
+          mosque_asr?: string | null
+          mosque_maghrib?: string | null
+          mosque_isha?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -104,6 +120,11 @@ export interface Database {
           asr?: string
           maghrib?: string
           isha?: string
+          mosque_fajr?: string | null
+          mosque_dhuhr?: string | null
+          mosque_asr?: string | null
+          mosque_maghrib?: string | null
+          mosque_isha?: string | null
           created_at?: string
           updated_at?: string
         }

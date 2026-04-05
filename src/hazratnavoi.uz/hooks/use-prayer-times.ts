@@ -24,7 +24,27 @@ export function usePrayerTimes() {
           .limit(1)
 
         if (error) throw error
-        setPrayerTimes(data?.[0] || null)
+        const row = data?.[0]
+        if (row) {
+          // Strip seconds from HH:MM:SS → HH:MM
+          const trim = (t: string | null) => t?.slice(0, 5) ?? null
+          setPrayerTimes({
+            ...row,
+            fajr: trim(row.fajr)!,
+            sunrise: trim(row.sunrise)!,
+            dhuhr: trim(row.dhuhr)!,
+            asr: trim(row.asr)!,
+            maghrib: trim(row.maghrib)!,
+            isha: trim(row.isha)!,
+            mosque_fajr: trim(row.mosque_fajr),
+            mosque_dhuhr: trim(row.mosque_dhuhr),
+            mosque_asr: trim(row.mosque_asr),
+            mosque_maghrib: trim(row.mosque_maghrib),
+            mosque_isha: trim(row.mosque_isha),
+          })
+        } else {
+          setPrayerTimes(null)
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Хатолик юз берди')
       } finally {

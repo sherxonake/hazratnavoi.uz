@@ -4,12 +4,14 @@ import { useState, useEffect } from "react"
 import { Menu, X, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 const navLinks = [
   { label: "Bosh sahifa", labelCyrillic: "Бош саҳифа", href: "#bosh" },
   { label: "Yangiliklar", labelCyrillic: "Янгиликлар", href: "#yangiliklar" },
   { label: "Ma'ruzalar", labelCyrillic: "Маърузалар", href: "#maruzalar" },
   { label: "Savol-javob", labelCyrillic: "Савол-жавоб", href: "#savol" },
+  { label: "Makka", labelCyrillic: "Макка", href: "#makkah" },
 ]
 
 export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onToggleLang: () => void }) {
@@ -41,17 +43,18 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
             className="flex items-center gap-3 group"
             aria-label="Hazratnavoi.uz — Бош саҳифага қайтиш"
           >
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 flex-shrink-0">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                <path d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm-4.5 5.5h9l-1 7h-7l-1-7z" fill="white" />
-                <path d="M7.5 9.5h7M8 12.5h6M8.5 15.5h5" stroke="white" strokeWidth="0.5" strokeLinecap="round" />
-                {/* Simplified minaret icon */}
-                <rect x="10" y="3" width="2" height="5" rx="1" fill="white" opacity="0.9" />
-                <rect x="7" y="5" width="1.5" height="4" rx="0.75" fill="white" opacity="0.7" />
-                <rect x="13.5" y="5" width="1.5" height="4" rx="0.75" fill="white" opacity="0.7" />
-                <rect x="5.5" y="9" width="11" height="1" rx="0.5" fill="white" />
-                <rect x="5.5" y="10" width="11" height="7" rx="1" fill="white" opacity="0.2" />
-              </svg>
+            <div className={cn(
+              "w-12 h-12 rounded-full overflow-hidden flex-shrink-0 group-hover:scale-105 transition-all duration-300 ring-2 ring-yellow-500/40",
+              scrolled ? "bg-emerald-950" : "bg-black/30 backdrop-blur-sm"
+            )}>
+              <Image
+                src="/images/mosque-logo.png"
+                alt="Ҳазрат Навоий масжиди"
+                width={48}
+                height={48}
+                className="object-cover w-full h-full scale-110"
+                priority
+              />
             </div>
             <div className="flex flex-col leading-tight">
               <span

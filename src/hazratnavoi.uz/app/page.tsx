@@ -12,6 +12,7 @@ import { VideoSection } from "@/components/video-section"
 import { HeritageSection } from "@/components/heritage-section"
 import { NewsSection } from "@/components/news-section"
 import { QASection } from "@/components/qa-section"
+import { MakkahSection } from "@/components/makkah-section"
 import { Footer } from "@/components/footer"
 
 type Lang = "latin" | "cyrillic"
@@ -25,6 +26,7 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <Header lang={lang} onToggleLang={toggleLang} />
       <HeroSection lang={lang} />
+      <MakkahSection lang={lang} />
       <ImamSection lang={lang} />
       <IslamicCalendar lang={lang} />
       <QiblaCompass lang={lang} />
