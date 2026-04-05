@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Play, MapPin, Clock, Users, Star, ChevronDown, ChevronUp, Radio, ExternalLink, Wifi, WifiOff } from "lucide-react"
+import { MapPin, Clock, Users, Star, ChevronDown, ChevronUp, Radio, Wifi, WifiOff } from "lucide-react"
 
 const FACTS = [
   { icon: <MapPin className="w-5 h-5" />, label: "Жойлашуви", value: "Ҳижоз, Саудия Арабистони" },
@@ -29,30 +29,6 @@ const INFO_BLOCKS = [
   },
 ]
 
-// Stream sources — HLS birinchi, YouTube fallback
-const STREAMS = [
-  {
-    id: "hls",
-    label: "Saudi Quran TV",
-    sublabel: "HD • Жонли",
-    url: "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8",
-    type: "hls",
-  },
-  {
-    id: "yt1",
-    label: "Al Quran 4K",
-    sublabel: "YouTube",
-    channelId: "UCraPI8sg-eiNzUrurxhKeEQ",
-    type: "youtube",
-  },
-  {
-    id: "yt2",
-    label: "Makkah Live HD",
-    sublabel: "YouTube",
-    channelId: "UCoSrbBgZJTvj7xJ7y6TkbuA",
-    type: "youtube",
-  },
-]
 
 function HlsPlayer({ url }: { url: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -118,12 +94,11 @@ function HlsPlayer({ url }: { url: string }) {
   )
 }
 
+const HLS_URL = "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8"
+
 export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
   const [liveOpen, setLiveOpen] = useState(false)
-  const [activeStream, setActiveStream] = useState(0)
   const [expanded, setExpanded] = useState<number | null>(null)
-
-  const current = STREAMS[activeStream]
 
   return (
     <section id="makkah" className="relative py-24 lg:py-32 bg-emerald-deep overflow-hidden">
@@ -173,62 +148,20 @@ export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
           </button>
 
           {liveOpen && (
-            <div className="mt-3 space-y-3">
-              {/* Channel tabs */}
-              <div className="flex gap-2 flex-wrap">
-                {STREAMS.map((s, i) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setActiveStream(i)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold border transition-all ${
-                      activeStream === i
-                        ? "bg-yellow-500 border-yellow-500 text-emerald-950"
-                        : "bg-white/5 border-white/15 text-white/50 hover:text-white/80 hover:border-white/30"
-                    }`}
-                  >
-                    {s.type === "hls"
-                      ? <Wifi className="w-3 h-3" />
-                      : <Play className="w-3 h-3" />
-                    }
-                    <span>{s.label}</span>
-                    <span className={`text-[10px] ${activeStream === i ? "text-emerald-800" : "text-white/25"}`}>{s.sublabel}</span>
-                  </button>
-                ))}
+            <div className="mt-3 space-y-2">
+              {/* Source label */}
+              <div className="flex items-center gap-2 px-1">
+                <Wifi className="w-3.5 h-3.5 text-yellow-500/60" />
+                <span className="text-white/50 text-xs">Saudi Quran TV</span>
+                <span className="text-white/25 text-xs">·</span>
+                <span className="text-red-400/80 text-xs font-semibold">HD</span>
+                <span className="text-white/25 text-xs">·</span>
+                <span className="text-white/40 text-xs">Жонли</span>
               </div>
 
               {/* Player */}
               <div className="rounded-2xl overflow-hidden border border-yellow-500/20 bg-black aspect-video">
-                {current.type === "hls" && current.url ? (
-                  <HlsPlayer url={current.url} />
-                ) : current.type === "youtube" && current.channelId ? (
-                  <iframe
-                    key={current.channelId}
-                    src={`https://www.youtube.com/embed/live_stream?channel=${current.channelId}&autoplay=1&mute=1`}
-                    title="Масжид ул-Ҳаром жонли эфири"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full"
-                  />
-                ) : null}
-              </div>
-
-              {/* Footer hint */}
-              <div className="flex items-center justify-between text-xs text-white/25 px-1">
-                <span>
-                  {current.type === "hls"
-                    ? "🔴 Akamai CDN орқали жонли HD эфир"
-                    : "🎬 YouTube орқали жонли эфир"}
-                </span>
-                {current.type === "youtube" && current.channelId && (
-                  <a
-                    href={`https://www.youtube.com/channel/${current.channelId}/live`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 hover:text-yellow-400/60 transition-colors"
-                  >
-                    YouTube'да кўриш <ExternalLink className="w-3 h-3" />
-                  </a>
-                )}
+                <HlsPlayer url={HLS_URL} />
               </div>
             </div>
           )}
