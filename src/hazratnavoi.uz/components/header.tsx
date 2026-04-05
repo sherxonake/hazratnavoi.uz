@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Menu, X, Phone, LogOut, User } from "lucide-react"
+import { Menu, X, LogOut, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
@@ -147,13 +147,6 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
                 </button>
               )}
 
-              {/* Bog'lanish */}
-              <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-4 shadow-md" asChild>
-                <a href="#aloqa">
-                  <Phone className="w-3.5 h-3.5 mr-1.5" />
-                  {label("Bog'lanish", "Боғланиш")}
-                </a>
-              </Button>
             </div>
 
             {/* Mobile hamburger */}
@@ -206,12 +199,6 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
                 </button>
               )}
 
-              <Button size="sm" className="bg-primary text-primary-foreground rounded-full px-4" asChild>
-                <a href="#aloqa" onClick={() => setMobileOpen(false)}>
-                  <Phone className="w-3.5 h-3.5 mr-1.5" />
-                  {label("Bog'lanish", "Боғланиш")}
-                </a>
-              </Button>
             </div>
           </nav>
         </div>
