@@ -113,9 +113,22 @@ export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
                   className="w-full h-full"
                 />
               </div>
-              <p className="text-white/25 text-xs text-center mt-2">
-                Агар эфир кўрсатилмаса — канал жонли режимда эмас, иккинчи каналга ўтинг
-              </p>
+
+              {/* Fallback YouTube link */}
+              <div className="flex items-center justify-between mt-3 px-1">
+                <p className="text-white/25 text-xs">
+                  Агар кўрсатилмаса — канал офлайн ёки бошқасига ўтинг
+                </p>
+                <a
+                  href={`https://www.youtube.com/channel/${CHANNELS[activeChannel].id}/live`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 text-xs px-3 py-1.5 rounded-full transition-all flex-shrink-0"
+                >
+                  <Play className="w-3 h-3" />
+                  YouTube'да кўриш
+                </a>
+              </div>
             </div>
           )}
         </div>
