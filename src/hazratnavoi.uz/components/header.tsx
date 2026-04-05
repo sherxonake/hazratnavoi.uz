@@ -43,16 +43,14 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
             className="flex items-center gap-3 group"
             aria-label="Hazratnavoi.uz — Бош саҳифага қайтиш"
           >
-            <div className={cn(
-              "w-12 h-12 rounded-full overflow-hidden flex-shrink-0 group-hover:scale-105 transition-all duration-300 ring-2 ring-yellow-500/40",
-              scrolled ? "bg-emerald-950" : "bg-black/30 backdrop-blur-sm"
-            )}>
+            <div className="w-14 h-14 flex-shrink-0 group-hover:scale-105 transition-transform duration-300"
+              style={{ mixBlendMode: "darken" }}>
               <Image
                 src="/images/mosque-logo.png"
                 alt="Ҳазрат Навоий масжиди"
-                width={48}
-                height={48}
-                className="object-cover w-full h-full scale-110"
+                width={56}
+                height={56}
+                className="object-contain w-full h-full"
                 priority
               />
             </div>

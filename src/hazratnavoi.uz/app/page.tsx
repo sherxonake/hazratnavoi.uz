@@ -26,12 +26,12 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <Header lang={lang} onToggleLang={toggleLang} />
       <HeroSection lang={lang} />
+      <HadithSection lang={lang} />
       <MakkahSection lang={lang} />
       <ImamSection lang={lang} />
       <IslamicCalendar lang={lang} />
       <QiblaCompass lang={lang} />
       <TasbihCounter lang={lang} />
-      <HadithSection lang={lang} />
       <VideoSection lang={lang} />
       <HeritageSection lang={lang} />
       <NewsSection lang={lang} />

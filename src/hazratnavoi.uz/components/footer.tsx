@@ -104,8 +104,8 @@ export function Footer({ lang }: { lang: Lang }) {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-emerald-100">
                   <Phone className="w-5 h-5 text-yellow-400 flex-shrink-0" />
-                  <a href="tel:+998762000001" className="hover:text-yellow-400 transition-colors">
-                    +998 76 200 00 01
+                  <a href="tel:+998792265513" className="hover:text-yellow-400 transition-colors">
+                    +998 79 226-55-13
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-emerald-100">
@@ -116,12 +116,10 @@ export function Footer({ lang }: { lang: Lang }) {
                 </div>
                 <div className="flex items-start gap-3 text-emerald-100">
                   <MapPin className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
-                  <span>
-                    {label(
-                      lang,
-                      "Навоий шаҳри, Марказий майдон",
-                      "Навоий шаҳри, Марказий майдон"
-                    )}
+                  <span className="text-sm leading-relaxed">
+                    210103, Навоий вилояти, Навоий шаҳри,<br />
+                    Авлоний кўчаси<br />
+                    <span className="text-white/40 text-xs">Мўлжал: 18-мактаб, Гулистон массиви</span>
                   </span>
                 </div>
               </div>
