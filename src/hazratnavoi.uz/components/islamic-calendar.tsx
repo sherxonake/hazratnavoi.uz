@@ -60,11 +60,11 @@ export function IslamicCalendar({ lang }: { lang: Lang }) {
               <Moon className="w-5 h-5 text-emerald-900" aria-hidden="true" />
             </div>
             <span className="text-yellow-400 text-sm font-bold uppercase tracking-widest">
-              {label(lang, "ИСЛОМИЙ ТАҚВИМ", "ISLOMIY TAQVIM")}
+              {label(lang, "ISLOMIY TAQVIM", "ИСЛОМИЙ ТАҚВИМ")}
             </span>
           </div>
           <h2 className="font-serif text-white text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
-            {label(lang, "Ҳижрий сана", "Hijriy sana")}
+            {label(lang, "Hijriy sana", "Ҳижрий сана")}
           </h2>
         </div>
 

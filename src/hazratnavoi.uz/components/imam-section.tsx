@@ -92,13 +92,20 @@ export function ImamSection({ lang }: { lang: Lang }) {
               )}
             </p>
 
-            <Button
-              size="lg"
-              className="self-start bg-yellow-500 text-emerald-900 hover:bg-yellow-400 rounded-full px-8 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            <a
+              href="https://www.youtube.com/@hazratnavoiuz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="self-start"
             >
-              <PlayCircle className="w-5 h-5 mr-2" aria-hidden="true" />
-              {label(lang, "Juma mav'izasini tinglash", "Жума мавъизасини тинглаш")}
-            </Button>
+              <Button
+                size="lg"
+                className="bg-yellow-500 text-emerald-900 hover:bg-yellow-400 rounded-full px-8 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <PlayCircle className="w-5 h-5 mr-2" aria-hidden="true" />
+                {label(lang, "Juma mav'izasini tinglash", "Жума мавъизасини тинглаш")}
+              </Button>
+            </a>
           </div>
         </div>
       </div>
