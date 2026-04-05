@@ -102,7 +102,7 @@ export default function QuranPage() {
     try {
       const [arabicRes, uzRes, recitRes] = await Promise.all([
         fetch(`https://api.alquran.cloud/v1/surah/${surah.number}`),
-        fetch(`https://api.alquran.cloud/v1/surah/${surah.number}/uz.musayev`),
+        fetch(`https://api.alquran.cloud/v1/surah/${surah.number}/uz.sodik`),
         fetch(`https://api.quran.com/api/v4/recitations/${RECIT_ID}/by_chapter/${surah.number}`),
       ])
       const arabicData = await arabicRes.json()
