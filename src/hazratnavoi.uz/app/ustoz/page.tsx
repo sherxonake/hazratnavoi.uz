@@ -471,23 +471,14 @@ export default function UstozPage() {
                 </div>
               </div>
             ) : (
-              <div className="rounded-2xl border border-white/8 bg-white/2 h-full min-h-[400px] flex flex-col items-center justify-center p-10">
-                {/* Empty state with Islamic decoration */}
-                <div className="relative mb-6">
-                  <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                    <span className="text-4xl opacity-30">🕌</span>
-                  </div>
-                  <div className="absolute -inset-3 rounded-full border border-yellow-500/10 border-dashed animate-spin" style={{ animationDuration: "20s" }} />
-                </div>
-                <p className="text-white/25 text-sm mb-2">Саволни танланг ва жавоб ёзинг</p>
-                <p className="text-yellow-500/20 text-xs font-serif" dir="rtl">وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ</p>
-                <p className="text-white/15 text-[10px] mt-1">"Ҳар билувчидан юқорироқ билувчи бор" (Юсуф: 76)</p>
-
+              <div className="rounded-2xl border border-white/8 bg-white/2 flex flex-col items-center justify-center gap-3 py-12 px-6 text-center">
+                <span className="text-3xl opacity-25">🕌</span>
+                <p className="text-white/25 text-sm">Саволни танланг ва жавоб ёзинг</p>
                 {pendingCount > 0 && (
                   <button onClick={() => setFilter("pending")}
-                    className="mt-6 flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-xs px-4 py-2 rounded-full hover:bg-yellow-500/15 transition-all">
-                    <Clock className="w-3.5 h-3.5" />
-                    {pendingCount} та савол жавоб кутяпти
+                    className="flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-xs px-3 py-1.5 rounded-full hover:bg-yellow-500/15 transition-all">
+                    <Clock className="w-3 h-3" />
+                    {pendingCount} та савол кутяпти
                   </button>
                 )}
               </div>
