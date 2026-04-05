@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { MapPin, Clock, Users, Star, ChevronDown, ChevronUp, Radio, Wifi, WifiOff } from "lucide-react"
+import { MapPin, Clock, Users, Star, ChevronDown, ChevronUp, Radio, Wifi } from "lucide-react"
 
 const FACTS = [
   { icon: <MapPin className="w-5 h-5" />, label: "Жойлашуви", value: "Ҳижоз, Саудия Арабистони" },
@@ -30,71 +30,72 @@ const INFO_BLOCKS = [
 ]
 
 
-function HlsPlayer({ url }: { url: string }) {
+const HLS_URL = "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8"
+// YouTube fallback — Saudi Quran TV official channel
+const YT_CHANNEL_ID = "UCos52azQNBgW63_9uDJoPDA"
+
+function LivePlayer() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [status, setStatus] = useState<"loading" | "playing" | "error">("loading")
+  const [mode, setMode] = useState<"hls" | "youtube">("hls")
+  const [hlsStatus, setHlsStatus] = useState<"loading" | "playing" | "error">("loading")
 
   useEffect(() => {
+    if (mode !== "hls") return
     let hlsInstance: import("hls.js").default | null = null
 
     async function init() {
       const video = videoRef.current
       if (!video) return
 
-      // Safari native HLS
       if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        video.src = url
-        video.play().catch(() => setStatus("error"))
-        setStatus("playing")
+        video.src = HLS_URL
+        video.play().catch(() => {})
+        setHlsStatus("playing")
         return
       }
 
       const Hls = (await import("hls.js")).default
-      if (!Hls.isSupported()) { setStatus("error"); return }
+      if (!Hls.isSupported()) { setMode("youtube"); return }
 
       hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true })
-      hlsInstance.loadSource(url)
+      hlsInstance.loadSource(HLS_URL)
       hlsInstance.attachMedia(video)
       hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
-        setStatus("playing")
+        setHlsStatus("playing")
         video.play().catch(() => {})
       })
       hlsInstance.on(Hls.Events.ERROR, (_, data) => {
-        if (data.fatal) setStatus("error")
+        if (data.fatal) { hlsInstance?.destroy(); setMode("youtube") }
       })
     }
 
     init()
     return () => { hlsInstance?.destroy() }
-  }, [url])
+  }, [mode])
+
+  if (mode === "youtube") {
+    return (
+      <iframe
+        src={`https://www.youtube.com/embed/live_stream?channel=${YT_CHANNEL_ID}&autoplay=1&mute=1`}
+        title="Масжид ул-Ҳаром жонли эфири"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        className="w-full h-full"
+      />
+    )
+  }
 
   return (
     <div className="relative w-full h-full bg-black">
-      {status === "loading" && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+      {hlsStatus === "loading" && (
+        <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-8 h-8 border-2 border-yellow-500/30 border-t-yellow-500 rounded-full animate-spin" />
-          <p className="text-white/40 text-xs">Жонли эфир юкланмоқда...</p>
         </div>
       )}
-      {status === "error" && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
-          <WifiOff className="w-8 h-8 text-white/20" />
-          <p className="text-white/40 text-sm">Жонли эфир мавжуд эмас</p>
-          <p className="text-white/20 text-xs">YouTube каналларга ўтинг</p>
-        </div>
-      )}
-      <video
-        ref={videoRef}
-        className="w-full h-full object-contain"
-        muted
-        playsInline
-        controls={status === "playing"}
-      />
+      <video ref={videoRef} className="w-full h-full object-contain" muted playsInline controls={hlsStatus === "playing"} />
     </div>
   )
 }
-
-const HLS_URL = "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8"
 
 export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
   const [liveOpen, setLiveOpen] = useState(false)
@@ -159,7 +160,7 @@ export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
 
               {/* Player */}
               <div className="rounded-2xl overflow-hidden border border-yellow-500/20 bg-black aspect-video">
-                <HlsPlayer url={HLS_URL} />
+                <LivePlayer />
               </div>
             </div>
           )}
