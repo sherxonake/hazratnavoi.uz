@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { X, Phone, Shield, User, CheckCircle } from "lucide-react"
 
 type Step = "phone" | "bot_instructions" | "code" | "name" | "done"
@@ -13,10 +13,13 @@ interface AuthModalProps {
 export function AuthModal({ onClose, onSuccess }: AuthModalProps) {
   const [step, setStep] = useState<Step>("phone")
   const [phone, setPhone] = useState("")
-  const [code, setCode] = useState("")
+  const [digits, setDigits] = useState(["", "", "", "", "", ""])
   const [name, setName] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const digitRefs = useRef<(HTMLInputElement | null)[]>([])
+
+  const code = digits.join("")
 
   const formatPhone = (val: string) => {
     const digits = val.replace(/\D/g, "")
@@ -152,19 +155,45 @@ export function AuthModal({ onClose, onSuccess }: AuthModalProps) {
 
           {/* STEP 3: OTP kod */}
           {step === "code" && (
-            <div className="space-y-4">
+            <div className="space-y-5">
               <p className="text-white/60 text-sm text-center">
-                <span className="text-yellow-400">@hazratnavoiy2fa_bot</span> дан келган 6 рақамли кодни киритинг
+                <span className="text-yellow-400">@hazratnavoiy2fa_bot</span> дан келган кодни киритинг
               </p>
-              <input
-                type="text"
-                value={code}
-                onChange={e => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                placeholder="· · · · · ·"
-                className="w-full bg-white/5 border border-yellow-500/20 rounded-xl px-4 py-3 text-white text-center text-2xl tracking-[0.5em] placeholder-white/20 focus:outline-none focus:border-yellow-500/50"
-              />
+
+              {/* 6 digit boxes */}
+              <div className="flex justify-center gap-2">
+                {digits.map((d, i) => (
+                  <input
+                    key={i}
+                    ref={el => { digitRefs.current[i] = el }}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={1}
+                    value={d}
+                    onChange={e => {
+                      const val = e.target.value.replace(/\D/g, "").slice(-1)
+                      const next = [...digits]
+                      next[i] = val
+                      setDigits(next)
+                      if (val && i < 5) digitRefs.current[i + 1]?.focus()
+                    }}
+                    onKeyDown={e => {
+                      if (e.key === "Backspace" && !d && i > 0) {
+                        digitRefs.current[i - 1]?.focus()
+                      }
+                    }}
+                    onFocus={e => e.target.select()}
+                    className={`w-11 h-14 text-center text-xl font-bold rounded-xl border transition-all outline-none
+                      ${d
+                        ? "bg-yellow-500/15 border-yellow-500/60 text-yellow-300"
+                        : "bg-white/5 border-white/15 text-white"
+                      } focus:border-yellow-400 focus:bg-yellow-500/10`}
+                  />
+                ))}
+              </div>
+
               <div>
-                <label className="block text-white/50 text-xs mb-1.5">Исмингиз (ихтиёрий)</label>
+                <label className="block text-white/40 text-xs mb-1.5">Исмингиз (ихтиёрий)</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                   <input
@@ -184,7 +213,7 @@ export function AuthModal({ onClose, onSuccess }: AuthModalProps) {
               >
                 {loading ? "Текширилмоқда..." : "Тасдиқлаш ✓"}
               </button>
-              <button onClick={() => { setStep("phone"); setCode("") }} className="w-full text-white/30 text-xs hover:text-white/50 transition-colors">
+              <button onClick={() => { setStep("phone"); setDigits(["","","","","",""]) }} className="w-full text-white/30 text-xs hover:text-white/50 transition-colors">
                 ← Орқага
               </button>
             </div>
