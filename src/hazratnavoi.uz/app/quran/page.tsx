@@ -20,14 +20,6 @@ interface Ayah {
   translation?: string
 }
 
-// quran.com recitation API segment: [wordPosition(1-based), startMs, endMs]
-type Segment = [number, number, number]
-
-interface SegData {
-  url: string        // relative audio path on verses.quran.com
-  segs: Segment[]
-}
-
 const UZ_NAMES: Record<number, string> = {
   1:"Фотиҳа",2:"Бақара",3:"Оли Имрон",4:"Нисо",5:"Моида",6:"Анъом",7:"Аъроф",8:"Анфол",9:"Тавба",10:"Юнус",
   11:"Ҳуд",12:"Юсуф",13:"Раъд",14:"Иброҳим",15:"Ҳижр",16:"Наҳл",17:"Исро",18:"Каҳф",19:"Марям",20:"Тоҳо",
@@ -43,9 +35,7 @@ const UZ_NAMES: Record<number, string> = {
   111:"Масад",112:"Ихлос",113:"Фалақ",114:"Нос"
 }
 
-const QC_BASE    = "https://verses.quran.com/"
-const RECIT_ID   = 7   // Mishary Rashid Al-Afasy on quran.com
-const FALLBACK   = (n: number) => `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${n}.mp3`
+const QC_BASE = "https://verses.quran.com/"
 
 export default function QuranPage() {
   // ── List ────────────────────────────────────────────────
@@ -67,7 +57,6 @@ export default function QuranPage() {
   // ── Refs (stable across renders, safe in callbacks) ─────
   const audioRef    = useRef<HTMLAudioElement | null>(null)
   const animRef     = useRef<number | null>(null)
-  const segMap      = useRef<Map<number, SegData>>(new Map())
   const ayahsRef    = useRef<Ayah[]>([])
   const autoNextRef = useRef(true)
 
@@ -94,26 +83,17 @@ export default function QuranPage() {
   // ── Open surah ──────────────────────────────────────────
   async function openSurah(surah: Surah) {
     stopPlayback()
-    segMap.current.clear()
-    setSelected(surah)
+setSelected(surah)
     setAyahs([])
     setAyahLoad(true)
 
     try {
-      const [arabicRes, uzRes, recitRes] = await Promise.all([
+      const [arabicRes, uzRes] = await Promise.all([
         fetch(`https://api.alquran.cloud/v1/surah/${surah.number}`),
         fetch(`https://api.alquran.cloud/v1/surah/${surah.number}/uz.sodik`),
-        fetch(`https://api.quran.com/api/v4/recitations/${RECIT_ID}/by_chapter/${surah.number}`),
       ])
       const arabicData = await arabicRes.json()
       const uzData     = await uzRes.json()
-      const recitData  = await recitRes.json()
-
-      // Build word-timing map  ayahNumInSurah → SegData
-      for (const af of (recitData.audio_files ?? [])) {
-        const num = parseInt(af.verse_key.split(":")[1])
-        segMap.current.set(num, { url: af.url, segs: af.segments ?? [] })
-      }
 
       const combined: Ayah[] = arabicData.data.ayahs.map((a: Ayah, i: number) => ({
         ...a,
@@ -133,24 +113,31 @@ export default function QuranPage() {
     if (animRef.current) cancelAnimationFrame(animRef.current)
     setHlWord(null)
 
-    const seg  = segMap.current.get(ayah.numberInSurah)
-    const url  = seg ? QC_BASE + seg.url : FALLBACK(ayah.number)
+    const s   = String(selected?.number ?? 1).padStart(3, "0")
+    const a   = String(ayah.numberInSurah).padStart(3, "0")
+    const url = `${QC_BASE}Alafasy/mp3/${s}${a}.mp3`
     const audio = new Audio(url)
     audioRef.current = audio
     setPlayNum(ayah.numberInSurah)
+
+    const wordCount = ayah.text.split(" ").length
 
     // Smooth scroll to this ayah
     setTimeout(() =>
       document.getElementById(`ayah-${ayah.numberInSurah}`)
         ?.scrollIntoView({ behavior: "smooth", block: "center" }), 80)
 
-    // RAF word-highlight loop
+    // RAF loop — proportional word highlight
     function tick() {
       if (!audioRef.current || audioRef.current !== audio) return
-      const ms  = audio.currentTime * 1000
-      const segs = seg?.segs ?? []
-      const hit  = segs.find(s => ms >= s[1] && ms < s[2])
-      setHlWord(hit ? hit[0] - 1 : null)   // quran.com is 1-based
+      const dur = audio.duration
+      if (dur && !isNaN(dur) && dur > 0) {
+        const idx = Math.min(
+          Math.floor((audio.currentTime / dur) * wordCount),
+          wordCount - 1
+        )
+        setHlWord(idx)
+      }
       if (!audio.paused && !audio.ended)
         animRef.current = requestAnimationFrame(tick)
     }
