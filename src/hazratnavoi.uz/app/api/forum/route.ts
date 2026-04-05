@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Savolni saqlash
-    const { data: newQ } = await supabase
+    const { data: newQ, error: insertError } = await supabase
       .from('forum_questions')
       .insert({
         user_id: userId,
@@ -74,16 +74,25 @@ export async function POST(req: NextRequest) {
       .select()
       .single()
 
-    // Adminga Telegram xabari
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: ADMIN_CHAT_ID,
-        text: `📩 <b>Форумдан янги савол</b>\n\n👤 ${userName} (${phone})\n\n❓ ${question}\n\n✏️ Жавоб бериш: /answer ${newQ.id} жавоб матни`,
-        parse_mode: 'HTML',
-      }),
-    })
+    if (insertError || !newQ) {
+      console.error('forum insert error:', insertError)
+      return NextResponse.json({ error: 'Савол сақланмади, қайта уриниб кўринг' }, { status: 500 })
+    }
+
+    // Adminga Telegram xabari (xato bo'lsa ham davom etamiz)
+    try {
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: ADMIN_CHAT_ID,
+          text: `📩 <b>Форумдан янги савол</b>\n\n👤 ${userName} (${phone})\n\n❓ ${question}\n\n✏️ Жавоб бериш: /answer ${newQ.id} жавоб матни`,
+          parse_mode: 'HTML',
+        }),
+      })
+    } catch (tgErr) {
+      console.error('Telegram notify error:', tgErr)
+    }
 
     return NextResponse.json({ ok: true, message: 'Саволингиз имом-хатибга юборилди' })
   } catch (err) {

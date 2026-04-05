@@ -34,25 +34,34 @@ export async function POST(req: NextRequest) {
 
   if (!q) return NextResponse.json({ error: 'Savol topilmadi' }, { status: 404 })
 
-  await supabase.from('forum_questions').update({
+  const { error: updateError } = await supabase.from('forum_questions').update({
     answer: answer.trim(),
     answered_at: new Date().toISOString(),
     answered_by: 'Имом-хатиб Темурхон домла Атоев',
     published: true,
   }).eq('id', questionId)
 
-  // Telegram orqali foydalanuvchiga yuborish
+  if (updateError) {
+    console.error('ustoz answer update error:', updateError)
+    return NextResponse.json({ error: 'Жавоб сақланмади' }, { status: 500 })
+  }
+
+  // Telegram orqali foydalanuvchiga yuborish (xato bo'lsa ham OK qaytaramiz)
   const chatId = q.site_users?.telegram_chat_id
   if (chatId && BOT_TOKEN) {
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: `🕌 <b>Hazratnavoi.uz</b>\n\nСаволингизга жавоб:\n\n❓ <i>${q.question}</i>\n\n✅ <b>Жавоб:</b>\n${answer}\n\n— Имом-хатиб Темурхон домла Атоев`,
-        parse_mode: 'HTML',
-      }),
-    })
+    try {
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: `🕌 <b>Hazratnavoi.uz</b>\n\nСаволингизга жавоб:\n\n❓ <i>${q.question}</i>\n\n✅ <b>Жавоб:</b>\n${answer}\n\n— Имом-хатиб Темурхон домла Атоев`,
+          parse_mode: 'HTML',
+        }),
+      })
+    } catch (tgErr) {
+      console.error('Telegram notify error:', tgErr)
+    }
   }
 
   return NextResponse.json({ ok: true })

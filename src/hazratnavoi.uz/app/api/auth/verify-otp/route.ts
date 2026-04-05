@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     await supabase.from('otp_codes').update({ used: true }).eq('id', otp.id)
 
     // Foydalanuvchini yaratish yoki yangilash
-    const { data: user } = await supabase
+    const { data: user, error: upsertError } = await supabase
       .from('site_users')
       .upsert(
         {
@@ -51,6 +51,11 @@ export async function POST(req: NextRequest) {
       )
       .select()
       .single()
+
+    if (upsertError || !user) {
+      console.error('verify-otp upsert error:', upsertError)
+      return NextResponse.json({ error: 'Фойдаланувчи яратилмади' }, { status: 500 })
+    }
 
     // JWT token
     const token = await new SignJWT({ userId: user.id, phone, name: user.name })
