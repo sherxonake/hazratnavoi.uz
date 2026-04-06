@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { AuthModal } from "./auth-modal"
+import { PushNotification } from "./push-notification"
 import { useAuth } from "@/lib/auth-context"
 
 const navLinks = [
@@ -105,6 +106,9 @@ export function Header({ lang, onToggleLang }: { lang: "latin" | "cyrillic"; onT
 
             {/* Right actions */}
             <div className="hidden lg:flex items-center gap-2">
+              {/* Push notification bell */}
+              <PushNotification />
+
               {/* Language toggle */}
               <button onClick={onToggleLang}
                 className="text-xs font-semibold px-3 py-1.5 rounded-full border border-white/30 text-white/80 hover:border-yellow-400/60 hover:text-yellow-400 transition-all duration-200">

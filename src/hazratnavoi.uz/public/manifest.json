@@ -1,0 +1,17 @@
+{
+  "name": "Ҳазрат Навоий Масжиди",
+  "short_name": "HazratNavoi",
+  "description": "Навоий шаҳри Ҳазрат Навоий масжиди — намоз вақтлари ва эслатмалар",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#021a0f",
+  "theme_color": "#021a0f",
+  "lang": "uz",
+  "icons": [
+    { "src": "/apple-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "apple touch icon" },
+    { "src": "/icon.svg",       "sizes": "any",      "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "categories": ["lifestyle", "religion"],
+  "screenshots": []
+}

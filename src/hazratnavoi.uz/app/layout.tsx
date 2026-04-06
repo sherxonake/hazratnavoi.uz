@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { SplashScreen } from '@/components/splash-screen'
 import { AuthProvider } from '@/lib/auth-context'
+import { ServiceWorkerRegister } from '@/components/service-worker-register'
 import './globals.css'
 
 const playfair = Playfair_Display({
@@ -28,7 +29,8 @@ export const metadata: Metadata = {
     locale: 'uz_UZ',
     type: 'website',
   },
-  themeColor: '#166534',
+  manifest: '/manifest.json',
+  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'HazratNavoi' },
 }
 
 export default function RootLayout({
@@ -40,6 +42,7 @@ export default function RootLayout({
     <html lang="uz" className={`${playfair.variable} ${inter.variable}`}>
       <body className="font-sans antialiased">
         <AuthProvider>
+          <ServiceWorkerRegister />
           <SplashScreen>
             {children}
             <Analytics />
