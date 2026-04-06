@@ -144,73 +144,109 @@ const STEPS: Step[] = [
   },
 ]
 
-// ── Prayer position illustrations (SVG) ────────────────────────────────────
-function PosIllustration({ pos }: { pos: Step["pos"] }) {
-  const emerald = "rgb(52 211 153 / 0.82)"
-  const body    = "rgb(52 211 153 / 0.72)"
+// ── Prayer position illustrations — куфи + соқол + тўн ────────────────────
+function PosIllustration({ pos, scale = 1 }: { pos: Step["pos"]; scale?: number }) {
+  const c1 = "rgb(52 211 153 / 0.92)"   // бош, куфи, чизиқлар
+  const c2 = "rgb(52 211 153 / 0.72)"   // тўн/гавда
+  const c3 = "rgb(52 211 153 / 0.55)"   // соқол
+  const W  = (n: number) => Math.round(n * scale)
+  const H  = (n: number) => Math.round(n * scale)
 
   if (pos === "intent") return (
-    // Такбир — қўллар қулоққа кўтарилган
-    <svg viewBox="0 0 48 100" width={48} height={100} aria-hidden>
-      <circle cx="24" cy="11" r="10" fill={emerald}/>
-      <path d="M16 22 Q24 20 32 22 L34 60 L14 60 Z" fill={body}/>
-      <path d="M16 28 L5 20 L6 30" stroke={emerald} fill="none" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M32 28 L43 20 L42 30" stroke={emerald} fill="none" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <rect x="14" y="60" width="8"  height="34" rx="4" fill={body}/>
-      <rect x="26" y="60" width="8"  height="34" rx="4" fill={body}/>
+    // Такбир — қўллар қулоқ баробарига кўтарилган
+    <svg viewBox="0 0 56 120" width={W(56)} height={H(120)} aria-hidden>
+      {/* Куфи */}
+      <ellipse cx="28" cy="6" rx="13" ry="7" fill={c1}/>
+      {/* Бош */}
+      <circle cx="28" cy="17" r="12" fill={c1}/>
+      {/* Соқол */}
+      <path d="M21 27 Q24 36 28 38 Q32 36 35 27 Q29 32 28 31 Q27 32 21 27 Z" fill={c3}/>
+      {/* Тўн — елкадан товонгача кенгайиб боради */}
+      <path d="M18 33 C16 55 11 84 8 117 L48 117 C45 84 40 55 38 33 Z" fill={c2}/>
+      {/* Иккала қўл қулоқ баробарида */}
+      <path d="M18 37 L3 26 L4 37" stroke={c1} fill="none" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M38 37 L53 26 L52 37" stroke={c1} fill="none" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   )
 
   if (pos === "standing") return (
-    // Қиём — қўллар кўкракда боғлиқ
-    <svg viewBox="0 0 48 100" width={48} height={100} aria-hidden>
-      <circle cx="24" cy="11" r="10" fill={emerald}/>
-      <path d="M16 22 Q24 20 32 22 L34 60 L14 60 Z" fill={body}/>
-      <path d="M16 34 L8 40 L17 43 L23 43" stroke={emerald} fill="none" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M32 34 L40 40 L31 43 L25 43" stroke={emerald} fill="none" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <rect x="14" y="60" width="8"  height="34" rx="4" fill={body}/>
-      <rect x="26" y="60" width="8"  height="34" rx="4" fill={body}/>
+    // Қиём — қўллар кўкрак остида боғлиқ
+    <svg viewBox="0 0 56 120" width={W(56)} height={H(120)} aria-hidden>
+      <ellipse cx="28" cy="6" rx="13" ry="7" fill={c1}/>
+      <circle cx="28" cy="17" r="12" fill={c1}/>
+      <path d="M21 27 Q24 36 28 38 Q32 36 35 27 Q29 32 28 31 Q27 32 21 27 Z" fill={c3}/>
+      <path d="M18 33 C16 55 11 84 8 117 L48 117 C45 84 40 55 38 33 Z" fill={c2}/>
+      {/* Боғлиқ қўллар — кўкрак остида */}
+      <path d="M18 54 L7 61 L18 64 L25 65" stroke={c1} fill="none" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M38 54 L49 61 L38 64 L31 65" stroke={c1} fill="none" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   )
 
   if (pos === "bowing") return (
-    // Руку — белни букиш
-    <svg viewBox="0 0 96 64" width={96} height={64} aria-hidden>
-      <circle cx="10" cy="28" r="10" fill={emerald}/>
-      <rect x="20" y="22" width="44" height="12" rx="6" fill={body}/>
-      <line x1="42" y1="34" x2="42" y2="52" stroke={emerald} strokeWidth="5.5" strokeLinecap="round"/>
-      <line x1="56" y1="34" x2="56" y2="52" stroke={emerald} strokeWidth="5.5" strokeLinecap="round"/>
-      <rect x="37" y="34" width="9" height="24" rx="4.5" fill={body}/>
-      <rect x="50" y="34" width="9" height="24" rx="4.5" fill={body}/>
-      <rect x="32" y="56" width="16" height="6" rx="3" fill={body} opacity=".6"/>
-      <rect x="46" y="56" width="16" height="6" rx="3" fill={body} opacity=".6"/>
+    // Руку — гавда 90° эгилган, қўллар тиззада
+    <svg viewBox="0 0 114 78" width={W(114)} height={H(78)} aria-hidden>
+      {/* Бош ён томондан (олдинга қараган) */}
+      <circle cx="14" cy="36" r="12" fill={c1}/>
+      {/* Куфи (ён томонда, тик турибди) */}
+      <ellipse cx="7" cy="28" rx="6" ry="13" fill={c1}/>
+      {/* Соқол (ён томон) */}
+      <path d="M14 47 Q18 53 23 49 Q18 51 14 47 Z" fill={c3} opacity=".8"/>
+      {/* Тўн горизонтал */}
+      <path d="M24 26 C30 26 66 19 76 19 L78 32 L77 44 C67 44 30 51 24 51 Z" fill={c2}/>
+      {/* Оёқлар тик */}
+      <rect x="59" y="42" width="13" height="32" rx="6.5" fill={c2}/>
+      <rect x="76" y="40" width="13" height="32" rx="6.5" fill={c2}/>
+      {/* Қўллар тиззагача тушган */}
+      <path d="M50 33 L56 63" stroke={c1} fill="none" strokeWidth="5.5" strokeLinecap="round"/>
+      <path d="M64 31 L70 63" stroke={c1} fill="none" strokeWidth="5.5" strokeLinecap="round"/>
+      {/* Товонлар */}
+      <rect x="53" y="72" width="22" height="5" rx="2.5" fill={c1} opacity=".48"/>
+      <rect x="70" y="72" width="22" height="5" rx="2.5" fill={c1} opacity=".48"/>
     </svg>
   )
 
   if (pos === "prostration") return (
-    // Сажда — пешона ерга
-    <svg viewBox="0 0 108 58" width={108} height={58} aria-hidden>
-      <rect x="0" y="50" width="108" height="2" rx="1" fill={emerald} opacity=".18"/>
-      <circle cx="13" cy="40" r="10" fill={emerald}/>
-      <path d="M21 36 L68 14 L72 24 L25 46 Z" fill={body}/>
-      <ellipse cx="7"  cy="50" rx="7" ry="5" fill={body} opacity=".75"/>
-      <ellipse cx="24" cy="50" rx="7" ry="5" fill={body} opacity=".75"/>
-      <ellipse cx="76" cy="46" rx="9" ry="7" fill={body} opacity=".85"/>
-      <ellipse cx="92" cy="46" rx="9" ry="7" fill={body} opacity=".85"/>
-      <line x1="68" y1="20" x2="68" y2="50" stroke={body} strokeWidth="6" strokeLinecap="round" opacity=".7"/>
-      <line x1="82" y1="14" x2="82" y2="50" stroke={body} strokeWidth="6" strokeLinecap="round" opacity=".7"/>
+    // Сажда — пешона, бурун, иккала кафт, тизза, оёқ бармоқлари ерга
+    <svg viewBox="0 0 122 68" width={W(122)} height={H(68)} aria-hidden>
+      {/* Ер */}
+      <rect x="0" y="58" width="122" height="2" rx="1" fill={c1} opacity=".15"/>
+      {/* Бош ён томондан */}
+      <circle cx="16" cy="44" r="12" fill={c1}/>
+      {/* Куфи ён томон */}
+      <ellipse cx="9" cy="35" rx="6" ry="14" fill={c1}/>
+      {/* Соқол */}
+      <path d="M16 55 Q21 61 26 56 Q21 58 16 55 Z" fill={c3} opacity=".7"/>
+      {/* Тўн қия юқорига */}
+      <path d="M27 41 L84 14 L88 27 L31 54 Z" fill={c2}/>
+      {/* Чап кафт ерда */}
+      <ellipse cx="8"  cy="57" rx="10" ry="6" fill={c2} opacity=".85"/>
+      {/* Ўнг кафт ерда */}
+      <ellipse cx="28" cy="57" rx="10" ry="6" fill={c2} opacity=".85"/>
+      {/* Тиззалар */}
+      <ellipse cx="88"  cy="52" rx="12" ry="8.5" fill={c2}/>
+      <ellipse cx="106" cy="52" rx="12" ry="8.5" fill={c2}/>
+      {/* Оёқлар */}
+      <path d="M80 18 L80 58" stroke={c2} fill="none" strokeWidth="9" strokeLinecap="round" opacity=".72"/>
+      <path d="M96 14 L96 58" stroke={c2} fill="none" strokeWidth="9" strokeLinecap="round" opacity=".72"/>
     </svg>
   )
 
-  // sitting — жалса / таҳиятту
+  // Ўтириш — жалса / таҳиятту
   return (
-    <svg viewBox="0 0 58 80" width={58} height={80} aria-hidden>
-      <circle cx="29" cy="11" r="10" fill={emerald}/>
-      <path d="M21 22 Q29 20 37 22 L39 52 L19 52 Z" fill={body}/>
-      <line x1="21" y1="38" x2="10" y2="52" stroke={emerald} strokeWidth="5" strokeLinecap="round"/>
-      <line x1="37" y1="38" x2="48" y2="52" stroke={emerald} strokeWidth="5" strokeLinecap="round"/>
-      <path d="M19 52 L6 58 L6 70 L20 70"  stroke={emerald} fill="none" strokeWidth="8"  strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M39 52 L52 58 L52 70 L38 70" stroke={emerald} fill="none" strokeWidth="8"  strokeLinecap="round" strokeLinejoin="round"/>
+    <svg viewBox="0 0 68 92" width={W(68)} height={H(92)} aria-hidden>
+      <ellipse cx="34" cy="6" rx="13" ry="7" fill={c1}/>
+      <circle cx="34" cy="17" r="12" fill={c1}/>
+      <path d="M27 27 Q30 36 34 38 Q38 36 41 27 Q35 32 34 31 Q33 32 27 27 Z" fill={c3}/>
+      {/* Тик тўн */}
+      <path d="M24 33 C23 45 21 55 20 64 L48 64 C47 55 45 45 44 33 Z" fill={c2}/>
+      {/* Чап қўл чап тиззага */}
+      <path d="M24 48 L11 64" stroke={c1} fill="none" strokeWidth="5.5" strokeLinecap="round"/>
+      {/* Ўнг қўл ўнг тиззага */}
+      <path d="M44 48 L57 64" stroke={c1} fill="none" strokeWidth="5.5" strokeLinecap="round"/>
+      {/* Чап оёқ букилган */}
+      <path d="M20 64 L5 71 L5 85 L22 85"  stroke={c1} fill="none" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"/>
+      {/* Ўнг оёқ букилган */}
+      <path d="M48 64 L63 71 L63 85 L46 85" stroke={c1} fill="none" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   )
 }
@@ -360,10 +396,8 @@ function StepCard({ step, defaultOpen }: { step: Step; defaultOpen?: boolean }) 
       {open && (
         <div className="px-5 pb-5 space-y-4 border-t border-white/5 pt-4">
           {/* Big illustration in expanded view */}
-          <div className="flex justify-center py-2">
-            <div className="opacity-90 scale-125">
-              <PosIllustration pos={step.pos} />
-            </div>
+          <div className="flex justify-center py-4 overflow-hidden">
+            <PosIllustration pos={step.pos} scale={1.6} />
           </div>
 
           {step.arabic && (
