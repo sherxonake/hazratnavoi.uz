@@ -224,23 +224,37 @@ export function HeroSection({ lang }: { lang: Lang }) {
 
           {/* Mosque Jamaat Times */}
           {prayerTimes && (prayerTimes.mosque_fajr || prayerTimes.mosque_dhuhr) && (
-            <div className="border-t border-white/10 px-6 py-4">
-              <p className="text-white/50 text-xs uppercase tracking-widest text-center mb-3">
-                {label("Alisher Navoiy masjidida jamoat", "Алишер Навоий масжидида жамоат")}
-              </p>
-              <div className="grid grid-cols-5 gap-2 text-center">
+            <div className="border-t border-white/10 px-5 pt-4 pb-5">
+              {/* Label */}
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent to-yellow-500/30" />
+                <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full
+                  bg-yellow-500/12 border border-yellow-500/25">
+                  <span className="text-base leading-none">🕌</span>
+                  <span className="text-yellow-300 text-[11px] font-semibold tracking-wide whitespace-nowrap">
+                    {label("Alisher Navoiy masjidida jamoat vaqti", "Алишер Навоий масжидида жамоат вақти")}
+                  </span>
+                </div>
+                <div className="flex-1 h-px bg-gradient-to-l from-transparent to-yellow-500/30" />
+              </div>
+
+              {/* Times */}
+              <div className="grid grid-cols-5 gap-2">
                 {[
                   { label: label("Bomdod", "Бомдод"), time: prayerTimes.mosque_fajr },
                   { label: label("Peshin", "Пешин"), time: prayerTimes.mosque_dhuhr },
-                  { label: label("Asr", "Аср"), time: prayerTimes.mosque_asr },
-                  { label: label("Shom", "Шом"), time: prayerTimes.mosque_maghrib },
+                  { label: label("Asr", "Аср"),      time: prayerTimes.mosque_asr },
+                  { label: label("Shom", "Шом"),     time: prayerTimes.mosque_maghrib },
                   { label: label("Xufton", "Хуфтон"), time: prayerTimes.mosque_isha },
                 ].map((p) => p.time ? (
-                  <div key={p.label} className="flex flex-col gap-1">
-                    <span className="text-white/40 text-xs">{p.label}</span>
-                    <span className="font-mono text-sm font-bold text-yellow-300">{p.time}</span>
+                  <div key={p.label}
+                    className="flex flex-col items-center gap-1 py-2.5 rounded-xl bg-white/5 border border-yellow-500/15">
+                    <span className="text-white/45 text-[10px] font-medium uppercase tracking-wide">{p.label}</span>
+                    <span className="font-mono text-sm sm:text-base font-bold text-yellow-300">{p.time}</span>
                   </div>
-                ) : null)}
+                ) : (
+                  <div key={p.label} />
+                ))}
               </div>
             </div>
           )}
