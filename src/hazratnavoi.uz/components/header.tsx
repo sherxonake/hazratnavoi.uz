@@ -12,7 +12,7 @@ import { useAuth } from "@/lib/auth-context"
 const navLinks = [
   { label: "Bosh sahifa", labelCyrillic: "Бош саҳифа", href: "#bosh" },
   { label: "Qur'on", labelCyrillic: "Қуръон", href: "/quran" },
-  { label: "Namoz", labelCyrillic: "Намоз", href: "#namoz" },
+  { label: "Namoz", labelCyrillic: "Намоз", href: "/namoz" },
   { label: "Makka", labelCyrillic: "Макка", href: "#makkah" },
   { label: "Yangiliklar", labelCyrillic: "Янгиликлар", href: "#yangiliklar" },
   { label: "Ma'ruzalar", labelCyrillic: "Маърузалар", href: "#maruzalar" },

@@ -220,4 +220,20 @@
   .quran-word-dim {
     color: rgba(255, 255, 255, 0.2);
   }
+
+  /* ── Namoz page ──────────────────────────────── */
+  .font-arabic {
+    font-family: 'Scheherazade New', 'Amiri', 'KFGQPC Uthmanic Script', serif;
+  }
+
+  .namoz-arabic {
+    text-shadow:
+      0 0 20px rgba(253, 224, 71, 0.45),
+      0 0 45px rgba(253, 224, 71, 0.18);
+  }
+
+  .namoz-bg-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23166534' stroke-width='0.5'%3E%3Cpolygon points='40,4 76,22 76,58 40,76 4,58 4,22' opacity='0.3'/%3E%3Cpolygon points='40,14 66,28 66,52 40,66 14,52 14,28' opacity='0.2'/%3E%3Ccircle cx='40' cy='40' r='8' opacity='0.15'/%3E%3Cline x1='40' y1='4' x2='40' y2='14' opacity='0.2'/%3E%3Cline x1='76' y1='22' x2='66' y2='28' opacity='0.2'/%3E%3Cline x1='76' y1='58' x2='66' y2='52' opacity='0.2'/%3E%3Cline x1='40' y1='76' x2='40' y2='66' opacity='0.2'/%3E%3Cline x1='4' y1='58' x2='14' y2='52' opacity='0.2'/%3E%3Cline x1='4' y1='22' x2='14' y2='28' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
 }
