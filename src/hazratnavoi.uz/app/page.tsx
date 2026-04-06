@@ -14,7 +14,6 @@ import { NewsSection } from "@/components/news-section"
 import { QASection } from "@/components/qa-section"
 import { MakkahSection } from "@/components/makkah-section"
 import { ForumSection } from "@/components/forum-section"
-import { PrayerTimesSection } from "@/components/prayer-times-section"
 import { Footer } from "@/components/footer"
 
 type Lang = "latin" | "cyrillic"
@@ -28,7 +27,6 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <Header lang={lang} onToggleLang={toggleLang} />
       <HeroSection lang={lang} />
-      <PrayerTimesSection lang={lang} />
       <HadithSection lang={lang} />
       <MakkahSection lang={lang} />
       <ImamSection lang={lang} />

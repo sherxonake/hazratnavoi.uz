@@ -14,11 +14,11 @@ interface PrayerTime {
   asr: string
   maghrib: string
   isha: string
-  jamaat_fajr?: string
-  jamaat_dhuhr?: string
-  jamaat_asr?: string
-  jamaat_maghrib?: string
-  jamaat_isha?: string
+  mosque_fajr?: string
+  mosque_dhuhr?: string
+  mosque_asr?: string
+  mosque_maghrib?: string
+  mosque_isha?: string
 }
 
 export default function AdminPrayerTimesPage() {
@@ -82,11 +82,11 @@ export default function AdminPrayerTimesPage() {
         asr:     formData.asr     + ':00',
         maghrib: formData.maghrib + ':00',
         isha:    formData.isha    + ':00',
-        jamaat_fajr:    jamaatData.fajr    ? jamaatData.fajr    + ':00' : null,
-        jamaat_dhuhr:   jamaatData.dhuhr   ? jamaatData.dhuhr   + ':00' : null,
-        jamaat_asr:     jamaatData.asr     ? jamaatData.asr     + ':00' : null,
-        jamaat_maghrib: jamaatData.maghrib ? jamaatData.maghrib + ':00' : null,
-        jamaat_isha:    jamaatData.isha    ? jamaatData.isha    + ':00' : null,
+        mosque_fajr:    jamaatData.fajr    ? jamaatData.fajr    + ':00' : null,
+        mosque_dhuhr:   jamaatData.dhuhr   ? jamaatData.dhuhr   + ':00' : null,
+        mosque_asr:     jamaatData.asr     ? jamaatData.asr     + ':00' : null,
+        mosque_maghrib: jamaatData.maghrib ? jamaatData.maghrib + ':00' : null,
+        mosque_isha:    jamaatData.isha    ? jamaatData.isha    + ':00' : null,
       }
 
       const res  = await fetch('/api/admin/prayer-times', {
@@ -464,40 +464,40 @@ export default function AdminPrayerTimesPage() {
                 </div>
 
                 {/* Жамоат вақтлари */}
-                {(pt.jamaat_fajr || pt.jamaat_dhuhr || pt.jamaat_asr || pt.jamaat_maghrib || pt.jamaat_isha) && (
+                {(pt.mosque_fajr || pt.mosque_dhuhr || pt.mosque_asr || pt.mosque_maghrib || pt.mosque_isha) && (
                   <div>
                     <h4 className="text-sm font-semibold text-emerald-700 mb-2 flex items-center gap-2">
                       <span>⏰</span> Масжид жамоати:
                     </h4>
                     <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
-                      {pt.jamaat_fajr && (
+                      {pt.mosque_fajr && (
                         <div className="text-center p-2 bg-emerald-50 rounded-lg">
                           <p className="text-xs text-emerald-600">Бомдод</p>
-                          <p className="font-bold text-emerald-800">{pt.jamaat_fajr.substring(0, 5)}</p>
+                          <p className="font-bold text-emerald-800">{pt.mosque_fajr.substring(0, 5)}</p>
                         </div>
                       )}
-                      {pt.jamaat_dhuhr && (
+                      {pt.mosque_dhuhr && (
                         <div className="text-center p-2 bg-emerald-50 rounded-lg">
                           <p className="text-xs text-emerald-600">Пешин</p>
-                          <p className="font-bold text-emerald-800">{pt.jamaat_dhuhr.substring(0, 5)}</p>
+                          <p className="font-bold text-emerald-800">{pt.mosque_dhuhr.substring(0, 5)}</p>
                         </div>
                       )}
-                      {pt.jamaat_asr && (
+                      {pt.mosque_asr && (
                         <div className="text-center p-2 bg-emerald-50 rounded-lg">
                           <p className="text-xs text-emerald-600">Аср</p>
-                          <p className="font-bold text-emerald-800">{pt.jamaat_asr.substring(0, 5)}</p>
+                          <p className="font-bold text-emerald-800">{pt.mosque_asr.substring(0, 5)}</p>
                         </div>
                       )}
-                      {pt.jamaat_maghrib && (
+                      {pt.mosque_maghrib && (
                         <div className="text-center p-2 bg-emerald-50 rounded-lg">
                           <p className="text-xs text-emerald-600">Шом</p>
-                          <p className="font-bold text-emerald-800">{pt.jamaat_maghrib.substring(0, 5)}</p>
+                          <p className="font-bold text-emerald-800">{pt.mosque_maghrib.substring(0, 5)}</p>
                         </div>
                       )}
-                      {pt.jamaat_isha && (
+                      {pt.mosque_isha && (
                         <div className="text-center p-2 bg-emerald-50 rounded-lg">
                           <p className="text-xs text-emerald-600">Хуфтон</p>
-                          <p className="font-bold text-emerald-800">{pt.jamaat_isha.substring(0, 5)}</p>
+                          <p className="font-bold text-emerald-800">{pt.mosque_isha.substring(0, 5)}</p>
                         </div>
                       )}
                     </div>

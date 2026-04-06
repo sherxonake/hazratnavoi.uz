@@ -31,20 +31,19 @@ export async function POST(req: NextRequest) {
       .upsert(main, { onConflict: "date" })
     if (e1) throw e1
 
-    // Step 2: try to save jamaat times (columns may not exist yet)
+    // Step 2: save mosque (jamaat) times — mosque_* columns already exist
     const jamaat = {
       date:            body.date,
-      jamaat_fajr:    body.jamaat_fajr,
-      jamaat_dhuhr:   body.jamaat_dhuhr,
-      jamaat_asr:     body.jamaat_asr,
-      jamaat_maghrib: body.jamaat_maghrib,
-      jamaat_isha:    body.jamaat_isha,
+      mosque_fajr:    body.mosque_fajr    ?? null,
+      mosque_dhuhr:   body.mosque_dhuhr   ?? null,
+      mosque_asr:     body.mosque_asr     ?? null,
+      mosque_maghrib: body.mosque_maghrib ?? null,
+      mosque_isha:    body.mosque_isha    ?? null,
     }
     const { error: e2 } = await supabaseAdmin
       .from("prayer_times")
       .upsert(jamaat, { onConflict: "date" })
-    // ignore "column not found" — columns may not exist yet
-    if (e2 && !e2.message?.includes("column")) throw e2
+    if (e2) throw e2
 
     return NextResponse.json({ ok: true })
   } catch (err: unknown) {
