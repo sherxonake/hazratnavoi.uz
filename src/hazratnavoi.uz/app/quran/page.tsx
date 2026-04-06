@@ -379,22 +379,25 @@ setSelected(surah)
                         {/* Text block */}
                         <div className="flex-1 min-w-0">
 
-                          {/* ── Arabic karaoke ── */}
+                          {/* ── Arabic karaoke — snake wave ── */}
                           <p className="font-serif text-xl leading-loose text-right mb-3 select-text"
                             dir="rtl">
-                            {words.map((word, wi) => (
-                              <span key={wi}
-                                className={`mx-px ${
-                                  isPlaying && hlWord === wi
-                                    ? "quran-word-active"
-                                    : isPlaying
-                                    ? "quran-word-dim"
-                                    : "inline-block text-white"
-                                }`}
-                              >
-                                {word}
-                              </span>
-                            ))}
+                            {words.map((word, wi) => {
+                              let cls = "quran-word-base"
+                              if (isPlaying && hlWord !== null) {
+                                const d = wi - hlWord
+                                if (d === 0) cls += " quran-word-active"
+                                else if (d === -1 || d === 1) cls += " quran-word-near"
+                                else cls += " quran-word-dim"
+                              } else {
+                                cls += " text-white"
+                              }
+                              return (
+                                <span key={wi} className={cls}>
+                                  {word}{wi < words.length - 1 ? " " : ""}
+                                </span>
+                              )
+                            })}
                           </p>
 
                           {/* ── Uzbek translation ── */}

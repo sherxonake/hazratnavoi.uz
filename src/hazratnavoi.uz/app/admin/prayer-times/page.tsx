@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Loader2, Clock, Calendar } from "lucide-react"
+import { Loader2, Clock, Calendar, Sparkles, ClipboardPaste, ChevronDown, ChevronUp } from "lucide-react"
 import { supabase } from "@/lib/supabase/client"
 
 interface PrayerTime {
@@ -74,33 +74,97 @@ export default function AdminPrayerTimesPage() {
     setMessage(null)
 
     try {
-      const { error } = await supabase.from('prayer_times').upsert({
+      const payload = {
         date: formData.date,
-        fajr: formData.fajr + ':00',
+        fajr:    formData.fajr    + ':00',
         sunrise: formData.sunrise + ':00',
-        dhuhr: formData.dhuhr + ':00',
-        asr: formData.asr + ':00',
+        dhuhr:   formData.dhuhr   + ':00',
+        asr:     formData.asr     + ':00',
         maghrib: formData.maghrib + ':00',
-        isha: formData.isha + ':00',
-        jamaat_fajr: jamaatData.fajr ? jamaatData.fajr + ':00' : null,
-        jamaat_dhuhr: jamaatData.dhuhr ? jamaatData.dhuhr + ':00' : null,
-        jamaat_asr: jamaatData.asr ? jamaatData.asr + ':00' : null,
+        isha:    formData.isha    + ':00',
+        jamaat_fajr:    jamaatData.fajr    ? jamaatData.fajr    + ':00' : null,
+        jamaat_dhuhr:   jamaatData.dhuhr   ? jamaatData.dhuhr   + ':00' : null,
+        jamaat_asr:     jamaatData.asr     ? jamaatData.asr     + ':00' : null,
         jamaat_maghrib: jamaatData.maghrib ? jamaatData.maghrib + ':00' : null,
-        jamaat_isha: jamaatData.isha ? jamaatData.isha + ':00' : null,
-      }, { onConflict: 'date' })
+        jamaat_isha:    jamaatData.isha    ? jamaatData.isha    + ':00' : null,
+      }
 
-      if (error) throw error
+      const res  = await fetch('/api/admin/prayer-times', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || `HTTP ${res.status}`)
 
       setMessage({ type: 'success', text: '✅ Намоз вақтлари муваффақиятли янгиланди!' })
-
       loadPrayerTimes()
 
-    } catch (error) {
-      console.error('Error:', error)
-      setMessage({ type: 'error', text: '❌ Хатолик юз берди! Илтимос, қайта урининг.' })
+    } catch (error: unknown) {
+      const e = error as { message?: string; code?: string; details?: string }
+      const msg = e?.message || e?.details || e?.code || JSON.stringify(error)
+      console.error('Save error detail:', msg)
+      setMessage({ type: 'error', text: `❌ Хатолик: ${msg}` })
     } finally {
       setLoading(false)
     }
+  }
+
+  const [smartText, setSmartText] = useState("")
+  const [smartOpen, setSmartOpen] = useState(false)
+  const [smartMsg, setSmartMsg]   = useState<string | null>(null)
+
+  function parseAndFill() {
+    const text = smartText
+    if (!text.trim()) return
+
+    // Extract date: DD.MM.YYYY
+    const dateMatch = text.match(/(\d{2})\.(\d{2})\.(\d{4})/)
+    const date = dateMatch
+      ? `${dateMatch[3]}-${dateMatch[2]}-${dateMatch[1]}`
+      : today
+
+    // Find time after keyword within 60 chars
+    function findTime(src: string, keywords: string[]): string {
+      for (const kw of keywords) {
+        const re = new RegExp(kw + '[^\\d]{0,30}?(\\d{1,2}:\\d{2})', 'i')
+        const m = src.match(re)
+        if (m) {
+          const [h, min] = m[1].split(':')
+          return `${h.padStart(2, '0')}:${min}`
+        }
+      }
+      return ''
+    }
+
+    // Split city vs. congregation section
+    const splitIdx = text.search(/жамоат/i)
+    const cityPart   = splitIdx >= 0 ? text.slice(0, splitIdx) : text
+    const jamaatPart = splitIdx >= 0 ? text.slice(splitIdx)    : ''
+
+    const fajr    = findTime(cityPart, ['Бомдод', 'бомдод', 'Fajr'])
+    const sunrise = findTime(cityPart, ['Қуёш', 'Куёш', 'қуёш', 'куёш'])
+    const dhuhr   = findTime(cityPart, ['Пешин', 'пешин', 'Dhuhr'])
+    const asr     = findTime(cityPart, ['Аср', 'аср', 'Asr'])
+    const maghrib = findTime(cityPart, ['Шом', 'шом', 'Maghrib'])
+    const isha    = findTime(cityPart, ['Хуфтон', 'хуфтон', 'Isha'])
+
+    const jFajr    = findTime(jamaatPart, ['Бомдод', 'бомдод'])
+    const jDhuhr   = findTime(jamaatPart, ['Пешин', 'пешин'])
+    const jAsr     = findTime(jamaatPart, ['Аср', 'аср'])
+    const jMaghrib = findTime(jamaatPart, ['Шом', 'шом'])
+    const jIsha    = findTime(jamaatPart, ['Хуфтон', 'хуфтон'])
+
+    const found = [fajr, sunrise, dhuhr, asr, maghrib, isha].filter(Boolean).length
+    if (found === 0) {
+      setSmartMsg('❌ Ҳеч нарса топилмади — матнни текширинг')
+      return
+    }
+
+    setFormData({ date, fajr, sunrise, dhuhr, asr, maghrib, isha })
+    setJamaatData({ fajr: jFajr, dhuhr: jDhuhr, asr: jAsr, maghrib: jMaghrib, isha: jIsha })
+    setSmartMsg(`✅ ${found} та вақт аниқланди — текшириб сақланг`)
+    setSmartOpen(false)
   }
 
   const handleInputChange = (field: keyof PrayerTime, value: string) => {
@@ -129,7 +193,63 @@ export default function AdminPrayerTimesPage() {
         </div>
       )}
 
-      <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200">
+      {/* ── Smart Paste ── */}
+      <div className="mb-6 rounded-xl border-2 border-emerald-400 bg-emerald-50 overflow-hidden shadow-md text-gray-900">
+        <button
+          type="button"
+          onClick={() => { setSmartOpen(v => !v); setSmartMsg(null) }}
+          className="w-full flex items-center justify-between px-6 py-4 hover:bg-emerald-100 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">🪄</span>
+            <div className="text-left">
+              <p className="font-bold text-emerald-800 text-base">Матндан автоматик тўлдириш</p>
+              <p className="text-emerald-600 text-xs">Телеграм матнини ёпиштиринг — ўзи тушунади</p>
+            </div>
+          </div>
+          {smartOpen
+            ? <ChevronUp className="w-5 h-5 text-emerald-700" />
+            : <ChevronDown className="w-5 h-5 text-emerald-700" />
+          }
+        </button>
+
+        {smartOpen && (
+          <div className="px-6 pb-5 border-t border-emerald-200">
+            <p className="text-emerald-700 text-sm mt-4 mb-2 font-medium">
+              Телеграмдан кўчириб олган матнни ёпиштиринг:
+            </p>
+            <textarea
+              value={smartText}
+              onChange={e => { setSmartText(e.target.value); setSmartMsg(null) }}
+              placeholder={`Масалан:\n06.04.2026 йил Навоийда намоз вақтлари:\nБомдод - 04:55\nҚуёш - 06:15\nПешин - 12:41\nАср - 17:14\nШом - 19:12\nХуфтон - 20:24\n\nЖамоат:\nБомдод - 05:40\nПешин - 13:00 ...`}
+              rows={8}
+              className="w-full px-4 py-3 border border-emerald-300 rounded-xl text-sm font-mono
+                focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white resize-none"
+            />
+            <button
+              type="button"
+              onClick={parseAndFill}
+              className="mt-3 w-full flex items-center justify-center gap-2 bg-emerald-600
+                hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition-colors text-base shadow"
+            >
+              <Sparkles className="w-5 h-5" />
+              Тушуниб, тўлдириш
+            </button>
+          </div>
+        )}
+
+        {smartMsg && (
+          <div className={`px-6 py-3 text-sm font-medium border-t ${
+            smartMsg.startsWith('✅')
+              ? 'bg-green-50 text-green-700 border-green-200'
+              : 'bg-red-50 text-red-700 border-red-200'
+          }`}>
+            {smartMsg}
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200 text-gray-900">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Дата */}
           <div>
