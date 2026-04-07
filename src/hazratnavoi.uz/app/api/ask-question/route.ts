@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
       .from('forum_questions')
       .insert({
         user_name: name.trim(),
+        phone: 'sayt',
         question: question.trim(),
         published: false,
       })
