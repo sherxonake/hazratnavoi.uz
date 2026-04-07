@@ -42,9 +42,6 @@ const CARDS: HeritageCard[] = [
 export function HeritageSection({ lang }: { lang: Lang }) {
   return (
     <section className="relative py-24 lg:py-32 bg-emerald-deep overflow-hidden">
-      {/* Islamic geometric pattern overlay — gold toned */}
-      <div className="absolute inset-0 islamic-pattern-gold pointer-events-none" aria-hidden="true" />
-
       {/* Subtle radial vignette */}
       <div
         className="absolute inset-0 pointer-events-none"

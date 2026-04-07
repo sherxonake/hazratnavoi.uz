@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { SplashScreen } from '@/components/splash-screen'
 import { AuthProvider } from '@/lib/auth-context'
 import { ServiceWorkerRegister } from '@/components/service-worker-register'
+import { FloatingMenu } from '@/components/floating-menu'
 import './globals.css'
 
 const playfair = Playfair_Display({
@@ -43,6 +44,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <AuthProvider>
           <ServiceWorkerRegister />
+          <FloatingMenu />
           <SplashScreen>
             {children}
             <Analytics />

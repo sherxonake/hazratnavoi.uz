@@ -32,7 +32,7 @@
   /* Light gold-white for headings on dark bg */
   --heading: oklch(0.95 0.03 80);
   /* Deep emerald for footer */
-  --emerald-deep: oklch(0.28 0.1 160);
+  --emerald-deep: oklch(0.32 0.1 160);
   --emerald-deep-foreground: oklch(0.92 0.04 162);
   /* Gold tone */
   --gold: oklch(0.78 0.12 80);
@@ -170,6 +170,18 @@
 
   .islamic-pattern-gold {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%23ca8a04' stroke-width='0.5' opacity='0.18'%3E%3Cpolygon points='30,0 60,30 30,60 0,30'/%3E%3Cpolygon points='30,13 47,30 30,47 13,30'/%3E%3Cline x1='30' y1='0' x2='30' y2='13'/%3E%3Cline x1='60' y1='30' x2='47' y2='30'/%3E%3Cline x1='30' y1='60' x2='30' y2='47'/%3E%3Cline x1='0' y1='30' x2='13' y2='30'/%3E%3Cline x1='30' y1='13' x2='45' y2='15'/%3E%3Cline x1='47' y1='30' x2='45' y2='15'/%3E%3Cline x1='47' y1='30' x2='45' y2='45'/%3E%3Cline x1='30' y1='47' x2='45' y2='45'/%3E%3Cline x1='30' y1='47' x2='15' y2='45'/%3E%3Cline x1='13' y1='30' x2='15' y2='45'/%3E%3Cline x1='13' y1='30' x2='15' y2='15'/%3E%3Cline x1='30' y1='13' x2='15' y2='15'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* Girih — 8-pointed star, Islamic geometric tilework (80x80) */
+  .islamic-pattern-girih {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23ca8a04' stroke-width='0.6' opacity='0.20'%3E%3Cpolygon points='66,40 50.2,35.8 58.4,21.6 44.2,29.8 40,14 35.8,29.8 21.6,21.6 29.8,35.8 14,40 29.8,44.2 21.6,58.4 35.8,50.2 40,66 44.2,50.2 58.4,58.4 50.2,44.2'/%3E%3Cline x1='66' y1='40' x2='80' y2='40'/%3E%3Cline x1='40' y1='14' x2='40' y2='0'/%3E%3Cline x1='14' y1='40' x2='0' y2='40'/%3E%3Cline x1='40' y1='66' x2='40' y2='80'/%3E%3Cline x1='58.4' y1='21.6' x2='80' y2='0'/%3E%3Cline x1='21.6' y1='21.6' x2='0' y2='0'/%3E%3Cline x1='21.6' y1='58.4' x2='0' y2='80'/%3E%3Cline x1='58.4' y1='58.4' x2='80' y2='80'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* Chorkhona — 4-fold diamond rooms, traditional Uzbek-Islamic pattern (40x40) */
+  .islamic-pattern-chorkhona {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23ca8a04' stroke-width='0.6' opacity='0.22'%3E%3Cpolygon points='20,0 40,20 20,40 0,20'/%3E%3Cpolygon points='20,11 29,20 20,29 11,20'/%3E%3Cline x1='20' y1='0' x2='20' y2='11'/%3E%3Cline x1='40' y1='20' x2='29' y2='20'/%3E%3Cline x1='20' y1='40' x2='20' y2='29'/%3E%3Cline x1='0' y1='20' x2='11' y2='20'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: repeat;
   }
 

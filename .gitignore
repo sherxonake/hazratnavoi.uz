@@ -31,3 +31,4 @@ npm-debug.log*
 telegram-bot/node_modules/
 telegram-bot/dist/
 telegram-bot/.env
+.vercel

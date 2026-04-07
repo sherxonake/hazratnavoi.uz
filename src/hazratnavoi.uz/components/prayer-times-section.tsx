@@ -89,7 +89,6 @@ export function PrayerTimesSection({ lang }: { lang: "latin" | "cyrillic" }) {
 
   return (
     <section id="namoz" className="py-14 relative overflow-hidden">
-      <div className="absolute inset-0 islamic-pattern-gold opacity-[0.04] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-4 relative">
 

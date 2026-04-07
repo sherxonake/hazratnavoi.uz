@@ -103,7 +103,7 @@ export function MakkahSection({ lang }: { lang: "latin" | "cyrillic" }) {
 
   return (
     <section id="makkah" className="relative py-24 lg:py-32 bg-emerald-deep overflow-hidden">
-      <div className="absolute inset-0 islamic-pattern-gold pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 islamic-pattern-girih pointer-events-none" aria-hidden="true" />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, rgba(0,20,10,0.4) 100%)" }}
