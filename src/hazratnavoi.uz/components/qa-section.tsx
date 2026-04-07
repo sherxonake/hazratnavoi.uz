@@ -49,110 +49,86 @@ export function QASection({ lang }: { lang: Lang }) {
   }
 
   return (
-    <section id="savol" className="relative py-16 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg, #021a0f 0%, #031508 100%)" }}>
-      {/* Islamic pattern */}
-      <div className="absolute inset-0 islamic-pattern-gold pointer-events-none opacity-[0.06]" aria-hidden="true" />
-      {/* Radial vignette */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, rgba(0,10,5,0.5) 100%)" }} aria-hidden="true" />
-      {/* Top border */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
+    <section id="savol" className="relative py-16 lg:py-24 bg-emerald-deep overflow-hidden">
+      {/* Сайт билан бир хил фон паттерн */}
+      <div className="absolute inset-0 islamic-pattern-gold pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, rgba(0,20,10,0.45) 100%)" }} aria-hidden="true" />
 
-      <div className="relative max-w-2xl mx-auto px-4 sm:px-6">
+      <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
+        {/* Header — сайтдагидек */}
         <div className="text-center mb-10">
           <div className="flex items-center gap-3 mb-4 justify-center">
-            <span className="w-10 h-px bg-gradient-to-r from-transparent to-yellow-500/60" />
-            <span className="text-yellow-400/70 text-[11px] font-bold uppercase tracking-[0.2em]">
+            <span className="w-8 h-px bg-yellow-500/60" />
+            <span className="text-yellow-400/80 text-xs font-semibold uppercase tracking-widest">
               {label(lang, "Savol-javob", "Савол-жавоб")}
             </span>
-            <span className="w-10 h-px bg-gradient-to-l from-transparent to-yellow-500/60" />
+            <span className="w-8 h-px bg-yellow-500/60" />
           </div>
           <h2 className="font-serif text-white text-3xl sm:text-4xl font-bold mb-3">
             {label(lang, "Imomdan so'rang", "Имомдан сўранг")}
           </h2>
-          <p className="text-yellow-500/40 text-sm font-serif" dir="rtl">وَمَا أُوتِيتُمْ مِنَ الْعِلْمِ إِلَّا قَلِيلًا</p>
-          <p className="text-white/35 text-xs mt-2">
+          <p className="text-yellow-500/50 text-sm font-serif mb-2" dir="rtl">وَمَا أُوتِيتُمْ مِنَ الْعِلْمِ إِلَّا قَلِيلًا</p>
+          <p className="text-white/50 text-sm">
             {label(lang, "Din va ibodatga oid savolingizni yuboring", "Дин ва ибодатга оид саволингизни юборинг")}
           </p>
         </div>
 
         {/* Card */}
-        <div className="relative">
-          <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-yellow-500/20 via-transparent to-yellow-600/10" />
-          <div className="relative bg-white/[0.03] border border-yellow-500/15 rounded-2xl overflow-hidden">
-
-            {/* Top accent */}
-            <div className="h-px bg-gradient-to-r from-transparent via-yellow-500/40 to-transparent" />
-
-            <div className="p-6 sm:p-8">
-              {user ? (
-                /* Logged in — show ask button */
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-yellow-500/10 border border-yellow-500/25 flex items-center justify-center flex-shrink-0">
-                      <MessageSquare className="w-4.5 h-4.5 text-yellow-400/80" />
-                    </div>
-                    <div>
-                      <p className="text-white font-semibold text-sm">
-                        {label(lang, "Savolingiz bormi?", "Саволингиз борми?")}
-                      </p>
-                      <p className="text-white/35 text-xs mt-0.5">
-                        {label(lang, "Imom-xatib javob beradi", "Имом-хатиб жавоб беради")}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleAskClick}
-                    className="flex-shrink-0 bg-yellow-500 hover:bg-yellow-400 active:scale-95 text-emerald-900 font-bold text-sm px-5 py-2.5 rounded-full transition-all duration-200 shadow-lg shadow-yellow-500/20"
-                  >
-                    {label(lang, "So'rash", "Сўраш")}
-                  </button>
+        <div className="bg-white/5 border border-yellow-500/15 rounded-xl px-6 py-6 hover:border-yellow-500/25 transition-all duration-300">
+          {user ? (
+            /* Кирган — савол тугмаси */
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                  <MessageSquare className="w-4 h-4 text-yellow-400/70" />
                 </div>
-              ) : (
-                /* Not logged in — show auth prompt */
-                <div className="text-center py-4">
-                  {/* Decorative top */}
-                  <div className="flex items-center justify-center mb-5">
-                    <div className="relative">
-                      <div className="w-16 h-16 rounded-full bg-yellow-500/8 border border-yellow-500/20 flex items-center justify-center">
-                        <Lock className="w-6 h-6 text-yellow-400/60" />
-                      </div>
-                      <div className="absolute inset-0 rounded-full animate-ping bg-yellow-500/5" />
-                    </div>
-                  </div>
-
-                  <p className="text-white font-serif font-semibold text-base mb-1">
-                    {label(lang, "Savol berish uchun kiring", "Савол бериш учун киринг")}
+                <div>
+                  <p className="text-white font-semibold text-sm">
+                    {label(lang, "Savolingiz bormi?", "Саволингиз борми?")}
                   </p>
-                  <p className="text-white/35 text-xs mb-5 leading-relaxed max-w-xs mx-auto">
-                    {label(
-                      lang,
-                      "Ro'yxatdan o'tgan foydalanuvchilar imomdan javob oladi",
-                      "Рўйхатдан ўтган фойдаланувчилар имомдан жавоб олади"
-                    )}
-                  </p>
-
-                  <button
-                    onClick={handleAskClick}
-                    className="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 active:scale-95 text-emerald-900 font-bold text-sm px-8 py-3 rounded-full transition-all duration-200 shadow-lg shadow-yellow-500/25"
-                  >
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/>
-                    </svg>
-                    {label(lang, "Telegram orqali kirish", "Telegram орқали кириш")}
-                  </button>
-
-                  <p className="text-white/20 text-[11px] mt-4 font-serif" dir="rtl">
-                    طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ
+                  <p className="text-white/40 text-xs mt-0.5">
+                    {label(lang, "Imom-xatib Telegram orqali javob beradi", "Имом-хатиб Telegram орқали жавоб беради")}
                   </p>
                 </div>
-              )}
+              </div>
+              <button
+                onClick={handleAskClick}
+                className="flex-shrink-0 bg-yellow-500 hover:bg-yellow-400 active:scale-95 text-emerald-900 font-semibold text-sm px-5 py-2.5 rounded-full transition-all duration-200 hover:scale-105"
+              >
+                {label(lang, "So'rash", "Сўраш")}
+              </button>
             </div>
-
-            <div className="h-px bg-gradient-to-r from-transparent via-yellow-500/15 to-transparent" />
-          </div>
+          ) : (
+            /* Кирмаган — auth prompt */
+            <div className="text-center py-3">
+              <div className="w-14 h-14 rounded-full bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center mx-auto mb-4">
+                <Lock className="w-6 h-6 text-yellow-400/60" />
+              </div>
+              <p className="text-white font-semibold text-sm mb-1">
+                {label(lang, "Savol berish uchun kiring", "Савол бериш учун киринг")}
+              </p>
+              <p className="text-white/40 text-xs mb-5 max-w-xs mx-auto leading-relaxed">
+                {label(
+                  lang,
+                  "Imom-xatib javobni Telegram orqali yuboradi",
+                  "Имом-хатиб жавобни Telegram орқали юборади"
+                )}
+              </p>
+              <button
+                onClick={handleAskClick}
+                className="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 active:scale-95 text-emerald-900 font-semibold text-sm px-7 py-2.5 rounded-full transition-all duration-200 hover:scale-105"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/>
+                </svg>
+                {label(lang, "Telegram orqali kirish", "Telegram орқали кириш")}
+              </button>
+              <p className="text-white/20 text-[11px] mt-4 font-serif" dir="rtl">طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ</p>
+            </div>
+          )}
         </div>
+
       </div>
 
       {/* Auth Modal */}
