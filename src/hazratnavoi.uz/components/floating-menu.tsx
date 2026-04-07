@@ -3,13 +3,13 @@
 import { useState } from "react"
 import Link from "next/link"
 
-// Arc from 180° (left) to 90° (up), radius 110px — no overlap
+// Arc from 180° (left) to 90° (up), radius 140px — items spaced evenly
 const ITEMS = [
-  { label: "Намоз",  icon: "🕌", href: "/namoz",    tx: -110, ty: 0    },
-  { label: "Тасбеҳ", icon: "📿", href: "/#tasbih",  tx: -103, ty: -38  },
-  { label: "Қуръон", icon: "📖", href: "/quran",    tx: -78,  ty: -78  },
-  { label: "Макка",  icon: "🕋", href: "/#makkah",  tx: -38,  ty: -103 },
-  { label: "Ҳадис",  icon: "📜", href: "/#hadith",  tx: 0,    ty: -110 },
+  { label: "Намоз",  icon: "🕌", href: "/namoz",    tx: -140, ty: 0    },
+  { label: "Тасбеҳ", icon: "📿", href: "/#tasbih",  tx: -129, ty: -54  },
+  { label: "Қуръон", icon: "📖", href: "/quran",    tx: -99,  ty: -99  },
+  { label: "Макка",  icon: "🕋", href: "/#makkah",  tx: -54,  ty: -129 },
+  { label: "Ҳадис",  icon: "📜", href: "/#hadith",  tx: 0,    ty: -140 },
 ]
 
 export function FloatingMenu() {
