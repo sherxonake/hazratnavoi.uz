@@ -141,7 +141,7 @@ export default function UstozPage() {
           <div className="relative mx-auto w-24 h-24 mb-5">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-500/20 to-yellow-600/5 animate-pulse" />
             <div className="absolute inset-1 rounded-full overflow-hidden ring-2 ring-yellow-500/40 bg-emerald-950">
-              <Image src="/images/mosque-logo.png" alt="Logo" width={88} height={88} className="object-cover scale-110" />
+              <Image src="/images/imam-portrait.jpg" alt="Logo" width={88} height={88} className="object-cover scale-110" />
             </div>
             {/* Decorative ring */}
             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 96 96">
@@ -221,7 +221,7 @@ export default function UstozPage() {
           {/* Logo + title */}
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full overflow-hidden ring-1 ring-yellow-500/40 flex-shrink-0">
-              <Image src="/images/mosque-logo.png" alt="Logo" width={36} height={36} className="object-cover scale-110" />
+              <Image src="/images/imam-portrait.jpg" alt="Logo" width={36} height={36} className="object-cover scale-110" />
             </div>
             <div className="leading-tight">
               <p className="text-yellow-400 font-serif font-bold text-sm">Hazratnavoi.uz</p>
@@ -263,7 +263,7 @@ export default function UstozPage() {
           {/* Imam profile card */}
           <div className="relative overflow-hidden rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-yellow-500/8 to-transparent p-5">
             <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-yellow-500/40 mb-3">
-              <Image src="/images/mosque-logo.png" alt="Imam" width={48} height={48} className="object-cover scale-110" />
+              <Image src="/images/imam-portrait.jpg" alt="Imam" width={48} height={48} className="object-cover scale-110" />
             </div>
             <p className="text-yellow-400 font-serif font-bold text-sm leading-snug">Темурхон домла Атоев</p>
             <p className="text-white/35 text-xs mt-0.5">Имом-хатиб</p>
