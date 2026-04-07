@@ -16,34 +16,30 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
 
-    // Step 1: save main prayer times (always exist)
-    const main = {
-      date:    body.date,
-      fajr:    body.fajr,
-      sunrise: body.sunrise,
-      dhuhr:   body.dhuhr,
-      asr:     body.asr,
-      maghrib: body.maghrib,
-      isha:    body.isha,
-    }
-    const { error: e1 } = await supabaseAdmin
-      .from("prayer_times")
-      .upsert(main, { onConflict: "date" })
-    if (e1) throw e1
-
-    // Step 2: save mosque (jamaat) times — mosque_* columns already exist
-    const jamaat = {
-      date:            body.date,
+    // Barcha vaqtlarni bitta upsert — ikki alohida upsert NOT NULL xatosini keltirib chiqaradi
+    const payload = {
+      date:           body.date,
+      fajr:           body.fajr    || null,
+      sunrise:        body.sunrise || null,
+      dhuhr:          body.dhuhr   || null,
+      asr:            body.asr     || null,
+      maghrib:        body.maghrib || null,
+      isha:           body.isha    || null,
       mosque_fajr:    body.mosque_fajr    ?? null,
       mosque_dhuhr:   body.mosque_dhuhr   ?? null,
       mosque_asr:     body.mosque_asr     ?? null,
       mosque_maghrib: body.mosque_maghrib ?? null,
       mosque_isha:    body.mosque_isha    ?? null,
     }
-    const { error: e2 } = await supabaseAdmin
+
+    if (!payload.fajr || !payload.dhuhr || !payload.asr || !payload.maghrib || !payload.isha) {
+      return NextResponse.json({ error: "Асосий намоз вақтлари (Бомдод, Пешин, Аср, Шом, Хуфтон) тўлдирилмаган" }, { status: 400 })
+    }
+
+    const { error: e1 } = await supabaseAdmin
       .from("prayer_times")
-      .upsert(jamaat, { onConflict: "date" })
-    if (e2) throw e2
+      .upsert(payload, { onConflict: "date" })
+    if (e1) throw e1
 
     return NextResponse.json({ ok: true })
   } catch (err: unknown) {
