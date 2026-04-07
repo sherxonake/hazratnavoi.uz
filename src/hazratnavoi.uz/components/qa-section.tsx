@@ -1,31 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { HelpCircle, ChevronDown, X, Send, CheckCircle } from "lucide-react"
-import { useQA } from "@/hooks/use-qa"
+import { X, Send, CheckCircle } from "lucide-react"
 
 type Lang = "latin" | "cyrillic"
 const label = (lang: Lang, l: string, c: string) => (lang === "latin" ? l : c)
 
-const SHOW_COUNT = 3
-
 export function QASection({ lang }: { lang: Lang }) {
-  const { qaPairs, loading, error } = useQA()
-  const [showAll, setShowAll] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [name, setName] = useState("")
   const [question, setQuestion] = useState("")
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
   const [sendError, setSendError] = useState("")
-
-  const visible = showAll ? qaPairs : qaPairs.slice(0, SHOW_COUNT)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -72,49 +59,6 @@ export function QASection({ lang }: { lang: Lang }) {
             {label(lang, "Din va ibodatga oid savollarga javoblar.", "Дин ва ибодатга оид саволларга жавоблар.")}
           </p>
         </div>
-
-        {/* Accordion */}
-        <Accordion type="single" collapsible className="flex flex-col gap-2.5">
-          {loading && (
-            <div className="text-center py-6 text-white/50 text-sm">
-              {label(lang, "Yuklanmoqda...", "Юкланмоқда...")}
-            </div>
-          )}
-          {error && (
-            <div className="text-center py-6 text-red-400 text-sm">{error}</div>
-          )}
-          {!loading && !error && visible.map((item) => (
-            <AccordionItem
-              key={item.id}
-              value={item.id}
-              className="bg-white/5 border border-yellow-500/15 rounded-xl px-5 hover:border-yellow-500/30 data-[state=open]:border-yellow-500/40 transition-all duration-200"
-            >
-              <AccordionTrigger className="flex items-start gap-3 text-left py-4 hover:no-underline group">
-                <HelpCircle className="w-4 h-4 text-yellow-400/70 flex-shrink-0 mt-0.5 group-data-[state=open]:text-yellow-400" />
-                <span className="font-semibold text-white text-sm leading-snug group-data-[state=open]:text-yellow-300 transition-colors">
-                  {item.question}
-                </span>
-              </AccordionTrigger>
-              <AccordionContent className="pb-4 pl-7 text-white/60 text-sm leading-relaxed">
-                {item.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-
-        {/* Show more / less */}
-        {!loading && !error && qaPairs.length > SHOW_COUNT && (
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="mt-4 w-full flex items-center justify-center gap-2 py-3 text-yellow-400/80 hover:text-yellow-400 text-sm transition-colors"
-          >
-            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showAll ? "rotate-180" : ""}`} />
-            {showAll
-              ? label(lang, "Yopish", "Ёпиш")
-              : label(lang, `Yana ${qaPairs.length - SHOW_COUNT} ta ko'rish`, `Яна ${qaPairs.length - SHOW_COUNT} та кўриш`)
-            }
-          </button>
-        )}
 
         {/* Ask question CTA */}
         <div className="mt-8 flex items-center justify-between bg-white/5 rounded-xl border border-yellow-500/15 px-6 py-5">
