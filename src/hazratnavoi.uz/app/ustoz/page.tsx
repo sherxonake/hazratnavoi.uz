@@ -221,7 +221,7 @@ export default function UstozPage() {
           {/* Logo + title */}
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full overflow-hidden ring-1 ring-yellow-500/40 flex-shrink-0">
-              <Image src="/images/imam-portrait.jpg" alt="Logo" width={36} height={36} className="object-cover scale-110" />
+              <Image src="/images/mosque-logo.png" alt="Logo" width={36} height={36} className="object-cover scale-110" />
             </div>
             <div className="leading-tight">
               <p className="text-yellow-400 font-serif font-bold text-sm">Hazratnavoi.uz</p>
@@ -261,14 +261,14 @@ export default function UstozPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
 
           {/* Imam profile card */}
-          <div className="relative overflow-hidden rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-yellow-500/8 to-transparent p-5">
-            <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-yellow-500/40 mb-3">
-              <Image src="/images/imam-portrait.jpg" alt="Imam" width={48} height={48} className="object-cover scale-110" />
+          <div className="relative overflow-hidden rounded-2xl border border-yellow-500/20 bg-gradient-to-br from-yellow-500/8 to-transparent p-5 flex flex-col items-center text-center">
+            <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-yellow-500/50 mb-4 shadow-lg shadow-yellow-500/20">
+              <Image src="/images/imam-portrait.jpg" alt="Imam" width={96} height={96} className="object-cover object-top w-full h-full" />
             </div>
-            <p className="text-yellow-400 font-serif font-bold text-sm leading-snug">Темурхон домла Атоев</p>
-            <p className="text-white/35 text-xs mt-0.5">Имом-хатиб</p>
-            <div className="mt-3 pt-3 border-t border-yellow-500/15">
-              <p className="text-white/20 text-[10px]" dir="rtl">وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ</p>
+            <p className="text-yellow-400 font-serif font-bold text-base leading-snug">Темурхон домла Атоев</p>
+            <p className="text-white/50 text-sm mt-1">Имом-хатиб</p>
+            <div className="mt-3 pt-3 border-t border-yellow-500/15 w-full">
+              <p className="text-white/25 text-xs" dir="rtl">وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ</p>
             </div>
           </div>
 
