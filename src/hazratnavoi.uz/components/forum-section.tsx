@@ -1,50 +1,19 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import { MessageCircle, Send, Lock, ChevronDown, User, CheckCircle, Clock } from "lucide-react"
+import { Send, Lock, User } from "lucide-react"
 import { AuthModal } from "./auth-modal"
 import { useAuth } from "@/lib/auth-context"
 
 type Lang = "latin" | "cyrillic"
 const label = (lang: Lang, l: string, c: string) => lang === "latin" ? l : c
 
-interface Question {
-  id: string
-  user_name: string
-  question: string
-  answer: string | null
-  answered_at: string | null
-  answered_by: string | null
-  created_at: string
-}
-
-interface CurrentUser {
-  id: string
-  phone: string
-  name: string
-}
-
 export function ForumSection({ lang }: { lang: Lang }) {
-  const [questions, setQuestions] = useState<Question[]>([])
-  const [loading, setLoading] = useState(true)
   const [showAuth, setShowAuth] = useState(false)
   const { user, setUser } = useAuth()
   const [question, setQuestion] = useState("")
   const [sending, setSending] = useState(false)
   const [sendMsg, setSendMsg] = useState("")
-  const [expanded, setExpanded] = useState<string | null>(null)
-
-  const fetchQuestions = useCallback(async () => {
-    try {
-      const res = await fetch("/api/forum")
-      const data = await res.json()
-      setQuestions(data.questions || [])
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => { fetchQuestions() }, [fetchQuestions])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -68,15 +37,6 @@ export function ForumSection({ lang }: { lang: Lang }) {
     } finally {
       setSending(false)
     }
-  }
-
-  function timeAgo(dateStr: string) {
-    const diff = Date.now() - new Date(dateStr).getTime()
-    const h = Math.floor(diff / 3600000)
-    const d = Math.floor(diff / 86400000)
-    if (d > 0) return `${d} кун олдин`
-    if (h > 0) return `${h} соат олдин`
-    return "Ҳозир"
   }
 
   return (
@@ -153,51 +113,6 @@ export function ForumSection({ lang }: { lang: Lang }) {
           )}
         </div>
 
-        {/* Savollar */}
-        <div className="space-y-3">
-          {loading && (
-            <p className="text-center text-white/40 text-sm py-4">{label(lang, "Yuklanmoqda...", "Юкланмоқда...")}</p>
-          )}
-          {!loading && questions.length === 0 && (
-            <p className="text-center text-white/40 text-sm py-4">
-              {label(lang, "Hozircha savollar yo'q", "Ҳозирча саволлар йўқ")}
-            </p>
-          )}
-          {questions.map(q => (
-            <div key={q.id} className="bg-white/5 border border-yellow-500/15 rounded-xl overflow-hidden">
-              <button
-                onClick={() => setExpanded(expanded === q.id ? null : q.id)}
-                className="w-full flex items-start gap-3 px-5 py-4 text-left hover:bg-white/5 transition-colors"
-              >
-                <MessageCircle className="w-4 h-4 text-yellow-400/60 flex-shrink-0 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-medium leading-snug">{q.question}</p>
-                  <div className="flex items-center gap-3 mt-1.5">
-                    <span className="text-white/30 text-xs">{q.user_name}</span>
-                    <span className="text-white/20 text-xs">·</span>
-                    <span className="text-white/30 text-xs">{timeAgo(q.created_at)}</span>
-                    {q.answer ? (
-                      <span className="flex items-center gap-1 text-emerald-400 text-xs">
-                        <CheckCircle className="w-3 h-3" /> Жавоб бор
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1 text-white/30 text-xs">
-                        <Clock className="w-3 h-3" /> Кутилмоқда
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <ChevronDown className={`w-4 h-4 text-white/30 flex-shrink-0 mt-0.5 transition-transform ${expanded === q.id ? "rotate-180" : ""}`} />
-              </button>
-              {expanded === q.id && q.answer && (
-                <div className="px-5 pb-4 pl-12 border-t border-white/5">
-                  <p className="text-xs text-yellow-400/70 mb-1.5 mt-3">{q.answered_by} · {q.answered_at ? timeAgo(q.answered_at) : ""}</p>
-                  <p className="text-white/70 text-sm leading-relaxed">{q.answer}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
       </div>
 
       {showAuth && (
