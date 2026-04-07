@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN!
 const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID!
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,7 +16,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Исм ва савол талаб қилинади' }, { status: 400 })
     }
 
-    const text = `📩 *Сайтдан янги савол*\n\n👤 *Исм:* ${name}\n\n❓ *Савол:*\n${question}`
+    // Supabase'га сақлаш (устоз панели кўрсин учун)
+    const { data: newQ, error: insertError } = await supabase
+      .from('forum_questions')
+      .insert({
+        user_name: name.trim(),
+        question: question.trim(),
+        published: false,
+      })
+      .select()
+      .single()
+
+    if (insertError) {
+      console.error('ask-question insert error:', insertError)
+    }
+
+    // Telegram'га хабар юбориш
+    const text = `📩 <b>Сайтдан янги савол</b>\n\n👤 <b>Исм:</b> ${name.trim()}\n\n❓ <b>Савол:</b>\n${question.trim()}`
 
     const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
@@ -19,7 +40,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         chat_id: ADMIN_CHAT_ID,
         text,
-        parse_mode: 'Markdown',
+        parse_mode: 'HTML',
       }),
     })
 
