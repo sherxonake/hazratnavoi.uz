@@ -17,14 +17,17 @@ const I = (f: string) => `/namoz/images/${f}`
 const A = (f: string) => `/namoz/audio/${encodeURIComponent(f)}`
 
 const M = {
-  niyat:    I("m_niyat.png"),
-  takbir:   I("m2.gif"),
-  qiyam:    I("m3.gif"),
-  ruku:     I("m6.gif"),
-  sajda:    I("m8.gif"),
-  jalsa:    I("m9.gif"),
-  qada:     I("m11.gif"),
-  salam:    I("m1.gif"),
+  niyat:    I("m_niyat.png"),   // img1.png — ният
+  takbir:   I("m2.gif"),         // 2.gif  — такбир
+  qiyam:    I("m_qiyom.png"),   // img3.png — қиём (тик туриш)
+  ruku:     I("m3.gif"),         // 3.gif  — рукуъ
+  qawma:    I("m6.gif"),         // 6.gif  — рукудан туриш
+  sajda:    I("m7.gif"),         // 7.gif  — биринчи сажда
+  sajda2:   I("m9.gif"),         // 9.gif  — иккинчи сажда
+  jalsa:    I("m8.gif"),         // 8.gif  — жалса
+  rakat2:   I("m10.gif"),        // 10.gif — кейинги ракаатга туриш
+  qada:     I("m11.gif"),        // 11.gif — қаъда
+  salam:    I("m1.gif"),         // 1.gif  — салом
 }
 const W = {
   niyat:    I("niyat_woman.svg"),
@@ -97,7 +100,7 @@ const STEPS: Step[] = [
   },
   {
     id: "qawma", num: 7, name: "Қавма", nameAr: "القومة",
-    imageM: M.qiyam, imageW: W.qiyam, audio: A("Ruku.mp3"),
+    imageM: M.qawma, imageW: W.qiyam, audio: A("Ruku.mp3"),
     action: "Намозни ёлғиз ўқиётган бўлсак, «Самиъаллоҳу лиман ҳамидаҳ» деб, қаддимизни тиклаймиз ва «Роббанаа, лакал ҳамд» деймиз.",
     arabic: "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ ۝ رَبَّنَا وَلَكَ الْحَمْدُ",
     trans: "Самиаллоҳу лиман ҳамидаҳ. Роббана ва лакал ҳамд.",
@@ -120,14 +123,14 @@ const STEPS: Step[] = [
   },
   {
     id: "sajda2", num: 10, name: "Иккинчи сажда", nameAr: "السجدة الثانية",
-    imageM: M.sajda, imageW: W.sajda, audio: A("Sajda.mp3"),
+    imageM: M.sajda2, imageW: W.sajda, audio: A("Sajda.mp3"),
     action: "Кейин такбир айтиб, иккинчи саждага борамиз ва камида уч марта «Субҳаана роббиял аъла» деймиз.",
     arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى",
     trans: "Субҳана Роббиял Аъла", uzbek: "Олий Роббим нуқсонлардан покдир.", repeat: 3,
   },
   {
     id: "rakat2", num: 11, name: "Иккинчи ракаат", nameAr: "الركعة الثانية",
-    imageM: M.qiyam, imageW: W.qiyam,
+    imageM: M.rakat2, imageW: W.qiyam,
     action: "Яна такбир айтиб, кейинги ракъатга турамиз. Саждадан туришда аввал бошни, кейин қўлларни, кейин тиззани кўтарамиз. Иккинчи ракъат ҳам худди биринчи ракъатга ўхшаб ўқилади. Фақат бошида такбири таҳрима, сано ва «аъузу» айтилмайди.",
     rakatNote: "2–4-ракаатларда",
   },
